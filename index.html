@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lyric Video Maker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <!-- ── STEP 1: Upload Audio ── -->
+  <div class="screen active" id="s1">
+    <div class="logo">LYRIC<em>S</em></div>
+    <div class="tagline">Upload · Sync · Download</div>
+    <div class="card">
+      <div class="card-label">Audio File</div>
+      <div class="drop-zone" id="drop-zone">
+        <div class="dz-icon">🎵</div>
+        <div class="dz-text" id="dz-label">Click or drop your audio file</div>
+        <div class="dz-sub">MP3 · WAV · M4A · OGG</div>
+        <input type="file" id="file-input" accept="audio/*">
+      </div>
+    </div>
+    <button class="btn btn-gold" id="s1-next" disabled>NEXT →</button>
+  </div>
+
+  <!-- ── STEP 2: Add Lyrics ── -->
+  <div class="screen" id="s2">
+    <div class="logo sm">ADD <em>LYRICS</em></div>
+    <div class="tagline">One phrase per line — each line is one lyric card</div>
+    <div class="card" style="padding:12px 16px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:20px">🎵</span>
+      <div>
+        <div class="track-name" id="s2-name">track</div>
+        <div class="track-dur"  id="s2-dur">Loading…</div>
+      </div>
+    </div>
+    <div class="card" style="padding:12px 16px;">
+      <div class="card-label">Song Title (shown on video)</div>
+      <input type="text" id="song-title-input" placeholder="Enter song title…" autocomplete="off">
+    </div>
+    <textarea id="lyrics-ta" placeholder="Type or paste your lyrics here…
+
+One phrase per line.
+
+Example:
+I can feel the power
+Working deep inside of me
+Greater is He that lives in me
+Than he that is in the world"></textarea>
+    <div class="hint">💡 Each line = one lyric card · Keep lines short for best visuals</div>
+    <button class="btn btn-gold" id="s2-next">NEXT: TAP SYNC →</button>
+    <button class="btn btn-ghost" id="s2-back">← Change Audio</button>
+  </div>
+
+  <!-- ── STEP 3: Tap Sync ── -->
+  <div class="screen" id="s3">
+    <div class="logo sm">TAP <em>SYNC</em></div>
+    <div class="tagline">Play the song — tap once for each lyric line as it starts</div>
+    <div class="card">
+      <div class="tap-meta">
+        <span id="tap-progress">Line 0 of 0</span>
+        <span id="tap-time" style="font-size:11px;color:var(--dim);letter-spacing:2px;font-variant-numeric:tabular-nums;">0:00 / 0:00</span>
+      </div>
+      <div class="tap-bar"><div class="tap-bar-fill" id="tap-bar-fill"></div></div>
+    </div>
+    <div class="tap-current" id="tap-current">Press Play to start</div>
+    <button class="tap-btn" id="tap-btn">TAP — NEXT LINE</button>
+    <div class="hint">Space or Enter also taps · Tap when each line finishes to advance to the next</div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="tap-play-btn" style="flex:1">▶ Play</button>
+      <button class="btn btn-ghost" id="tap-restart-btn" style="flex:1">↩ Restart</button>
+    </div>
+    <button class="btn btn-gold" id="tap-done-btn" disabled>BUILD VIDEO ▶</button>
+    <button class="btn btn-ghost" id="s3-back">← Edit Lyrics</button>
+  </div>
+
+  <!-- ── PLAYER ── -->
+  <div class="screen" id="screen-player">
+    <button class="back-btn" id="back-btn">← EDIT</button>
+
+    <!-- Lyrics area — CSS handles all centering -->
+    <div id="lyrics-stage">
+      <div id="lyrics-window"></div>
+    </div>
+
+    <!-- Waveform visualizer canvas -->
+    <canvas id="visualizer"></canvas>
+
+    <!-- Controls -->
+    <div id="player-controls">
+      <div class="p-title" id="p-title">SONG</div>
+      <div class="prog-wrap" id="prog-wrap"><div class="prog-fill" id="prog-fill"></div></div>
+      <div class="p-time" id="p-time">0:00 / 0:00</div>
+      <div class="p-row">
+        <button class="p-btn" id="restart-btn" title="Restart">↩</button>
+        <button class="p-play" id="play-btn">▶</button>
+        <button class="p-btn" id="mute-btn">🔊</button>
+        <button class="p-btn" id="record-btn" title="Record to file">⏺</button>
+      </div>
+      <div class="record-status" id="record-status"></div>
+    </div>
+  </div>
+
+  <!-- Loading overlay -->
+  <div id="loading">
+    <div class="spinner"></div>
+    <div class="l-title">Building</div>
+    <div class="l-sub">Syncing lyrics to audio…</div>
+  </div>
+
+  <audio id="audio"></audio>
+  <script src="app.js"></script>
+</body>
+</html>
