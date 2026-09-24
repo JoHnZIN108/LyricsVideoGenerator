@@ -6,7 +6,8 @@
 - `render.mjs`: renders frames with headless Chromium + ffmpeg (libx264) into `orchestration-explainer.mp4`.
 
 ```
-NODE_PATH=$(npm root -g) node render.mjs            # full MP4
-NODE_PATH=$(npm root -g) node render.mjs --stills 7,18   # PNG stills
+npm i playwright        # or: ln -s $(npm root -g) node_modules
+node render.mjs                 # full MP4
+node render.mjs --stills 7,18   # PNG stills
 ```
 Needs `playwright` and an ffmpeg with libx264 (defaults to `imageio-ffmpeg`, or set `FFMPEG=/path/to/ffmpeg`).
