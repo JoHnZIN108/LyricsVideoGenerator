@@ -11,15 +11,17 @@ Reference build: `igotchu-test/` (Script 3). `build.py` generates the HyperFrame
 
 ## Pipeline
 
+0. **Design system (Claude Design, made by the user).** The user designs the channel's look in Claude Design (claude.ai/design). You don't design it. Your job is to write the prompt when asked and then build faithfully from what comes back: tokens, components, motion notes and image-prompt style (link, ZIP, or DESIGN.md + HTML). Copy its CSS variables and component markup into the HyperFrames composition. Until one exists, use the house style below.
 1. **Script.** Scripts live in the "igotchu Video Scripts" Claude Doc. Each has `[SLIDE n: cue]` lines followed by the spoken text. Split them into `slides.json` as `{n, cue, text}`. The cue is only a starting idea. Designing the actual visual is your job.
 2. **Voice (ElevenLabs connector).** Generate **one clip per slide** with `creative_generate_speech` so each slide's timing is exact.
    - Put all clips in one flow (`creative_create_flow` first).
    - Set `generations_count: 1`.
    - Use model `eleven_multilingual_v2` unless the user picks another.
-   - Test voice: "Marshel - Casual Storytime Narrator" (`cQYsRVGKMkDmd67zTppv`). Switch to the user's cloned voice once they have one.
+   - Default voice: "Marshel - Casual Storytime Narrator" (`cQYsRVGKMkDmd67zTppv`) on `eleven_multilingual_v2`. The user compared it with `eleven_v3` plus acting tags and **preferred multilingual v2**. `eleven_v4` is locked on the free plan. Switch to the user's cloned voice once they have one.
    - The free plan allows **2 generations at a time**, so extra calls fail. Launch 2 at a time, or re-run any that fail.
    - Poll `creative_get_flow_run_status`, then download each `media[].url` with curl. It's a signed Google Storage link that expires in 2 hours, so download right away.
-3. **Illustrations (ElevenLabs connector).** See "Concept illustration scene" below. Use `creative_generate_image`, model `gpt-image-2`, `generations_count: 1`. Check the cost first with `estimate_only`: about 185 credits per 16:9 image. Download the `master_url` PNG.
+3. **Illustrations (ElevenLabs connector).** Follow the image-prompt style from the Claude Design system, if there is one. See "Concept illustration scene" below. Use `creative_generate_image`, model `gpt-image-2`, `generations_count: 1`. Check the cost first with `estimate_only`: about 185 credits per 16:9 image. Download the `master_url` PNG.
+   - AI video clips are expensive: about 7,300 credits for an 8 s Veo 3.1 fast clip, about 1,450 with `ltx-v2-fast`. Use at most one hero clip per video. Illustrations with a push-in are the best value.
    - The **free plan caps images per day**. The 4th image in a day was refused with `free_tier_image_limit_reached`. On the free plan, spend the daily images on the slides that matter most. Paid plans lift the cap.
 4. **Timing.** Pad each clip (0.35 s before, 0.55 s after), join them with ffmpeg into `voiceover.mp3` (loudnorm to -16 LUFS), and record each slide's start and length in `timing.json`.
    - In-slide reveal times (`cues.json`) are estimated from where each phrase sits in the text. For exact timing, transcribe with `creative_transcribe_audio` to get word timestamps. Always do this for captions.
@@ -59,7 +61,7 @@ This is a strong visual-metaphor image that fades in with a slow push-in (the "K
 - Pop in labels (tag + short line) on their voice cues. Pop in one big-word moment ("SCALE.") where the voice says it.
 - When the voice moves on, dim the image (to about 12% opacity) and put the next idea on top, instead of cutting to an empty slide.
 
-## House style
+## House style (fallback until a Claude Design system exists)
 
 - Background: navy `#0a1128` with a soft radial glow. Accents: orange `#ff7a1a` for emphasis and warnings, cyan `#22d3ee` for answers and AI. Text: `#f4f6fb` and `#c9d2ea`.
 - Fonts: **Archivo Black** for headlines, **Inter** 500–900 for everything else. Both are in `video/assets/fonts`, loaded with `@font-face`.
