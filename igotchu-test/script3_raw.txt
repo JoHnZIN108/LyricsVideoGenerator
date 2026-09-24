@@ -1,0 +1,75 @@
+Script 3: ChatGPT is just guessing the next word
+
+Title: ChatGPT Is Just Guessing. Here's Why That Works. Thumbnail text: IT'S GUESSING Short to cut: Slides 2 and 3, the finish-the-sentence game (about 40 seconds) Length: about 700 words, around 5 minutes
+
+[SLIDE 1: "ChatGPT doesn't know anything."]
+
+ChatGPT doesn't actually know anything. It's guessing. One word at a time. And it's scary good at it.
+
+By the end of this video you'll understand what's actually happening when you hit enter. And there's a question that'll bug you halfway through. If it's only guessing, how can it solve problems? We'll get there.
+
+[SLIDE 2: "Finish the sentence" game. "Peanut butter and ___"]
+
+Let's play a game. Finish this sentence in your head.
+
+Peanut butter and...
+
+You said jelly. Or jam, depending on where you live. You didn't look it up. You've just seen those words together so many times that your brain filled the gap.
+
+[SLIDE 3: "The capital of France is ___"]
+
+Another one. The capital of France is...
+
+Paris. Obviously.
+
+That is basically the whole trick. An AI like ChatGPT looks at everything written so far and asks one question. What comes next? Then it adds that piece, and asks again. And again. Hundreds of times, super fast, until you've got a full answer.
+
+[SLIDE 4: Phone keyboard with autocomplete suggestions]
+
+If that sounds familiar, it should. Your phone does a tiny version of this. Try it after this video. Type "I'm going to" and keep tapping the middle suggestion. You'll get something like, "I'm going to be there in a few minutes and I will be there in a few minutes and..."
+
+It's nonsense. Your phone is guessing too, it's just really bad at it.
+
+[SLIDE 5: Tiny phone brain vs giant library]
+
+So what's the difference between your phone and ChatGPT?
+
+Scale. Your phone learned from your texts. Models like ChatGPT learned from an enormous amount of text. Books, websites, articles, forums, code. More reading than any human could do in thousands of lifetimes.
+
+And one small correction on my "one word at a time" line. It actually works in little chunks called tokens. Sometimes a whole word, sometimes half a word. But "word" is close enough for us.
+
+[SLIDE 6: "Wait... then how does it solve problems?"]
+
+Okay, the question that's been bugging you. If it's only guessing the next word, how can it write working code, or explain a tax form, or help plan a wedding?
+
+Honestly, when I first learned this as a software engineer, I was a little disappointed. That's it? Autocomplete? Then I thought about it more and... no, it's actually wild.
+
+[SLIDE 7: "To guess well, you have to understand a lot"]
+
+Here's the thing. To guess the next word really, really well, across every topic on the internet, you have to pick up a lot along the way.
+
+Think about finishing this sentence. "She dropped the glass, and it..." You need to know glasses break. "The recipe needs three eggs, but I only have two, so I..." Now you need a bit of reasoning. To predict well, the model had to soak up grammar, facts, patterns of logic, even how people explain things to each other.
+
+Nobody programmed those rules in. They got absorbed, because they help with the guessing.
+
+[SLIDE 8: "Step 2: Taught manners"]
+
+There's one more step. After all that reading, the model gets trained again to be a good helper. People show it examples of great answers, rate its responses, and it learns to be helpful instead of just continuing random internet text.
+
+That's the difference between a raw text predictor and the polite assistant you chat with.
+
+[SLIDE 9: "Guessing ≠ Knowing"]
+
+But here's the part to remember. Even after all that, it's still predicting what sounds right. Not looking it up in some giant database of facts.
+
+Most of the time, what sounds right and what is right are the same thing. The capital of France really is Paris.
+
+But sometimes they're not. And when they're not, it'll give you the wrong answer in the exact same confident voice as the right one.
+
+[SLIDE 10: "Next: Why AI lies with a straight face"]
+
+Which is exactly what the next video is about. Why AI makes things up, why it sounds so sure when it does, and how you can catch it every time.
+
+I gotchu.
+
+Q: Personalize: Slide 4 works best if you screen-record your own phone doing the autocomplete game and show the ridiculous result.

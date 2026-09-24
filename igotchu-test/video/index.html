@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=1920, height=1080"/>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:Inter;font-weight:500;src:url(assets/fonts/inter-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:700;src:url(assets/fonts/inter-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:800;src:url(assets/fonts/inter-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:900;src:url(assets/fonts/inter-latin-900-normal.woff2) format("woff2")}
+@font-face{font-family:"Archivo Black";src:url(assets/fonts/archivo-black-latin-400-normal.woff2) format("woff2")}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#0a1128}
+#root{width:1920px;height:1080px;position:relative;overflow:hidden;font-family:Inter,sans-serif;color:#f4f6fb;
+  background:radial-gradient(1200px 700px at 75% 20%,#16235a 0%,#0a1128 60%,#070c1d 100%)}
+.clip{position:absolute;inset:0}
+.slide{display:flex;align-items:center;justify-content:center}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:44px;width:1920px;height:1080px;position:relative}
+.top{position:absolute;top:120px;left:0;right:0}
+.o{color:#ff7a1a}.c{color:#22d3ee}
+.huge{font-family:"Archivo Black",Inter,sans-serif;font-size:132px;line-height:1.05;letter-spacing:-0.02em}
+.big{font-family:"Archivo Black",Inter,sans-serif;font-size:96px;line-height:1.1;letter-spacing:-0.01em}
+.sub{font-size:52px;font-weight:700;color:#c9d2ea;line-height:1.3}
+.sub.small{font-size:40px}.sub.left{text-align:left}
+.tag{display:inline-block;font-weight:800;font-size:30px;letter-spacing:0.18em;color:#ff7a1a;border:3px solid #ff7a1a;padding:10px 22px;border-radius:12px}
+.c-tag{color:#22d3ee;border-color:#22d3ee}
+.blank{display:inline-block;min-width:330px;border-bottom:10px solid #22d3ee;text-align:center;margin-left:14px}
+.fill{display:inline-block}
+.qcard{position:absolute;font-size:64px;font-weight:800;line-height:1.3;background:#111b40;border:3px solid #2a3a7a;border-radius:28px;padding:50px 80px;top:50%;left:50%;margin-left:-640px;margin-top:-150px;width:1280px}
+.qmark{color:#ff7a1a;font-family:"Archivo Black";font-size:90px;margin-right:18px;vertical-align:middle}
+.loop{display:flex;flex-direction:column;align-items:center;gap:40px;position:absolute;top:50%;left:0;right:0;margin-top:-150px}
+.chips{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.chip{font-size:64px;font-weight:800;background:#16235a;border:3px solid #22d3ee;border-radius:18px;padding:14px 30px}
+.chip.ghost{border-style:dashed;border-color:#ff7a1a;color:#ff7a1a}
+.counter{font-size:44px;font-weight:700;color:#c9d2ea}
+.row{display:flex;align-items:center;gap:120px}
+.phone{width:520px;height:900px;border-radius:70px;background:#0e1633;border:6px solid #2a3a7a;position:relative;padding:90px 30px 30px;display:flex;flex-direction:column;justify-content:flex-end;gap:18px}
+.notch{position:absolute;top:22px;left:50%;margin-left:-80px;width:160px;height:34px;border-radius:20px;background:#070c1d}
+.bubble{background:#1d4ed8;color:#fff;font-size:34px;font-weight:600;line-height:1.35;border-radius:28px;padding:24px 28px;min-height:140px}
+.tw{opacity:0}.caret{color:#fff;opacity:.8}
+.sugg{display:flex;gap:10px}.sugg span{flex:1;text-align:center;font-size:30px;font-weight:700;background:#1f2a4d;border-radius:14px;padding:14px 0;color:#dfe6ff}
+.keys{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;height:230px}.keys i{background:#1a2447;border-radius:8px}
+.side{display:flex;flex-direction:column;align-items:flex-start;gap:40px;width:860px;position:relative}
+.stamp{font-family:"Archivo Black";font-size:120px;color:#ff3b3b;border:10px solid #ff3b3b;border-radius:20px;padding:6px 36px;transform:rotate(-8deg)}
+.bgimg{position:absolute;inset:0;width:1920px;height:1080px;object-fit:cover}
+.shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,12,29,0) 45%,rgba(7,12,29,.85) 100%)}
+.lab{position:absolute;bottom:90px;font-size:44px;font-weight:600;line-height:1.35;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.left-lab{left:90px}.right-lab{right:90px;text-align:right;align-items:flex-end}
+.scale{position:absolute;top:120px;left:0;right:0;text-align:center;font-family:"Archivo Black";font-size:170px;color:#fff;text-shadow:0 0 40px rgba(255,122,26,.7)}
+.lifetimes{position:absolute;top:110px;left:90px;font-size:52px;font-weight:800;line-height:1.3;text-shadow:0 4px 30px #000}
+.tokens{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:50px}
+.tokrow{display:flex;gap:14px;align-items:center}
+.tk{font-size:96px;font-weight:900;background:#16235a;border:4px solid #ff7a1a;border-radius:20px;padding:10px 34px}
+.tk.whole{border-color:#22d3ee}.plus{font-size:80px;font-weight:900;color:#7d8bb8;margin:0 20px}
+.cards{display:flex;gap:36px}
+.card{font-size:44px;font-weight:800;background:#111b40;border:3px solid #2a3a7a;border-radius:24px;padding:36px 44px;display:flex;flex-direction:column;gap:18px;align-items:center;width:440px}
+.ic{font-family:"Archivo Black";font-size:70px;color:#22d3ee}
+.auto{position:absolute;top:50%;margin-top:30px;font-size:80px;font-weight:900;left:0;right:0}
+.strike{position:relative;--strike:0%}
+.strike::after{content:"";position:absolute;left:0;top:52%;height:12px;width:var(--strike);background:#ff7a1a;border-radius:6px}
+.wild{position:absolute;top:50%;margin-top:190px;left:0;right:0;font-size:80px;font-weight:900}
+.sent{font-size:54px;font-weight:700;background:#111b40;border:3px solid #2a3a7a;border-radius:24px;padding:30px 44px;display:flex;align-items:center;gap:26px;position:absolute;left:50%;width:1500px;margin-left:-750px}
+#s7-s1{top:50%;margin-top:-60px}#s7-s2{top:50%;margin-top:110px}
+.ans{font-weight:900}.need{margin-left:auto;font-size:32px;font-weight:800;color:#22d3ee;letter-spacing:.06em;text-transform:uppercase}
+.absorb{display:flex;gap:26px;position:absolute;top:50%;margin-top:-40px}
+.pill{font-size:52px;font-weight:800;background:#16235a;border:3px solid #22d3ee;border-radius:60px;padding:18px 40px}
+#s7-b{position:absolute;top:50%;margin-top:130px}
+.flow{display:flex;align-items:center;gap:40px}
+.box{width:520px;border-radius:28px;padding:40px;font-size:36px;font-weight:600;color:#c9d2ea;line-height:1.35;text-align:left}
+.bt{font-size:46px;font-weight:900;color:#fff;margin-bottom:12px}
+.raw{background:#161a2b;border:3px dashed #56607f}.good{background:#0f2440;border:4px solid #22d3ee}
+.arrow{width:360px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.arrow .line{width:100%;height:10px;background:#ff7a1a;border-radius:6px;transform-origin:left center;position:relative}
+.arrow .line::after{content:"";position:absolute;right:-6px;top:-14px;border-left:30px solid #ff7a1a;border-top:19px solid transparent;border-bottom:19px solid transparent}
+.stars{font-size:50px;color:#ffc53d;letter-spacing:6px}.lbl{font-size:30px;font-weight:700;color:#c9d2ea}
+.venn{position:absolute;top:50%;left:50%;width:0;height:0}
+.circ{position:absolute;width:520px;height:520px;border-radius:50%;left:-260px;top:-190px;display:flex;align-items:center;font-size:48px;font-weight:900;line-height:1.15}
+.c1{background:rgba(255,122,26,.28);border:5px solid #ff7a1a;justify-content:flex-start;padding-left:70px}
+.c2{background:rgba(34,211,238,.25);border:5px solid #22d3ee;justify-content:flex-end;padding-right:90px;text-align:right}
+.overlap{position:absolute;left:-120px;top:50px;width:240px;text-align:center;font-size:44px;font-weight:900}
+.warn{position:absolute;top:50%;margin-top:370px;font-size:48px;font-weight:800;left:0;right:0}
+.endcard{position:absolute;font-family:"Archivo Black";font-size:190px;top:50%;margin-top:-120px;left:0;right:0}
+#brand{position:absolute;top:44px;left:60px;font-family:"Archivo Black";font-size:34px;color:#fff;opacity:.85;z-index:10}
+#brand span{color:#ff7a1a}
+#progress{position:absolute;left:0;bottom:0;height:10px;width:1920px;background:linear-gradient(90deg,#ff7a1a,#22d3ee);transform-origin:left center;z-index:10}
+/* everything animated starts hidden */
+.slide [id]{opacity:0}
+#s5-scale,#s5-l,#s5-r,#s5-life{opacity:0}
+.tokens .tag,.tokens .tk,.tokens .plus,.tokens .sub,.loop .tag{opacity:0}
+#s4 .side .tag,#s8-arr .lbl{opacity:0}
+#s6-cards,#s8-arr,#s9-venn,#s3-loop,#s5-tok,#s7-abs,#s4-msg,#s4-typed,#s4-mid{opacity:1}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="228.805" data-width="1920" data-height="1080">
+  <audio id="vo" src="assets/vo/voiceover.mp3" data-start="0" data-duration="228.805" data-track-index="0" data-volume="1"></audio>
+  <div id="brand">igotchu<span>.</span></div>
+  <section id="s1" class="clip slide " data-start="0" data-duration="22.347" data-track-index="1">
+  <div class="center">
+    <h1 class="huge" id="s1-a">ChatGPT doesn't<br/>know <span class="o">anything.</span></h1>
+    <p class="sub" id="s1-b">It's <span class="c">guessing.</span> One word at a time.</p>
+    <div class="qcard" id="s1-q"><span class="qmark">?</span> If it's only guessing&hellip;<br/>how can it solve problems?</div>
+  </div></section><section id="s2" class="clip slide " data-start="22.347" data-duration="15.973" data-track-index="1">
+  <div class="center">
+    <div class="tag" id="s2-tag">GAME: FINISH THE SENTENCE</div>
+    <h1 class="big" id="s2-a">Peanut butter and <span class="blank"><span class="fill o" id="s2-fill">jelly</span></span></h1>
+    <p class="sub" id="s2-b">You didn't look it up. You've just seen it <span class="c">a thousand times.</span></p>
+  </div></section><section id="s3" class="clip slide " data-start="38.319" data-duration="24.018" data-track-index="1">
+  <div class="center">
+    <h1 class="big" id="s3-a">The capital of France is <span class="blank"><span class="fill o" id="s3-fill">Paris</span></span></h1>
+    <div id="s3-loop" class="loop">
+      <div class="tag">WHAT COMES NEXT?</div>
+      <div class="chips"><span class="chip" id="s3-w0">The</span><span class="chip" id="s3-w1">capital</span><span class="chip" id="s3-w2">of</span><span class="chip" id="s3-w3">France</span><span class="chip" id="s3-w4">is</span><span class="chip" id="s3-w5">Paris</span><span class="chip" id="s3-w6">.</span><span class="chip ghost" id="s3-next">?</span></div>
+      <div class="counter" id="s3-count">Repeat &times; hundreds. Super fast.</div>
+    </div>
+  </div></section><section id="s4" class="clip slide " data-start="62.338" data-duration="19.551" data-track-index="1">
+  <div class="row">
+    <div class="phone" id="s4-phone">
+      <div class="notch"></div>
+      <div class="bubble" id="s4-msg"><span id="s4-typed">I'm going to </span><span class="tw" id="s4-t0">be </span><span class="tw" id="s4-t1">there </span><span class="tw" id="s4-t2">in </span><span class="tw" id="s4-t3">a </span><span class="tw" id="s4-t4">few </span><span class="tw" id="s4-t5">minutes </span><span class="tw" id="s4-t6">and </span><span class="tw" id="s4-t7">I </span><span class="tw" id="s4-t8">will </span><span class="tw" id="s4-t9">be </span><span class="tw" id="s4-t10">there </span><span class="tw" id="s4-t11">in </span><span class="tw" id="s4-t12">a </span><span class="tw" id="s4-t13">few </span><span class="tw" id="s4-t14">minutes </span><span class="tw" id="s4-t15">and </span><span class="caret">|</span></div>
+      <div class="sugg"><span>the</span><span class="mid" id="s4-mid">be</span><span>get</span></div>
+      <div class="keys"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="side">
+      <div class="tag">YOUR PHONE DOES THIS TOO</div>
+      <p class="sub left" id="s4-a">Type <b class="c">"I'm going to"</b><br/>and keep tapping the middle word.</p>
+      <div class="stamp" id="s4-stamp">NONSENSE.</div>
+      <p class="sub left small" id="s4-b">Your phone is guessing too.<br/>It's just <span class="o">really bad</span> at it.</p>
+    </div>
+  </div></section><section id="s5" class="clip slide " data-start="81.889" data-duration="31.96" data-track-index="1">
+  <img class="bgimg" id="s5-img" src="assets/brain-library.png" alt=""/>
+  <div class="shade"></div>
+  <div class="lab left-lab" id="s5-l"><div class="tag">YOUR PHONE</div>learned from <b>your texts</b></div>
+  <div class="lab right-lab" id="s5-r"><div class="tag c-tag">CHATGPT</div>learned from <b>books, websites,<br/>articles, forums, code</b></div>
+  <div class="scale" id="s5-scale">SCALE.</div>
+  <div class="lifetimes" id="s5-life">More reading than any human<br/>could do in <span class="o">thousands of lifetimes.</span></div>
+  <div class="tokens" id="s5-tok">
+    <div class="tag">SMALL CORRECTION: IT'S <span class="o">TOKENS</span></div>
+    <div class="tokrow"><span class="tk">un</span><span class="tk">believ</span><span class="tk">able</span><span class="plus">+</span><span class="tk whole">guess</span></div>
+    <p class="sub small">Sometimes a whole word, sometimes half a word.</p>
+  </div></section><section id="s6" class="clip slide " data-start="113.849" data-duration="20.779" data-track-index="1">
+  <div class="center">
+    <h1 class="big" id="s6-a">Wait&hellip; then how does it<br/><span class="o">solve problems?</span></h1>
+    <div class="cards" id="s6-cards">
+      <div class="card" id="s6-c1"><span class="ic">&lt;/&gt;</span>Write working code</div>
+      <div class="card" id="s6-c2"><span class="ic">$</span>Explain a tax form</div>
+      <div class="card" id="s6-c3"><span class="ic">&#9829;</span>Plan a wedding</div>
+    </div>
+    <div class="auto" id="s6-auto">That's it? <span class="strike">Autocomplete?</span></div>
+    <div class="wild" id="s6-wild">No. It's actually <span class="o">wild.</span></div>
+  </div></section><section id="s7" class="clip slide " data-start="134.628" data-duration="32.743" data-track-index="1">
+  <div class="center">
+    <h1 class="big top" id="s7-a">To guess well, you have to<br/><span class="c">understand a lot.</span></h1>
+    <div class="sent" id="s7-s1">"She dropped the glass, and it&hellip;" <span class="ans o" id="s7-a1">breaks</span><span class="need" id="s7-n1">needs: facts</span></div>
+    <div class="sent" id="s7-s2">"3 eggs needed, only 2, so I&hellip;" <span class="ans o" id="s7-a2">buy more</span><span class="need" id="s7-n2">needs: reasoning</span></div>
+    <div class="absorb" id="s7-abs">
+      <span class="pill" id="s7-p1">grammar</span><span class="pill" id="s7-p2">facts</span><span class="pill" id="s7-p3">logic</span><span class="pill" id="s7-p4">how people explain</span>
+    </div>
+    <p class="sub" id="s7-b">Nobody programmed these in. <span class="o">They got absorbed.</span></p>
+  </div></section><section id="s8" class="clip slide " data-start="167.371" data-duration="22.582" data-track-index="1">
+  <div class="center">
+    <div class="tag" id="s8-tag">STEP 2</div>
+    <h1 class="big" id="s8-a">Taught <span class="o">manners.</span></h1>
+    <div class="flow">
+      <div class="box raw" id="s8-raw"><div class="bt">Raw text predictor</div>&hellip;continues random internet text</div>
+      <div class="arrow" id="s8-arr"><div class="stars" id="s8-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="line"></div><div class="lbl">examples + ratings</div></div>
+      <div class="box good" id="s8-good"><div class="bt">Helpful assistant</div>the one you chat with</div>
+    </div>
+  </div></section><section id="s9" class="clip slide " data-start="189.953" data-duration="26.761" data-track-index="1">
+  <div class="center">
+    <h1 class="huge" id="s9-a">Guessing <span class="o">&ne;</span> Knowing</h1>
+    <p class="sub" id="s9-b">Predicting what <i>sounds</i> right. Not looking it up.</p>
+    <div class="venn" id="s9-venn">
+      <div class="circ c1" id="s9-c1"><span>Sounds<br/>right</span></div>
+      <div class="circ c2" id="s9-c2"><span>Is<br/>right</span></div>
+      <div class="overlap" id="s9-ov">Paris &#10003;</div>
+    </div>
+    <div class="warn" id="s9-warn">&#9888; Wrong answers come in the <span class="o">same confident voice.</span></div>
+  </div></section><section id="s10" class="clip slide " data-start="216.714" data-duration="12.091" data-track-index="1">
+  <div class="center">
+    <div class="tag" id="s10-tag">NEXT VIDEO</div>
+    <h1 class="big" id="s10-a">Why AI lies with a<br/><span class="o">straight face</span></h1>
+    <div class="endcard" id="s10-end">I gotchu<span class="o">.</span></div>
+  </div></section>
+  <div id="progress"></div>
+</div>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#s1-a", {"opacity": 0, "y": 60}, {"opacity": 1, "y": 0, "duration": 0.8, "ease": "power3.out"}, 0.3);
+  tl.fromTo("#s1-b", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 3.04);
+  tl.fromTo("#s1-a", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in", "immediateRender": false}, 8.44);
+  tl.fromTo("#s1-b", {"y": 0}, {"y": -180, "duration": 0.7, "ease": "power3.out", "immediateRender": false}, 8.44);
+  tl.fromTo("#s1-b", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in", "immediateRender": false}, 16.91);
+  tl.fromTo("#s1-q", {"opacity": 0, "y": 60}, {"opacity": 1, "y": 0, "duration": 0.7, "ease": "power3.out"}, 17.41);
+  tl.fromTo("#s2-tag", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 22.647);
+  tl.fromTo("#s2-a", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 25.957);
+  tl.fromTo("#s2-fill", {"opacity": 0, "scale": 0.4}, {"opacity": 1, "scale": 1, "duration": 0.5, "ease": "back.out(2.5)"}, 28.697);
+  tl.fromTo("#s2-b", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 32.017);
+  tl.fromTo("#s3-a", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 38.619);
+  tl.fromTo("#s3-fill", {"opacity": 0, "scale": 0.4}, {"opacity": 1, "scale": 1, "duration": 0.5, "ease": "back.out(2.5)"}, 42.999);
+  tl.fromTo("#s3-a", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in", "immediateRender": false}, 46.879000000000005);
+  tl.fromTo("#s3-loop .tag", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 51.939);
+  tl.fromTo("#s3-w0", {"opacity": 0, "y": 30, "scale": 0.8}, {"opacity": 1, "y": 0, "scale": 1, "duration": 0.35, "ease": "back.out(2)"}, 47.679);
+  tl.fromTo("#s3-w1", {"opacity": 0, "y": 30, "scale": 0.8}, {"opacity": 1, "y": 0, "scale": 1, "duration": 0.35, "ease": "back.out(2)"}, 48.629000000000005);
+  tl.fromTo("#s3-w2", {"opacity": 0, "y": 30, "scale": 0.8}, {"opacity": 1, "y": 0, "scale": 1, "duration": 0.35, "ease": "back.out(2)"}, 49.579);
+  tl.fromTo("#s3-w3", {"opacity": 0, "y": 30, "scale": 0.8}, {"opacity": 1, "y": 0, "scale": 1, "duration": 0.35, "ease": "back.out(2)"}, 50.529);
+  tl.fromTo("#s3-w4", {"opacity": 0, "y": 30, "scale": 0.8}, {"opacity": 1, "y": 0, "scale": 1, "duration": 0.35, "ease": "back.out(2)"}, 51.479);
+  tl.fromTo("#s3-w5", {"opacity": 0, "y": 30, "scale": 0.8}, {"opacity": 1, "y": 0, "scale": 1, "duration": 0.35, "ease": "back.out(2)"}, 52.429);
+  tl.fromTo("#s3-w6", {"opacity": 0, "y": 30, "scale": 0.8}, {"opacity": 1, "y": 0, "scale": 1, "duration": 0.35, "ease": "back.out(2)"}, 53.379000000000005);
+  tl.fromTo("#s3-next", {"opacity": 0}, {"opacity": 1, "duration": 0.3, "ease": "power3.out"}, 47.479000000000006);
+  tl.to("#s3-next", {opacity: 0.25, duration: 0.45, yoyo: true, repeat: 15, ease: "sine.inOut"}, 47.879000000000005);
+  tl.fromTo("#s3-count", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 57.459);
+  tl.fromTo("#s4-phone", {"opacity": 0, "y": 80}, {"opacity": 1, "y": 0, "duration": 0.8, "ease": "power3.out"}, 62.638);
+  tl.fromTo("#s4 .side .tag", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 62.938);
+  tl.fromTo("#s4-a", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 67.86800000000001);
+  tl.fromTo("#s4-t0", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 72.338);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 72.338);
+  tl.fromTo("#s4-t1", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 72.624);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 72.624);
+  tl.fromTo("#s4-t2", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 72.911);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 72.911);
+  tl.fromTo("#s4-t3", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 73.197);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 73.197);
+  tl.fromTo("#s4-t4", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 73.483);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 73.483);
+  tl.fromTo("#s4-t5", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 73.769);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 73.769);
+  tl.fromTo("#s4-t6", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 74.056);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 74.056);
+  tl.fromTo("#s4-t7", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 74.342);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 74.342);
+  tl.fromTo("#s4-t8", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 74.628);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 74.628);
+  tl.fromTo("#s4-t9", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 74.914);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 74.914);
+  tl.fromTo("#s4-t10", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 75.201);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 75.201);
+  tl.fromTo("#s4-t11", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 75.487);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 75.487);
+  tl.fromTo("#s4-t12", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 75.773);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 75.773);
+  tl.fromTo("#s4-t13", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 76.059);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 76.059);
+  tl.fromTo("#s4-t14", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 76.346);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 76.346);
+  tl.fromTo("#s4-t15", {"opacity": 0}, {"opacity": 1, "duration": 0.12, "ease": "none"}, 76.632);
+  tl.fromTo("#s4-mid", {backgroundColor: "#ff7a1a"}, {backgroundColor: "#1f2a4d", duration: 0.258, ease: "power1.out", immediateRender: false}, 76.632);
+  tl.fromTo("#s4-stamp", {"opacity": 0, "scale": 2.4, "rotation": -18}, {"opacity": 1, "scale": 1, "rotation": -8, "duration": 0.35, "ease": "power4.in"}, 77.518);
+  tl.fromTo("#s4-b", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 79.118);
+  tl.fromTo("#s5-img", {"scale": 1.0, "opacity": 0}, {"scale": 1.12, "opacity": 1, "duration": 19, "ease": "none"}, 81.989);
+  tl.fromTo("#s5-img", {"opacity": 1}, {"opacity": 0.12, "duration": 0.8, "ease": "power1.out", "immediateRender": false}, 100.919);
+  tl.fromTo("#s5-scale", {"opacity": 0, "scale": 1.6}, {"opacity": 1, "scale": 1, "duration": 0.5, "ease": "power4.out"}, 86.019);
+  tl.fromTo("#s5-scale", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in", "immediateRender": false}, 87.569);
+  tl.fromTo("#s5-l", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 86.769);
+  tl.fromTo("#s5-r", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 89.169);
+  tl.fromTo("#s5-life", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 96.389);
+  tl.fromTo("#s5-l", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in", "immediateRender": false}, 100.719);
+  tl.fromTo("#s5-r", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in", "immediateRender": false}, 100.719);
+  tl.fromTo("#s5-life", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in", "immediateRender": false}, 100.719);
+  tl.fromTo("#s5-tok .tag", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 101.319);
+  tl.fromTo("#s5-tok .tk:nth-child(1)", {opacity:0, x:-30}, {opacity:1, x:0, duration:0.35, ease:"back.out(2)"}, 105.999);
+  tl.fromTo("#s5-tok .tk:nth-child(2)", {opacity:0, x:-30}, {opacity:1, x:0, duration:0.35, ease:"back.out(2)"}, 106.399);
+  tl.fromTo("#s5-tok .tk:nth-child(3)", {opacity:0, x:-30}, {opacity:1, x:0, duration:0.35, ease:"back.out(2)"}, 106.799);
+  tl.fromTo("#s5-tok .plus", {"opacity": 0}, {"opacity": 1, "duration": 0.3, "ease": "power3.out"}, 107.49900000000001);
+  tl.fromTo("#s5-tok .whole", {"opacity": 0, "x": -30}, {"opacity": 1, "x": 0, "duration": 0.35, "ease": "back.out(2)"}, 107.799);
+  tl.fromTo("#s5-tok .sub", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 108.599);
+  tl.fromTo("#s6-a", {"opacity": 0, "y": 60}, {"opacity": 1, "y": 0, "duration": 0.8, "ease": "power3.out"}, 114.149);
+  tl.fromTo("#s6-c1", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 118.849);
+  tl.fromTo("#s6-c2", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 120.539);
+  tl.fromTo("#s6-c3", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 121.839);
+  tl.fromTo("#s6-cards", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in"}, 127.929);
+  tl.fromTo("#s6-auto", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 128.329);
+  tl.fromTo("#s6-auto .strike", {"--strike": "0%"}, {"--strike": "100%", duration: 0.5, ease: "power2.out"}, 132.079);
+  tl.fromTo("#s6-wild", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 132.479);
+  tl.fromTo("#s7-a", {"opacity": 0, "y": 60}, {"opacity": 1, "y": 0, "duration": 0.8, "ease": "power3.out"}, 134.928);
+  tl.fromTo("#s7-s1", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 144.908);
+  tl.fromTo("#s7-a1", {"opacity": 0, "y": 20}, {"opacity": 1, "y": 0, "duration": 0.4, "ease": "power3.out"}, 147.468);
+  tl.fromTo("#s7-n1", {"opacity": 0, "y": 10}, {"opacity": 1, "y": 0, "duration": 0.4, "ease": "power3.out"}, 147.968);
+  tl.fromTo("#s7-s2", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 149.288);
+  tl.fromTo("#s7-a2", {"opacity": 0, "y": 20}, {"opacity": 1, "y": 0, "duration": 0.4, "ease": "power3.out"}, 152.75799999999998);
+  tl.fromTo("#s7-n2", {"opacity": 0, "y": 10}, {"opacity": 1, "y": 0, "duration": 0.4, "ease": "power3.out"}, 153.458);
+  tl.fromTo("#s7-s1", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in", "immediateRender": false}, 154.77800000000002);
+  tl.fromTo("#s7-s2", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in", "immediateRender": false}, 154.77800000000002);
+  tl.fromTo("#s7-p1", {"opacity": 0, "scale": 0.5}, {"opacity": 1, "scale": 1, "duration": 0.45, "ease": "back.out(2)"}, 156.178);
+  tl.fromTo("#s7-p2", {"opacity": 0, "scale": 0.5}, {"opacity": 1, "scale": 1, "duration": 0.45, "ease": "back.out(2)"}, 157.178);
+  tl.fromTo("#s7-p3", {"opacity": 0, "scale": 0.5}, {"opacity": 1, "scale": 1, "duration": 0.45, "ease": "back.out(2)"}, 158.178);
+  tl.fromTo("#s7-p4", {"opacity": 0, "scale": 0.5}, {"opacity": 1, "scale": 1, "duration": 0.45, "ease": "back.out(2)"}, 159.178);
+  tl.fromTo("#s7-b", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 161.968);
+  tl.fromTo("#s8-tag", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 167.671);
+  tl.fromTo("#s8-a", {"opacity": 0, "y": 50}, {"opacity": 1, "y": 0, "duration": 0.7, "ease": "power3.out"}, 167.871);
+  tl.fromTo("#s8-raw", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 169.431);
+  tl.fromTo("#s8-arr .line", {"scaleX": 0}, {"scaleX": 1, "duration": 0.8, "ease": "power2.inOut"}, 174.321);
+  tl.fromTo("#s8-arr .lbl", {"opacity": 0, "y": 10}, {"opacity": 1, "y": 0, "duration": 0.4, "ease": "power3.out"}, 174.721);
+  tl.fromTo("#s8-stars", {"opacity": 0, "scale": 0.4}, {"opacity": 1, "scale": 1, "duration": 0.5, "ease": "back.out(3)"}, 176.971);
+  tl.fromTo("#s8-good", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 182.251);
+  tl.fromTo("#s8-good", {boxShadow: "0 0 0px rgba(34,211,238,0)"}, {boxShadow: "0 0 60px rgba(34,211,238,0.55)", duration: 0.8}, 185.251);
+  tl.fromTo("#s9-a", {"opacity": 0, "y": 60}, {"opacity": 1, "y": 0, "duration": 0.8, "ease": "power3.out"}, 190.253);
+  tl.fromTo("#s9-b", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 196.483);
+  tl.to("#s9-a", {scale: 0.62, y: -250, duration: 0.7, ease: "power3.inOut"}, 199.393);
+  tl.fromTo("#s9-b", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in", "immediateRender": false}, 199.393);
+  tl.fromTo("#s9-c1", {"opacity": 0, "x": -260}, {"opacity": 1, "x": -110, "duration": 0.8, "ease": "power3.out"}, 200.193);
+  tl.fromTo("#s9-c2", {"opacity": 0, "x": 260}, {"opacity": 1, "x": 110, "duration": 0.8, "ease": "power3.out"}, 200.193);
+  tl.fromTo("#s9-ov", {"opacity": 0, "y": 10}, {"opacity": 1, "y": 0, "duration": 0.4, "ease": "power3.out"}, 204.863);
+  tl.to("#s9-c2", {x: 330, duration: 0.9, ease: "power2.inOut"}, 207.903);
+  tl.to("#s9-c1", {x: -330, duration: 0.9, ease: "power2.inOut"}, 207.903);
+  tl.fromTo("#s9-ov", {"opacity": 1}, {"opacity": 0, "duration": 0.3, "ease": "power1.in", "immediateRender": false}, 207.903);
+  tl.fromTo("#s9-warn", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 212.49300000000002);
+  tl.fromTo("#s10-tag", {"opacity": 0, "y": 40}, {"opacity": 1, "y": 0, "duration": 0.6, "ease": "power3.out"}, 217.014);
+  tl.fromTo("#s10-a", {"opacity": 0, "y": 60}, {"opacity": 1, "y": 0, "duration": 0.8, "ease": "power3.out"}, 217.314);
+  tl.fromTo("#s10-tag", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in", "immediateRender": false}, 225.474);
+  tl.fromTo("#s10-a", {"opacity": 1}, {"opacity": 0, "duration": 0.4, "ease": "power1.in", "immediateRender": false}, 225.474);
+  tl.fromTo("#s10-end", {"opacity": 0, "scale": 0.7}, {"opacity": 1, "scale": 1, "duration": 0.6, "ease": "back.out(2)"}, 225.774);
+  tl.fromTo("#progress", {scaleX: 0}, {scaleX: 1, duration: 228.805, ease: "none"}, 0);
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+</body>
+</html>

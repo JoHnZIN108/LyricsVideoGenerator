@@ -1,0 +1,52 @@
+[
+ {
+  "n": 1,
+  "cue": "\"ChatGPT doesn't know anything.\"",
+  "text": "ChatGPT doesn't actually know anything. It's guessing. One word at a time. And it's scary good at it.\n\nBy the end of this video you'll understand what's actually happening when you hit enter. And there's a question that'll bug you halfway through. If it's only guessing, how can it solve problems? We'll get there."
+ },
+ {
+  "n": 2,
+  "cue": "\"Finish the sentence\" game. \"Peanut butter and ___\"",
+  "text": "Let's play a game. Finish this sentence in your head.\n\nPeanut butter and...\n\nYou said jelly. Or jam, depending on where you live. You didn't look it up. You've just seen those words together so many times that your brain filled the gap."
+ },
+ {
+  "n": 3,
+  "cue": "\"The capital of France is ___\"",
+  "text": "Another one. The capital of France is...\n\nParis. Obviously.\n\nThat is basically the whole trick. An AI like ChatGPT looks at everything written so far and asks one question. What comes next? Then it adds that piece, and asks again. And again. Hundreds of times, super fast, until you've got a full answer."
+ },
+ {
+  "n": 4,
+  "cue": "Phone keyboard with autocomplete suggestions",
+  "text": "If that sounds familiar, it should. Your phone does a tiny version of this. Try it after this video. Type \"I'm going to\" and keep tapping the middle suggestion. You'll get something like, \"I'm going to be there in a few minutes and I will be there in a few minutes and...\"\n\nIt's nonsense. Your phone is guessing too, it's just really bad at it."
+ },
+ {
+  "n": 5,
+  "cue": "Tiny phone brain vs giant library",
+  "text": "So what's the difference between your phone and ChatGPT?\n\nScale. Your phone learned from your texts. Models like ChatGPT learned from an enormous amount of text. Books, websites, articles, forums, code. More reading than any human could do in thousands of lifetimes.\n\nAnd one small correction on my \"one word at a time\" line. It actually works in little chunks called tokens. Sometimes a whole word, sometimes half a word. But \"word\" is close enough for us."
+ },
+ {
+  "n": 6,
+  "cue": "\"Wait... then how does it solve problems?\"",
+  "text": "Okay, the question that's been bugging you. If it's only guessing the next word, how can it write working code, or explain a tax form, or help plan a wedding?\n\nHonestly, when I first learned this as a software engineer, I was a little disappointed. That's it? Autocomplete? Then I thought about it more and... no, it's actually wild."
+ },
+ {
+  "n": 7,
+  "cue": "\"To guess well, you have to understand a lot\"",
+  "text": "Here's the thing. To guess the next word really, really well, across every topic on the internet, you have to pick up a lot along the way.\n\nThink about finishing this sentence. \"She dropped the glass, and it...\" You need to know glasses break. \"The recipe needs three eggs, but I only have two, so I...\" Now you need a bit of reasoning. To predict well, the model had to soak up grammar, facts, patterns of logic, even how people explain things to each other.\n\nNobody programmed those rules in. They got absorbed, because they help with the guessing."
+ },
+ {
+  "n": 8,
+  "cue": "\"Step 2: Taught manners\"",
+  "text": "There's one more step. After all that reading, the model gets trained again to be a good helper. People show it examples of great answers, rate its responses, and it learns to be helpful instead of just continuing random internet text.\n\nThat's the difference between a raw text predictor and the polite assistant you chat with."
+ },
+ {
+  "n": 9,
+  "cue": "\"Guessing \u2260 Knowing\"",
+  "text": "But here's the part to remember. Even after all that, it's still predicting what sounds right. Not looking it up in some giant database of facts.\n\nMost of the time, what sounds right and what is right are the same thing. The capital of France really is Paris.\n\nBut sometimes they're not. And when they're not, it'll give you the wrong answer in the exact same confident voice as the right one."
+ },
+ {
+  "n": 10,
+  "cue": "\"Next: Why AI lies with a straight face\"",
+  "text": "Which is exactly what the next video is about. Why AI makes things up, why it sounds so sure when it does, and how you can catch it every time.\n\nI gotchu."
+ }
+]

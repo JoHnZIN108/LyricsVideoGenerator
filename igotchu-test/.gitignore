@@ -1,0 +1,5 @@
+node_modules/
+snaps/
+*.mp4
+video/.hyperframes/
+work-*/

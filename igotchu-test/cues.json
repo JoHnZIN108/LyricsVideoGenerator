@@ -1,0 +1,73 @@
+{
+ "1": {
+  "It's guessing": 3.04,
+  "One word": 4.27,
+  "scary good": 6.31,
+  "By the end": 8.24,
+  "If it's only guessing": 17.41
+ },
+ "2": {
+  "Peanut butter": 4.01,
+  "You said jelly": 6.35,
+  "You didn't look": 9.67
+ },
+ "3": {
+  "Paris": 4.68,
+  "That is basically": 6.96,
+  "What comes next": 14.22,
+  "Then it adds": 15.22,
+  "Hundreds of times": 19.14
+ },
+ "4": {
+  "Type": 5.83,
+  "You'll get something": 8.8,
+  "It's nonsense": 15.18
+ },
+ "5": {
+  "Scale": 4.13,
+  "Your phone learned": 4.88,
+  "Models like": 7.28,
+  "Books,": 11.12,
+  "More reading": 14.5,
+  "And one small": 19.03,
+  "tokens": 25.11,
+  "Sometimes a whole": 25.91
+ },
+ "6": {
+  "how can it write": 5.0,
+  "or explain": 6.69,
+  "or help plan": 7.99,
+  "Honestly": 9.64,
+  "That's it?": 14.68,
+  "no, it's actually wild": 18.63
+ },
+ "7": {
+  "Think about": 8.23,
+  "She dropped": 10.28,
+  "You need to know": 12.84,
+  "The recipe": 14.66,
+  "Now you need": 18.53,
+  "To predict well": 20.35,
+  "Nobody programmed": 27.34
+ },
+ "8": {
+  "After all that": 2.06,
+  "People show": 6.95,
+  "rate its": 9.6,
+  "That's the difference": 16.38
+ },
+ "9": {
+  "Even after": 2.54,
+  "Not looking": 6.53,
+  "Most of the time": 10.24,
+  "The capital": 14.91,
+  "But sometimes": 17.95,
+  "same confident": 23.74
+ },
+ "10": {
+  "Why AI makes": 3.11,
+  "why it sounds": 4.52,
+  "how you can catch": 6.76,
+  "I gotchu": 9.26
+ }
+}
