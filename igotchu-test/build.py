@@ -100,35 +100,78 @@ anims.append(f'tl.to("#s3-next", {{opacity: 0.25, duration: 0.45, yoyo: true, re
 pop("#s3-count", at(3, "Hundreds of times"))
 
 # ---------- Slide 4: phone autocomplete ----------
+typed = "I'm going to"
 nonsense = "be there in a few minutes and I will be there in a few minutes and"
 nwords = nonsense.split()
-spans = "".join(f'<span class="tw" id="s4-t{i}">{w} </span>' for i, w in enumerate(nwords))
+alts = [("the", "get"), ("here", "back"), ("the", "at"), ("few", "bit"), ("couple", "lot"), ("min", "hours"),
+        ("so", "but"), ("we", "you"), ("be", "have"), ("home", "back"), ("here", "at"), ("on", "at"),
+        ("the", "few"), ("couple", "lot"), ("min", "days"), ("so", "lol")]
+chars = "".join(f'<span class="ch" id="s4-c{i}">{"&nbsp;" if ch == " " else ch}</span>' for i, ch in enumerate(typed))
+spans = "".join(f'<span class="tw" id="s4-t{i}"> {w}</span>' for i, w in enumerate(nwords))
+sets = '<div class="sset" id="s4-set0"><span>I</span><span class="mid">be</span><span>the</span></div>'
+for i, w in enumerate(nwords):
+    nxt = nwords[i + 1] if i + 1 < len(nwords) else "be"
+    a, b = alts[(i + 1) % len(alts)]
+    sets += f'<div class="sset" id="s4-set{i+1}"><span>{a}</span><span class="mid">{nxt}</span><span>{b}</span></div>'
+rows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"]
+kb = ""
+for r, row in enumerate(rows):
+    keys = "".join(f'<b class="k" id="s4-k{ch}">{ch}</b>' for ch in row)
+    if r == 2:
+        keys = '<b class="k fn">&#8679;</b>' + keys + '<b class="k fn">&#9003;</b>'
+    kb += f'<div class="krow">{keys}</div>'
+kb += '<div class="krow"><b class="k fn w2">123</b><b class="k space" id="s4-kspace">space</b><b class="k fn w2">return</b></div>'
 slides.append(slide(4, f"""
-  <div class="row">
-    <div class="phone" id="s4-phone">
-      <div class="notch"></div>
-      <div class="bubble" id="s4-msg"><span id="s4-typed">I'm going to </span>{spans}<span class="caret">|</span></div>
-      <div class="sugg"><span>the</span><span class="mid" id="s4-mid">be</span><span>get</span></div>
-      <div class="keys">{''.join('<i></i>' for _ in range(30))}</div>
+  <div class="rig" id="s4-rig">
+    <div class="phone2" id="s4-phone">
+      <div class="island"></div>
+      <div class="status"><span>9:41</span><span class="sig">&#9679;&#9679;&#9679; &#9646;</span></div>
+      <div class="chathead"><div class="avatar">J</div><div><div class="cname">Jay</div><div class="csub">iMessage</div></div></div>
+      <div class="thread">
+        <div class="msg in">yo where are you??</div>
+        <div class="msg in">we're all here already</div>
+      </div>
+      <div class="compose" id="s4-compose"><span class="ctext">{chars}{spans}</span><span class="caret2" id="s4-caret">|</span></div>
+      <div class="suggbar">{sets}<div class="tap" id="s4-tap"></div></div>
+      <div class="kb">{kb}</div>
     </div>
-    <div class="side">
-      <div class="tag">YOUR PHONE DOES THIS TOO</div>
-      <p class="sub left" id="s4-a">Type <b class="c">"I'm going to"</b><br/>and keep tapping the middle word.</p>
-      <div class="stamp" id="s4-stamp">NONSENSE.</div>
-      <p class="sub left small" id="s4-b">Your phone is guessing too.<br/>It's just <span class="o">really bad</span> at it.</p>
-    </div>
-  </div>"""))
-pop("#s4-phone", at(4, 0.3), 80, 0.8)
-pop("#s4 .side .tag", at(4, 0.6))
-pop("#s4-a", at(4, "Type") - 0.3)
-t0 = at(4, "You'll get something") + 1.2
-step = (at(4, "It's nonsense") - 0.6 - t0) / len(nwords)
+    <div class="stamp2" id="s4-stamp">NONSENSE.</div>
+  </div>
+  <div class="s4-label" id="s4-lab"><div class="tag">TRY IT</div><div class="s4-how">Type <b class="c">"I'm going to"</b><br/>tap the <b class="o">middle</b> word.<br/>Again. And again.</div></div>
+  <div class="s4-out" id="s4-b">Your phone is guessing too.<br/>It's just <span class="o">really bad</span> at it.</div>"""))
+tw("#s4-rig", {"opacity": 0, "y": 140, "scale": 0.92}, {"opacity": 1, "y": 0, "scale": 1}, at(4, 0.2), 0.9)
+anims.append(f'tl.fromTo("#s4-rig", {{rotation: -2}}, {{rotation: 2, duration: {round(T[4]["dur"] - 1, 2)}, ease: "sine.inOut", immediateRender: false}}, {at(4, 0.2)});')
+pop("#s4-lab", at(4, "Type") - 0.4)
+tw("#s4-set0", {"opacity": 0}, {"opacity": 1}, at(4, 0.4), 0.2, "none")
+# type "I'm going to" letter by letter, flashing the matching key
+tc = at(4, "Type") + 0.5
+_seen.add("#s4-tap")  # stays hidden (CSS) until the first tap
+for i, ch in enumerate(typed):
+    t = round(tc + i * 0.11, 3)
+    anims.append(f'tl.set("#s4-c{i}", {{display: "inline"}}, {t});')
+    kid = "#s4-kspace" if ch == " " else (f"#s4-k{ch.upper()}" if ch.isalpha() else None)
+    if kid:
+        anims.append(f'tl.fromTo("{kid}", {{backgroundColor: "#ff7a1a", scale: 1.25}}, {{backgroundColor: "#3a3f55", scale: 1, duration: 0.25, ease: "power1.out", immediateRender: false}}, {t});')
+# zoom the camera in on the phone while the taps happen
+t0 = at(4, "You'll get something") + 0.9
+t_end = at(4, "It's nonsense") - 0.5
+step = (t_end - t0) / len(nwords)
+anims.append(f'tl.to("#s4-rig", {{scale: 1.18, y: -150, duration: 1.0, ease: "power2.inOut"}}, {round(t0 - 1.0, 3)});')
 for i in range(len(nwords)):
     t = round(t0 + i * step, 3)
-    tw(f"#s4-t{i}", {"opacity": 0}, {"opacity": 1}, t, 0.12, "none")
-    anims.append(f'tl.fromTo("#s4-mid", {{backgroundColor: "#ff7a1a"}}, {{backgroundColor: "#1f2a4d", duration: {round(step*0.9,3)}, ease: "power1.out", immediateRender: false}}, {t});')
-tw("#s4-stamp", {"opacity": 0, "scale": 2.4, "rotation": -18}, {"opacity": 1, "scale": 1, "rotation": -8}, at(4, "It's nonsense"), 0.35, "power4.in")
-pop("#s4-b", at(4, "It's nonsense") + 1.6)
+    anims.append(f'tl.set("#s4-t{i}", {{display: "inline"}}, {t});')
+    tw(f"#s4-tap", {"opacity": 0.9, "scale": 0.3}, {"opacity": 0, "scale": 1.6}, t - 0.05, round(step * 0.9, 3), "power2.out")
+    tw(f"#s4-set{i}", {"opacity": 1}, {"opacity": 0}, t, 0.05, "none")
+    tw(f"#s4-set{i+1}", {"opacity": 0}, {"opacity": 1}, t, 0.05, "none")
+fade_out("#s4-lab", t0 - 0.8)
+# stamp slams onto the phone, phone shakes, camera pulls back and slides left
+tn = at(4, "It's nonsense")
+anims.append(f'tl.to("#s4-rig", {{scale: 1, y: 0, duration: 0.45, ease: "power3.out"}}, {round(tn - 0.45, 3)});')
+tw("#s4-stamp", {"opacity": 0, "scale": 3, "rotation": -25}, {"opacity": 1, "scale": 1, "rotation": -12}, tn, 0.3, "power4.in")
+anims.append(f'tl.fromTo("#s4-phone", {{x: -14}}, {{x: 14, duration: 0.06, repeat: 5, yoyo: true, ease: "none", immediateRender: false}}, {round(tn + 0.3, 3)});')
+anims.append(f'tl.set("#s4-phone", {{x: 0}}, {round(tn + 0.7, 3)});')
+anims.append(f'tl.to("#s4-rig", {{x: -420, duration: 0.8, ease: "power3.inOut"}}, {round(tn + 1.2, 3)});')
+pop("#s4-b", tn + 1.7)
 
 # ---------- Slide 5: phone brain vs library (AI illustration) ----------
 slides.append(slide(5, """
@@ -181,50 +224,71 @@ T6W = at(6, "no, it's actually wild") - 0.4
 anims.append(f'tl.fromTo("#s6-auto .strike", {{"--strike": "0%"}}, {{"--strike": "100%", duration: 0.5, ease: "power2.out"}}, {T6W});')
 pop("#s6-wild", at(6, "no, it's actually wild"))
 
-# ---------- Slide 7: to guess well you have to understand ----------
+# ---------- Slide 7: to guess well you have to understand (concept scene: shattering glass) ----------
 slides.append(slide(7, """
+  <img class="bgimg" id="s7-img" src="assets/glass.png" alt=""/>
+  <div class="shade-left"></div>
   <div class="center">
-    <h1 class="big top" id="s7-a">To guess well, you have to<br/><span class="c">understand a lot.</span></h1>
-    <div class="sent" id="s7-s1">"She dropped the glass, and it&hellip;" <span class="ans o" id="s7-a1">breaks</span><span class="need" id="s7-n1">needs: facts</span></div>
-    <div class="sent" id="s7-s2">"3 eggs needed, only 2, so I&hellip;" <span class="ans o" id="s7-a2">buy more</span><span class="need" id="s7-n2">needs: reasoning</span></div>
+    <h1 class="big s7-title" id="s7-a">To guess well,<br/>you have to<br/><span class="c">understand a lot.</span></h1>
+    <div class="sent s7-first" id="s7-s1"><span>"She dropped the glass, and it&hellip;"</span><span class="ans o" id="s7-a1">breaks</span><span class="need" id="s7-n1">needs: facts</span></div>
+    <div class="sent" id="s7-s2"><span>"Need 3 eggs, have 2, so I&hellip;"</span> <span class="ans o" id="s7-a2">buy more</span><span class="need" id="s7-n2">needs: reasoning</span></div>
     <div class="absorb" id="s7-abs">
       <span class="pill" id="s7-p1">grammar</span><span class="pill" id="s7-p2">facts</span><span class="pill" id="s7-p3">logic</span><span class="pill" id="s7-p4">how people explain</span>
     </div>
     <p class="sub" id="s7-b">Nobody programmed these in. <span class="o">They got absorbed.</span></p>
   </div>"""))
-pop("#s7-a", at(7, 0.3), 60, 0.8)
+t_dim7 = at(7, "The recipe") - 0.5
+tw("#s7-img", {"scale": 1.0}, {"scale": 1.12}, at(7, 0.0), round(t_dim7 - at(7, 0.0), 2), "none")
+anims.append(f'tl.fromTo("#s7-img", {{opacity: 0}}, {{opacity: 1, duration: 4, ease: "sine.inOut", immediateRender: false}}, {at(7, 0.0)});')
+tw("#s7-img", {"opacity": 1}, {"opacity": 0.12}, t_dim7, 0.8, "power1.out")
+pop("#s7-a", at(7, 0.4), 60, 0.8)
+fade_out("#s7-a", t_dim7)
 pop("#s7-s1", at(7, "She dropped"))
 pop("#s7-a1", at(7, "You need to know"), 20, 0.4)
 pop("#s7-n1", at(7, "You need to know") + 0.5, 10, 0.4)
+anims.append(f'tl.to("#s7-s1", {{x: 100, y: -470, duration: 0.7, ease: "power3.inOut"}}, {round(t_dim7, 3)});')
 pop("#s7-s2", at(7, "The recipe"))
 pop("#s7-a2", at(7, "Now you need") - 0.4, 20, 0.4)
 pop("#s7-n2", at(7, "Now you need") + 0.3, 10, 0.4)
-for s in ["#s7-s1", "#s7-s2"]:
-    fade_out(s, at(7, "To predict well") - 0.2)
+for s_ in ["#s7-s1", "#s7-s2"]:
+    fade_out(s_, at(7, "To predict well") - 0.2)
 for i in range(4):
     tw(f"#s7-p{i+1}", {"opacity": 0, "scale": 0.5}, {"opacity": 1, "scale": 1}, at(7, "To predict well") + 1.2 + i * 1.0, 0.45, "back.out(2)")
 pop("#s7-b", at(7, "Nobody programmed"))
 
-# ---------- Slide 8: taught manners ----------
+# ---------- Slide 8: taught manners (concept scene: robot at manners school) ----------
 slides.append(slide(8, """
-  <div class="center">
-    <div class="tag" id="s8-tag">STEP 2</div>
-    <h1 class="big" id="s8-a">Taught <span class="o">manners.</span></h1>
+  <img class="bgimg" id="s8-img" src="assets/manners.png" alt=""/>
+  <div class="s8-head" id="s8-head"><div class="tag" id="s8-tag">STEP 2</div><h1 class="big" id="s8-a">Taught <span class="o">manners.</span></h1></div>
+  <div class="callout" id="s8-ex">examples of<br/><b>great answers</b></div>
+  <div class="ring" id="s8-ring"></div>
+  <div class="callout c2" id="s8-rt">rated by<br/><b class="o">people</b></div>
+  <div class="center s8-diag" id="s8-diag">
     <div class="flow">
       <div class="box raw" id="s8-raw"><div class="bt">Raw text predictor</div>&hellip;continues random internet text</div>
       <div class="arrow" id="s8-arr"><div class="stars" id="s8-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="line"></div><div class="lbl">examples + ratings</div></div>
       <div class="box good" id="s8-good"><div class="bt">Helpful assistant</div>the one you chat with</div>
     </div>
   </div>"""))
+t_dim8 = at(8, "That's the difference") - 0.6
+tw("#s8-img", {"scale": 1.0}, {"scale": 1.12}, at(8, 0.0), round(t_dim8 - at(8, 0.0), 2), "none")
+anims.append(f'tl.fromTo("#s8-img", {{opacity: 0}}, {{opacity: 1, duration: 4, ease: "sine.inOut", immediateRender: false}}, {at(8, 0.0)});')
+tw("#s8-img", {"opacity": 1}, {"opacity": 0.12}, t_dim8, 0.8, "power1.out")
 pop("#s8-tag", at(8, 0.3))
 pop("#s8-a", at(8, 0.5), 50, 0.7)
-pop("#s8-raw", at(8, "After all that"))
-tw("#s8-arr .line", {"scaleX": 0}, {"scaleX": 1}, at(8, "People show"), 0.8, "power2.inOut")
-pop("#s8-arr .lbl", at(8, "People show") + 0.4, 10, 0.4)
-tw("#s8-stars", {"opacity": 0, "scale": 0.4}, {"opacity": 1, "scale": 1}, at(8, "rate its"), 0.5, "back.out(3)")
-pop("#s8-good", at(8, "That's the difference") - 1.5)
-T8D = at(8, "That's the difference") + 1.5
-anims.append(f'tl.fromTo("#s8-good", {{boxShadow: "0 0 0px rgba(34,211,238,0)"}}, {{boxShadow: "0 0 60px rgba(34,211,238,0.55)", duration: 0.8}}, {T8D});')
+pop("#s8-ex", at(8, "People show"))
+tw("#s8-ring", {"opacity": 0, "scale": 0.6}, {"opacity": 1, "scale": 1}, at(8, "rate its"), 0.5, "back.out(2)")
+pop("#s8-rt", at(8, "rate its") + 0.3)
+for s_ in ["#s8-ex", "#s8-ring", "#s8-rt"]:
+    fade_out(s_, t_dim8)
+anims.append(f'tl.to("#s8-head", {{y: -40, scale: 0.85, duration: 0.6, ease: "power2.inOut"}}, {round(t_dim8, 3)});')
+pop("#s8-raw", t_dim8 + 0.3)
+tw("#s8-arr .line", {"scaleX": 0}, {"scaleX": 1}, t_dim8 + 0.7, 0.6, "power2.inOut")
+pop("#s8-arr .lbl", t_dim8 + 1.0, 10, 0.4)
+tw("#s8-stars", {"opacity": 0, "scale": 0.4}, {"opacity": 1, "scale": 1}, t_dim8 + 1.0, 0.5, "back.out(3)")
+pop("#s8-good", t_dim8 + 1.6)
+T8D = t_dim8 + 3.2
+anims.append(f'tl.fromTo("#s8-good", {{boxShadow: "0 0 0px rgba(34,211,238,0)"}}, {{boxShadow: "0 0 60px rgba(34,211,238,0.55)", duration: 0.8, immediateRender: false}}, {T8D});')
 
 # ---------- Slide 9: guessing != knowing ----------
 slides.append(slide(9, """
@@ -296,15 +360,36 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#0a1128}
 .chip{font-size:64px;font-weight:800;background:#16235a;border:3px solid #22d3ee;border-radius:18px;padding:14px 30px}
 .chip.ghost{border-style:dashed;border-color:#ff7a1a;color:#ff7a1a}
 .counter{font-size:44px;font-weight:700;color:#c9d2ea}
-.row{display:flex;align-items:center;gap:120px}
-.phone{width:520px;height:900px;border-radius:70px;background:#0e1633;border:6px solid #2a3a7a;position:relative;padding:90px 30px 30px;display:flex;flex-direction:column;justify-content:flex-end;gap:18px}
-.notch{position:absolute;top:22px;left:50%;margin-left:-80px;width:160px;height:34px;border-radius:20px;background:#070c1d}
-.bubble{background:#1d4ed8;color:#fff;font-size:34px;font-weight:600;line-height:1.35;border-radius:28px;padding:24px 28px;min-height:140px}
-.tw{opacity:0}.caret{color:#fff;opacity:.8}
-.sugg{display:flex;gap:10px}.sugg span{flex:1;text-align:center;font-size:30px;font-weight:700;background:#1f2a4d;border-radius:14px;padding:14px 0;color:#dfe6ff}
-.keys{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;height:230px}.keys i{background:#1a2447;border-radius:8px}
-.side{display:flex;flex-direction:column;align-items:flex-start;gap:40px;width:860px;position:relative}
-.stamp{font-family:"Archivo Black";font-size:120px;color:#ff3b3b;border:10px solid #ff3b3b;border-radius:20px;padding:6px 36px;transform:rotate(-8deg)}
+.rig{position:absolute;left:50%;top:50%;width:560px;height:1000px;margin-left:-280px;margin-top:-500px}
+.phone2{position:absolute;inset:0;border-radius:78px;background:#05070f;border:14px solid #1b2033;
+  box-shadow:0 0 0 3px #3b4466,0 40px 120px rgba(0,0,0,.6),0 0 90px rgba(34,211,238,.18);overflow:hidden;display:flex;flex-direction:column}
+.island{position:absolute;top:14px;left:50%;margin-left:-70px;width:140px;height:38px;border-radius:22px;background:#000;z-index:3}
+.status{display:flex;justify-content:space-between;padding:18px 40px 0;font-size:22px;font-weight:700;color:#fff;height:58px}
+.sig{letter-spacing:2px;font-size:16px}
+.chathead{display:flex;align-items:center;gap:16px;padding:14px 26px 16px;border-bottom:1px solid #1d2233}
+.avatar{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#ff7a1a,#ff3b8b);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:28px}
+.cname{font-size:26px;font-weight:800}.csub{font-size:18px;color:#8b93ad}
+.thread{flex:1;display:flex;flex-direction:column;gap:12px;padding:22px 22px 0}
+.msg{max-width:78%;font-size:26px;font-weight:500;padding:14px 20px;border-radius:26px;line-height:1.3}
+.msg.in{background:#262a37;color:#eef1f8;border-bottom-left-radius:8px}
+.compose{margin:10px 16px;min-height:66px;border:2px solid #2f3547;border-radius:30px;padding:12px 20px;font-size:29px;font-weight:600;line-height:1.35;color:#fff}
+.ch,.tw{display:none}
+#s4 .ch,#s4 .tw{opacity:1}.caret2{color:#22d3ee;font-weight:400}
+.suggbar{position:relative;height:66px;background:#1a1d28;margin:0}
+.sset{position:absolute;inset:0;display:flex;align-items:center;opacity:0}
+.sset span{flex:1;text-align:center;font-size:26px;font-weight:600;color:#cfd5e6;border-right:1px solid #2c3142}
+.sset span:last-child{border-right:none}
+.sset .mid{color:#fff;font-weight:800}
+.tap{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,26,.85) 0%,rgba(255,122,26,.35) 45%,rgba(255,122,26,0) 70%);opacity:0}
+.kb{background:#1a1d28;padding:10px 8px 34px;display:flex;flex-direction:column;gap:12px}
+.krow{display:flex;justify-content:center;gap:7px}
+.k{width:46px;height:62px;border-radius:9px;background:#3a3f55;color:#fff;font-size:26px;font-weight:600;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 0 #0b0d14}
+.k.fn{background:#2a2e3e;width:62px;font-size:24px}.k.w2{width:110px;font-size:21px}
+.k.space{width:250px;font-size:21px;color:#cfd5e6}
+.stamp2{position:absolute;left:50%;top:66%;width:720px;margin-left:-360px;text-align:center;font-family:"Archivo Black";font-size:104px;color:#ff3b3b;border:10px solid #ff3b3b;border-radius:18px;padding:4px 0;background:rgba(10,17,40,.55);opacity:0;z-index:5;text-shadow:0 0 30px rgba(255,59,59,.5)}
+.s4-label{position:absolute;right:130px;top:50%;margin-top:-150px;display:flex;flex-direction:column;gap:26px;align-items:flex-start}
+.s4-how{font-size:50px;font-weight:800;line-height:1.3}
+.s4-out{position:absolute;right:120px;top:50%;margin-top:-90px;width:760px;font-family:"Archivo Black";font-size:64px;line-height:1.2}
 .bgimg{position:absolute;inset:0;width:1920px;height:1080px;object-fit:cover}
 .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,12,29,0) 45%,rgba(7,12,29,.85) 100%)}
 .lab{position:absolute;bottom:90px;font-size:44px;font-weight:600;line-height:1.35;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
@@ -323,7 +408,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#0a1128}
 .strike::after{content:"";position:absolute;left:0;top:52%;height:12px;width:var(--strike);background:#ff7a1a;border-radius:6px}
 .wild{position:absolute;top:50%;margin-top:190px;left:0;right:0;font-size:80px;font-weight:900}
 .sent{font-size:54px;font-weight:700;background:#111b40;border:3px solid #2a3a7a;border-radius:24px;padding:30px 44px;display:flex;align-items:center;gap:26px;position:absolute;left:50%;width:1500px;margin-left:-750px}
-#s7-s1{top:50%;margin-top:-60px}#s7-s2{top:50%;margin-top:110px}
+#s7-s2{top:50%;margin-top:110px}
 .ans{font-weight:900}.need{margin-left:auto;font-size:32px;font-weight:800;color:#22d3ee;letter-spacing:.06em;text-transform:uppercase}
 .absorb{display:flex;gap:26px;position:absolute;top:50%;margin-top:-40px}
 .pill{font-size:52px;font-weight:800;background:#16235a;border:3px solid #22d3ee;border-radius:60px;padding:18px 40px}
@@ -336,6 +421,14 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#0a1128}
 .arrow .line{width:100%;height:10px;background:#ff7a1a;border-radius:6px;transform-origin:left center;position:relative}
 .arrow .line::after{content:"";position:absolute;right:-6px;top:-14px;border-left:30px solid #ff7a1a;border-top:19px solid transparent;border-bottom:19px solid transparent}
 .stars{font-size:50px;color:#ffc53d;letter-spacing:6px}.lbl{font-size:30px;font-weight:700;color:#c9d2ea}
+.shade-left{position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,12,29,.8) 0%,rgba(7,12,29,.35) 45%,rgba(7,12,29,0) 65%)}
+.s7-title{position:absolute;left:110px;top:150px;text-align:left;font-size:92px}
+.sent.s7-first{left:110px;margin-left:0;width:auto;top:auto;bottom:130px;flex-wrap:nowrap}
+.s8-head{position:absolute;top:60px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:20px}
+.callout{position:absolute;font-size:40px;font-weight:700;line-height:1.25;background:rgba(10,17,40,.82);border:3px solid #22d3ee;border-radius:20px;padding:18px 26px;left:230px;top:330px}
+.callout.c2{left:auto;right:120px;top:360px;border-color:#ff7a1a}
+.ring{position:absolute;left:1015px;top:520px;width:380px;height:230px;border:8px solid #ff7a1a;border-radius:30px;box-shadow:0 0 50px rgba(255,122,26,.6)}
+.s8-diag{padding-top:120px}
 .venn{position:absolute;top:50%;left:50%;width:0;height:0}
 .circ{position:absolute;width:520px;height:520px;border-radius:50%;left:-260px;top:-190px;display:flex;align-items:center;font-size:48px;font-weight:900;line-height:1.15}
 .c1{background:rgba(255,122,26,.28);border:5px solid #ff7a1a;justify-content:flex-start;padding-left:70px}
@@ -350,8 +443,8 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#0a1128}
 .slide [id]{opacity:0}
 #s5-scale,#s5-l,#s5-r,#s5-life{opacity:0}
 .tokens .tag,.tokens .tk,.tokens .plus,.tokens .sub,.loop .tag{opacity:0}
-#s4 .side .tag,#s8-arr .lbl{opacity:0}
-#s6-cards,#s8-arr,#s9-venn,#s3-loop,#s5-tok,#s7-abs,#s4-msg,#s4-typed,#s4-mid{opacity:1}
+#s8-arr .lbl{opacity:0}
+#s6-cards,#s8-arr,#s8-diag,#s8-head,#s9-venn,#s3-loop,#s5-tok,#s7-abs,#s4-phone,#s4-compose,#s4-caret,#s4 .k{opacity:1}
 """
 
 html = f"""<!doctype html>
