@@ -25,7 +25,7 @@ Reference build: `igotchu-test/` (Script 3). `build.py` generates the HyperFrame
    - In-slide reveal times (`cues.json`) are estimated from where each phrase sits in the text. For exact timing, transcribe with `creative_transcribe_audio` to get word timestamps. Always do this for captions.
 5. **Composition (HyperFrames).** Put one `<section class="clip">` per slide in `video/index.html`, with GSAP tweens at absolute times. See "HyperFrames notes".
 6. **Check.** Run `npx hyperframes lint .`, then `npx hyperframes snapshot . --at <times> --no-end --describe false`. **Look at the contact sheet** before rendering, and fix anything clipped, overlapping, empty or unreadable.
-7. **Render.** Run `npx hyperframes render -q standard -f 30 -w 4 -o out.mp4` in the background. It takes about 3 minutes for a 4-minute video. Send the MP4 with `SendUserFile`.
+7. **Render.** Run `npx hyperframes render -q standard -f 30 -w 4 -o out.mp4` in the background. It takes about 3 minutes for a 4-minute video. Send the MP4 with `SendUserFile`, which has a **30 MB limit**. Illustration-heavy renders run about 50 MB, so shrink them first with `ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 25 -c:a copy -movflags +faststart out.mp4` (about 18 MB with no visible loss). If the render fails with "Failed to run ffmpeg -version", run it again. It was a one-off glitch.
 
 ## Required in every video (retention checklist)
 
