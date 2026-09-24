@@ -1,0 +1,52 @@
+[
+ {
+  "n": 1,
+  "cue": "A lock screen. Text from Mom: \"Call me when you get a sec.\" No emoji.",
+  "text": "Your mom texts you: \"Call me when you get a sec.\" No emoji, no \"love you\", just that. And your brain has already written the next five minutes of your life. Somebody's sick, or you forgot a birthday. You've seen that exact text before, and your brain guessed what usually comes next. That's pretty much how ChatGPT works."
+ },
+ {
+  "n": 2,
+  "cue": "The same text, now ending with a party emoji",
+  "text": "Same text, but now she adds a party emoji. Nobody's sick. Somebody's engaged. One emoji flipped every guess you were about to make. That's the problem ChatGPT solves all day: given everything written so far, what probably comes next? And somehow, that same trick writes working code. Let's take it apart."
+ },
+ {
+  "n": 3,
+  "cue": "A chat reply building one chunk at a time, candidate words with bars above it",
+  "text": "Most people assume it looks your question up somewhere. It doesn't. There's no answer sheet in there. It predicts the reply one small chunk at a time, sticks that chunk on the end, and predicts again. If you see it searching the web and showing links, that's an extra step bolted on top. Underneath, it's still this. The chunks are called tokens, bits of words, but \"word\" is close enough. A normal answer goes around that loop a few hundred times. When the text streams in on your screen, you're watching it happen."
+ },
+ {
+  "n": 4,
+  "cue": "Phone keyboard, middle suggestion tapped again and again. On screen: PAUSE AND TRY IT",
+  "text": "You've got a tiny version of this in your pocket. Pause the video, open any chat, type \"I'm going to\" and keep tapping the middle suggestion. Mine gave me: \"I'm going to go get some lunch now so I'll call when I'm on the road I have a couple things I have...\" and it just kept going. Tell me in the comments what yours said."
+ },
+ {
+  "n": 5,
+  "cue": "Zoom out from the phone to rows of server halls",
+  "text": "When someone cracked open Apple's keyboard model, it had about thirty-four million settings. The ones behind ChatGPT are likely thousands of times bigger, and they learned from more writing than a person could read in thousands of lifetimes. So the guesses get really, really good. Good enough that it stops feeling like guessing."
+ },
+ {
+  "n": 6,
+  "cue": "\"So how does autocomplete write working code?\"",
+  "text": "Which raises the obvious question. If it's only guessing, how does it do real work? For me it started small. It would clean up the grammar in my messages. Then I started pasting in code, and it would spot the wrong variable or the broken data structure. Then it got big. In twenty twenty-five, AI built on this same next-word engine, plus a lot of extra training to reason, sat the International Math Olympiad, under the same time limits as the kids. Google's wrote full proofs in plain English and scored right at the gold-medal line, confirmed by the Olympiad's own graders. Plenty of kids still beat it, but come on. Autocomplete did that. So is it just autocomplete? At the basic level, yes. It's just not the kind you think."
+ },
+ {
+  "n": 7,
+  "cue": "Group chat. \"Someone ate my leftovers. Jay was the only one home, and Jay swears he hates pasta. So it was...\"",
+  "text": "Finish this one. \"Someone ate my leftovers. Jay was the only one home, and Jay swears he hates pasta. So it was...\" It was Jay. It's always Jay. To get there you had to follow the clues and catch the lie. Nobody wrote detective rules into ChatGPT. Getting really good at the next word forced it to pick that up. Code is the same game: keep track of what every variable is holding, the way you kept track of Jay."
+ },
+ {
+  "n": 8,
+  "cue": "Inside the model, the rhyme word \"rabbit\" lights up before the line is written",
+  "text": "In twenty twenty-five, researchers at Anthropic looked inside one of these models while it wrote a rhyming poem. Before it wrote the second line, it had already picked the word it wanted to land on, \"rabbit\", and built the line to get there. So it writes one piece at a time, but inside, it can be planning ahead. Geoffrey Hinton, one of the godfathers of AI, put it this way: \"to predict the next word, you have to understand the sentences.\" Others, like the linguist Emily Bender, say it's closer to a very fancy parrot. Smart people are still fighting about this one, so pick your side in the comments."
+ },
+ {
+  "n": 9,
+  "cue": "A raw model rambling like a forum post, then a helpful reply",
+  "text": "One more piece. Straight out of training, a model doesn't answer you. It just keeps writing. Ask \"what's a good dinner tonight?\" and it might carry on like a forum post: \"...asking for my picky five-year-old. Edit: thanks everyone!\" So the companies train it again, on good answers that real people wrote and rated, until it acts like an assistant instead of a comment section."
+ },
+ {
+  "n": 10,
+  "cue": "A book cover, \"Tidewater Dreams, Isabel Allende\", with a question mark stamped on it",
+  "text": "Which leaves one catch. It's predicting what a good answer sounds like, and most of the time that's also what's true. But in twenty twenty-five, two real newspapers printed a summer reading list with a novel called Tidewater Dreams, by Isabel Allende. It sounds exactly like a book she'd write. It doesn't exist. So here's the whole video in one line. It doesn't look things up. It guesses the next word, really, really well. Next video: why it makes things up with a straight face, and the lawyers, judges and one airline that trusted it anyway. I gotchu."
+ }
+]

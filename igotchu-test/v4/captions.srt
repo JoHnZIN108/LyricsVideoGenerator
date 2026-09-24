@@ -1,0 +1,336 @@
+1
+00:00:00,249 --> 00:00:04,796
+Your mom texts you: "Call me when you get a sec." No emoji,
+
+2
+00:00:04,796 --> 00:00:07,399
+no "love you", just that.
+
+3
+00:00:07,399 --> 00:00:10,791
+And your brain has already written the next five minutes of your life.
+
+4
+00:00:10,791 --> 00:00:13,925
+Somebody's sick, or you forgot a birthday.
+
+5
+00:00:13,925 --> 00:00:15,957
+You've seen that exact text before,
+
+6
+00:00:15,957 --> 00:00:19,045
+and your brain guessed what usually comes next.
+
+7
+00:00:19,045 --> 00:00:22,328
+That's pretty much how ChatGPT works. Same text,
+
+8
+00:00:22,328 --> 00:00:28,214
+but now she adds a party emoji. Nobody's sick. Somebody's engaged.
+
+9
+00:00:28,214 --> 00:00:31,782
+One emoji flipped every guess you were about to make.
+
+10
+00:00:31,782 --> 00:00:35,044
+That's the problem ChatGPT solves all day:
+
+11
+00:00:35,044 --> 00:00:39,285
+given everything written so far, what probably comes next?
+
+12
+00:00:39,285 --> 00:00:43,834
+And somehow, that same trick writes working code. Let's take it apart.
+
+13
+00:00:44,678 --> 00:00:48,054
+Most people assume it looks your question up somewhere. It doesn't.
+
+14
+00:00:48,054 --> 00:00:49,864
+There's no answer sheet in there.
+
+15
+00:00:49,864 --> 00:00:52,764
+It predicts the reply one small chunk at a time,
+
+16
+00:00:52,764 --> 00:00:56,097
+sticks that chunk on the end, and predicts again.
+
+17
+00:00:56,097 --> 00:00:58,633
+If you see it searching the web and showing links,
+
+18
+00:00:58,633 --> 00:01:02,876
+that's an extra step bolted on top. Underneath, it's still this.
+
+19
+00:01:02,876 --> 00:01:05,676
+The chunks are called tokens, bits of words,
+
+20
+00:01:05,676 --> 00:01:07,422
+but "word" is close enough.
+
+21
+00:01:07,422 --> 00:01:10,664
+A normal answer goes around that loop a few hundred times.
+
+22
+00:01:10,664 --> 00:01:13,788
+When the text streams in on your screen, you're watching it happen.
+
+23
+00:01:14,407 --> 00:01:18,151
+You've got a tiny version of this in your pocket. Pause the video,
+
+24
+00:01:18,151 --> 00:01:19,620
+open any chat,
+
+25
+00:01:19,620 --> 00:01:25,370
+type "I'm going to" and keep tapping the middle suggestion.
+
+26
+00:01:25,370 --> 00:01:26,743
+Mine gave me:
+
+27
+00:01:26,743 --> 00:01:32,237
+"I'm going to go get some lunch now so I'll call when I'm on the road I have a couple things I have..."
+
+28
+00:01:32,237 --> 00:01:35,404
+and it just kept going. Tell me in the comments what yours said.
+
+29
+00:01:36,006 --> 00:01:38,934
+When someone cracked open Apple's keyboard model,
+
+30
+00:01:38,934 --> 00:01:41,946
+it had about 34 million settings.
+
+31
+00:01:41,946 --> 00:01:46,908
+The ones behind ChatGPT are likely thousands of times bigger,
+
+32
+00:01:46,908 --> 00:01:52,417
+and they learned from more writing than a person could read in thousands of lifetimes.
+
+33
+00:01:52,417 --> 00:01:55,405
+So the guesses get really, really good.
+
+34
+00:01:55,405 --> 00:01:58,129
+Good enough that it stops feeling like guessing.
+
+35
+00:01:58,761 --> 00:02:02,407
+Which raises the obvious question. If it's only guessing,
+
+36
+00:02:02,407 --> 00:02:06,471
+how does it do real work? For me it started small.
+
+37
+00:02:06,471 --> 00:02:09,342
+It would clean up the grammar in my messages.
+
+38
+00:02:09,342 --> 00:02:11,262
+Then I started pasting in code,
+
+39
+00:02:11,262 --> 00:02:15,441
+and it would spot the wrong variable or the broken data structure.
+
+40
+00:02:15,441 --> 00:02:21,587
+Then it got big. In 2025, AI built on this same next-word engine,
+
+41
+00:02:21,587 --> 00:02:24,196
+plus a lot of extra training to reason,
+
+42
+00:02:24,196 --> 00:02:26,831
+sat the International Math Olympiad,
+
+43
+00:02:26,831 --> 00:02:29,978
+under the same time limits as the kids.
+
+44
+00:02:29,978 --> 00:02:35,494
+Google's wrote full proofs in plain English and scored right at the gold-medal line,
+
+45
+00:02:35,494 --> 00:02:40,746
+confirmed by the Olympiad's own graders. Plenty of kids still beat it,
+
+46
+00:02:40,746 --> 00:02:47,340
+but come on. Autocomplete did that. So is it just autocomplete?
+
+47
+00:02:47,340 --> 00:02:51,681
+At the basic level, yes. It's just not the kind you think.
+
+48
+00:02:53,033 --> 00:02:58,658
+Finish this one. "Someone ate my leftovers. Jay was the only one home,
+
+49
+00:02:58,658 --> 00:03:04,549
+and Jay swears he hates pasta. So it was..." It was Jay.
+
+50
+00:03:04,549 --> 00:03:06,321
+It's always Jay.
+
+51
+00:03:06,321 --> 00:03:10,351
+To get there you had to follow the clues and catch the lie.
+
+52
+00:03:10,351 --> 00:03:13,761
+Nobody wrote detective rules into ChatGPT.
+
+53
+00:03:13,761 --> 00:03:17,562
+Getting really good at the next word forced it to pick that up.
+
+54
+00:03:17,562 --> 00:03:22,215
+Code is the same game: keep track of what every variable is holding,
+
+55
+00:03:22,215 --> 00:03:23,529
+the way you kept track of Jay.
+
+56
+00:03:24,172 --> 00:03:25,882
+In 2025,
+
+57
+00:03:25,882 --> 00:03:33,118
+researchers at Anthropic looked inside one of these models while it wrote a rhyming poem.
+
+58
+00:03:33,118 --> 00:03:35,200
+Before it wrote the second line,
+
+59
+00:03:35,200 --> 00:03:39,691
+it had already picked the word it wanted to land on, "rabbit",
+
+60
+00:03:39,691 --> 00:03:44,596
+and built the line to get there. So it writes one piece at a time,
+
+61
+00:03:44,596 --> 00:03:49,202
+but inside, it can be planning ahead. Geoffrey Hinton,
+
+62
+00:03:49,202 --> 00:03:52,909
+one of the godfathers of AI, put it this way:
+
+63
+00:03:52,909 --> 00:03:57,325
+"to predict the next word, you have to understand the sentences."
+
+64
+00:03:57,325 --> 00:04:00,349
+Others, like the linguist Emily Bender,
+
+65
+00:04:00,349 --> 00:04:03,626
+say it's closer to a very fancy parrot.
+
+66
+00:04:03,626 --> 00:04:06,467
+Smart people are still fighting about this one,
+
+67
+00:04:06,467 --> 00:04:08,213
+so pick your side in the comments.
+
+68
+00:04:08,868 --> 00:04:13,701
+One more piece. Straight out of training, a model doesn't answer you.
+
+69
+00:04:13,701 --> 00:04:17,552
+It just keeps writing. Ask "what's a good dinner tonight?"
+
+70
+00:04:17,552 --> 00:04:20,853
+and it might carry on like a forum post:
+
+71
+00:04:20,853 --> 00:04:25,975
+"...asking for my picky five-year-old. Edit: thanks everyone!"
+
+72
+00:04:25,975 --> 00:04:28,042
+So the companies train it again,
+
+73
+00:04:28,042 --> 00:04:31,154
+on good answers that real people wrote and rated,
+
+74
+00:04:31,154 --> 00:04:34,666
+until it acts like an assistant instead of a comment section.
+
+75
+00:04:35,286 --> 00:04:37,641
+Which leaves one catch.
+
+76
+00:04:37,641 --> 00:04:40,438
+It's predicting what a good answer sounds like,
+
+77
+00:04:40,438 --> 00:04:44,920
+and most of the time that's also what's true. But in 2025,
+
+78
+00:04:44,920 --> 00:04:50,510
+two real newspapers printed a summer reading list with a novel called Tidewater Dreams,
+
+79
+00:04:50,510 --> 00:04:54,991
+by Isabel Allende. It sounds exactly like a book she'd write.
+
+80
+00:04:54,991 --> 00:04:59,022
+It doesn't exist. So here's the whole video in one line.
+
+81
+00:04:59,022 --> 00:05:03,098
+It doesn't look things up. It guesses the next word, really,
+
+82
+00:05:03,098 --> 00:05:08,259
+really well. Next video: why it makes things up with a straight face,
+
+83
+00:05:08,259 --> 00:05:12,783
+and the lawyers, judges and one airline that trusted it anyway.
+
+84
+00:05:12,783 --> 00:05:13,583
+I gotchu.
+

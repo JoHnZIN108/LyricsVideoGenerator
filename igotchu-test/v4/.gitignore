@@ -1,0 +1,8 @@
+snaps*/
+*.mp4
+sfx/_*.wav
+assets/vo/w/
+render.log
+concat.txt
+video/.hyperframes/
+assets/vo/voiceover.wav

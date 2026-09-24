@@ -7,7 +7,9 @@ description: Make a finished faceless, voiceover YouTube video for the igotchu A
 
 The channel is a faceless AI explainer for beginners: voiceover, animated scenes and concept illustrations. The user doesn't edit. They give a script and approve the result, so the finished video must hold attention on its own. The user is often on a phone, so keep them away from file shuffling.
 
-**Reference build: `igotchu-test/v3/`** (Script 3, v3).
+**Reference build: `igotchu-test/v4/`** (Script 3 v2.1, video v4, built after the 8-expert panel). It has the panel fixes: scene crossovers, a visible camera, a frozen-frame check, a two-pass -14 LUFS master and the cloned voice. `igotchu-test/v3/` is the older build and still holds the Instrument and Patent theme CSS.
+- v4 files: `make_vo.py` (trim, normalize and pause the clips, write `timing.json`), `make_segments.py`, `build_v4.py`, `make_extras.py`, `youtube-extras.md`.
+- The 8 expert reviews and their synthesis are in `igotchu-test/panel/reviews/`.
 - `build_v3.py` generates `video/index.html` and the audio mix from `timing.json`, `slides.json`, `segments.json` and `ds/`.
 - `make_extras.py` writes `captions.srt`.
 - `youtube-extras.md` holds the title, chapters, pinned comment and disclosure.
@@ -32,18 +34,38 @@ Copy this structure for every new video. Its helpers are the reusable kit: `cue(
 1. **Script.** Scripts live in the "igotchu Video Scripts" Claude Doc. Each has `[SLIDE n: cue]` lines followed by the spoken text. Split them into `slides.json` as `{n, cue, text}`. The cue is only a starting idea: designing the actual scene is your job. **Don't change the user's script wording** unless they say yes (they turned down a hook rewrite). Cutting a whole aside they approve is fine.
 2. **Voice (ElevenLabs connector).** Generate **one clip per slide** with `creative_generate_speech` so each slide's timing is exact.
    - Put all clips in one flow (`creative_create_flow` first). Set `generations_count: 1`.
-   - Voice: "Marshel - Casual Storytime Narrator" (`cQYsRVGKMkDmd67zTppv`) on `eleven_multilingual_v2`. The user preferred it over `eleven_v3` with acting tags. `eleven_v4` is locked on the free plan. Switch to the user's cloned voice once they have one.
-   - The free plan allows **2 generations at a time**; extra calls fail, so re-run any that fail. Poll `creative_get_flow_run_status`, then download each `media[].url` right away with curl (signed links expire in 2 h).
+   - **Voice: the user's own clone "Johnson" (`oStMmyqgSXJilnbQGwo3`) on `eleven_v3`, with no acting tags** (tags sounded overdone).
+     - The clone reads slowly (about 146 words a minute), so `make_vo.py` speeds it up to 1.08× with `atempo`, which keeps the pitch. That gives about 158 words a minute; the panel's target is 150–170.
+     - Backup voice: Marshel (`cQYsRVGKMkDmd67zTppv`).
+     - `eleven_v4` is refused ("not authorized") even on the paid plan, although `estimate_only` says it will work.
+   - **Write the voice text the way it's spoken**, and keep captions in written form: "twenty twenty-five" instead of 2025, "thirty-four million" instead of 34M. `slides.json` holds the spoken form so the aligner counts the right characters; `make_extras.py` converts back for captions.
+   - **Designed pauses:** split a slide into two clips where the viewer should think (after "Pause the video…", before "It was Jay"). `make_vo.py` inserts exact silence between them (2.2 s and 1.4 s).
+   - Concurrency: the free plan allows **2 generations at a time** and the current paid plan allows **3**. Extra calls fail with "Too many concurrent requests" (failed runs were still listed with a price), so send 3 at a time and re-run any that fail. Poll `creative_get_flow_run_status`, then download each `media[].url` right away with curl (signed links expire in 2 h).
    - To cut part of a clip, find the sentence break with `silencedetect` (try `-30dB`, `d=0.08–0.12`; the longest pause near the expected spot is the sentence break). Cut there with `-t` and a short fade.
 3. **Illustrations (ElevenLabs connector).** Follow the design system's `illustration-prompts.md` (flat vector, navy, cyan/orange neon, subject in the right 55%, **no text, no faces**). Use `creative_generate_image`, `gpt-image-2`, `generations_count: 1`, about 185 credits each. Download `master_url`.
    - The **free plan caps images per day**. The 4th image was refused with `free_tier_image_limit_reached`.
    - AI video clips cost about 7,300 credits (Veo 3.1 fast, 8 s) or about 1,450 (`ltx-v2-fast`). Reviewers agreed: skip them and animate the illustrations instead.
-4. **Timing, all free.** Pad each clip (0.35 s before, 0.55 s after), join with ffmpeg (loudnorm -16 LUFS), and write `timing.json`. Add about 7 s of hold after the last line for YouTube's end screen.
+4. **Timing, all free.** `make_vo.py` does this step.
+   - Trim each clip's edge silence with `silencedetect` + `atrim`. **Don't** use the `silenceremove,areverse` chain: it hung forever on one clip.
+   - Normalize each clip to -20 LUFS, then pad it (0.15 s before, 0.4 s after).
+   - Add a 5.5 s end-card hold, join the slides, and write `timing.json`.
+   - `make_segments.py` writes speech segments relative to each slide's start.
    - Word timing: run `silencedetect` per clip to get speech segments (`segments.json`). `cue(n, phrase)` aligns the script's phrases (split at punctuation) to those segments with a small DP. It measured accurately on Script 3.
    - **Don't use `creative_transcribe_audio` for timestamps.** It was estimated at 242 credits, **charged 3,021**, and returned plain text with no word times.
 5. **Composition (HyperFrames).** One `<section class="clip scene">` per slide with an inner `.cam` wrapper, and GSAP tweens at absolute times from `cue()`. See "Scene kit" and "HyperFrames notes".
-6. **Sound, free.** Synthesize the SFX with ffmpeg (`v3/sfx/`: pop, click, whoosh, thud, ding; see the build notes). The helpers record events automatically: `pop()` → pop, `land()` → ding, `slam()` → thud, each scene start → whoosh, phone typing and taps → click. The end of `build_v3.py` mixes them under the voice and loudnorms to `<out>/assets/mix.mp3`. A music bed costs about 900 credits with ElevenLabs Music, or use a free YouTube Audio Library track.
-6b. **Optional review.** Before a big redesign, the user likes getting the plan reviewed by 3 parallel Opus subagents with different lenses: retention strategist, motion designer in this stack, and beginner viewer plus producer/budget. Give each one the narration file and contact sheets, combine the results into one plan, and point out any disagreements.
+6. **Sound, free.** v4 fixes:
+   - **Whoosh:** it needs `bandpass=…:t=h:w=1800`. Without `t=h`, w=1800 is read as Q and the whoosh is silent.
+   - **Gains:** thud 0.25 (it was louder than the voice).
+   - **New sounds:** `tick` (a predicted word locks in) and `buzz` (phone vibrates).
+   - **Spacing:** identical sounds at least 0.3 s apart.
+   - **Master:** two-pass `loudnorm` to **-14 LUFS / -1 dBTP** (YouTube's level; the old -16 single pass came out at -17.4).
+   - **Still to do:** a music bed about 20 dB under the voice, which the panel recommends.
+   Synthesize the SFX with ffmpeg (`v3/sfx/`: pop, click, whoosh, thud, ding; see the build notes). The helpers record events automatically: `pop()` → pop, `land()` → ding, `slam()` → thud, each scene start → whoosh, phone typing and taps → click. The end of `build_v3.py` mixes them under the voice and loudnorms to `<out>/assets/mix.mp3`. A music bed costs about 900 credits with ElevenLabs Music, or use a free YouTube Audio Library track.
+6b. **Expert panel (the user asks for this).** Run 8 parallel Opus subagents (`model: "opus"`), each told to **research first** (at least 5 sources on what the best in their field do) and then judge.
+   - The lenses: retention/packaging, scriptwriter, learning scientist, fact-checker, motion designer, art director, timing/sound editor, voice director.
+   - Give them a shared brief (`panel/BRIEF_8.md`), the script, 1-fps timestamped contact sheets of the current render (`ffmpeg … fps=1,drawtext=…,tile=5x4`), 4-fps motion strips of key moments, the build code and the design-system files.
+   - Each writes `panel/reviews/<slug>.md`: score, top 5 fixes with exact lines or specs, a keep list and a bold idea.
+   - Combine the reports into `SYNTHESIS.md`, noting agreements and disagreements.
 7. **Check.** `npx hyperframes lint .` (0 errors), then `npx hyperframes snapshot . --at <2–3 times per slide> --no-end --describe false -o ../snaps`. **Look at every contact sheet**, and fix overlaps, clipping, early or late reveals, and anything unreadable before rendering.
 8. **Render** in the background: `npx hyperframes render -q standard -f 30 -w 4 -o out.mp4`, about 3.5 min. `SendUserFile` has a **30 MB limit**, so re-encode with `-c:v libx264 -preset slow -crf 25 -c:a copy -movflags +faststart` first (about 18 MB). If the render fails with "Failed to run ffmpeg -version", run it again. For all three styles: `for th in neon instrument patent; do THEME=$th python3 build_v3.py; done`, then render each output folder (`video/`, `video_instrument/`, `video_patent/`) one after another, about 4 min each.
 9. **Extras.** Run `make_extras.py` → `captions.srt` (upload as closed captions). Fill in `youtube-extras.md`: title, thumbnail text, chapters from `timing.json`, a pinned comment for any cut aside, and the AI disclosure.
@@ -115,6 +137,20 @@ A visual-metaphor image fades in slowly while pushing in (Ken Burns), and labels
 - When the voice moves on, dim the art to about 0.1 and build the next idea on top.
 
 ## HyperFrames notes (learned the hard way)
+
+- **v4 motion system** (see `build_v4.py`):
+  - **Scene crossovers:** each section starts 0.35 s early on alternating tracks, and its `.tr` wrapper slides in (`x:90→0`, `igOut`) while the old one exits (`x:-70`, `igIn`). The screen is never blank between slides.
+  - **Camera:** `.cam` pushes `scale 1→1.05, x→-24` with `sine.inOut` on every scene; the old 3% push was invisible.
+  - **Sway:** `sway()` adds a ±0.6° handheld drift on phones and chats.
+  - **Entrances and emphasis:** `settle()` (`igSettle`, no overshoot) replaces most bouncy pops. `pulse()` emphasizes a stressed word.
+  - **Frozen-frame check:** the build prints any stretch over 3.2 s with no new motion. Fix every one, with `pulse`/emphasis on the spoken word, before rendering.
+- **The `.scene [id]{opacity:0}` trap:** any element with an id that is only animated with scale, x or className (bar fills, markers, strike-through text, highlight rows, AI reply bubbles) stays invisible. Whitelist it in CSS, e.g. `.bar i[id]{opacity:1}`.
+- **A `!important` opacity** on a scene class blocks later GSAP fades. Set the starting state with `tl.set(...,0)` instead.
+- **Class-name clashes across scenes** (a `.me` tile in slide 5 vs `.gm.me` chat bubbles in slide 7) break layouts silently. Use scene-specific names.
+- **Code blocks:** `white-space:pre` on the container turns the HTML's own newlines into blank lines. Put `pre` on each line's div instead.
+- **Blinking carets:** `blink()` needs `immediateRender:false`, or the caret shows before its words.
+- **Emoji:** use `font-family:"Noto Color Emoji"` plus `@font-face{font-family:"Noto Color Emoji";src:local("Noto Color Emoji")}` (lint requires the declaration).
+- **Screenshots of the user's phone:** crop to just the part that matters. The full screenshot showed this chat and the app's model name.
 
 - **cdn.jsdelivr.net and Google Fonts are blocked here.** Copy `gsap`, `CustomEase` and `@fontsource/{inter,archivo-black}` woff2 files into `video/assets/`.
 - Rendering needs FFmpeg (`apt-get install -y ffmpeg`) and Chromium: `HYPERFRAMES_BROWSER_PATH=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell`, `HYPERFRAMES_NO_TELEMETRY=1`.
