@@ -1,0 +1,1779 @@
+Script 3: ChatGPT is just guessing the next word
+
+Title: ChatGPT Is Just Guessing. Here's Why That Works. Thumbnail text: IT'S GUESSING Short to cut: Slides 2 and 3, the finish-the-sentence game (about 40 seconds) Length: about 700 words, around 5 minutes
+
+[SLIDE 1: "ChatGPT doesn't know anything."]
+
+ChatGPT doesn't actually know anything. It's guessing. One word at a time. And it's scary good at it.
+
+By the end of this video you'll understand what's actually happening when you hit enter. And there's a question that'll bug you halfway through. If it's only guessing, how can it solve problems? We'll get there.
+
+[SLIDE 2: "Finish the sentence" game. "Peanut butter and ___"]
+
+Let's play a game. Finish this sentence in your head.
+
+Peanut butter and...
+
+You said jelly. Or jam, depending on where you live. You didn't look it up. You've just seen those words together so many times that your brain filled the gap.
+
+[SLIDE 3: "The capital of France is ___"]
+
+Another one. The capital of France is...
+
+Paris. Obviously.
+
+That is basically the whole trick. An AI like ChatGPT looks at everything written so far and asks one question. What comes next? Then it adds that piece, and asks again. And again. Hundreds of times, super fast, until you've got a full answer.
+
+[SLIDE 4: Phone keyboard with autocomplete suggestions]
+
+If that sounds familiar, it should. Your phone does a tiny version of this. Try it after this video. Type "I'm going to" and keep tapping the middle suggestion. You'll get something like, "I'm going to be there in a few minutes and I will be there in a few minutes and..."
+
+It's nonsense. Your phone is guessing too, it's just really bad at it.
+
+[SLIDE 5: Tiny phone brain vs giant library]
+
+So what's the difference between your phone and ChatGPT?
+
+Scale. Your phone learned from your texts. Models like ChatGPT learned from an enormous amount of text. Books, websites, articles, forums, code. More reading than any human could do in thousands of lifetimes.
+
+And one small correction on my "one word at a time" line. It actually works in little chunks called tokens. Sometimes a whole word, sometimes half a word. But "word" is close enough for us.
+
+[SLIDE 6: "Wait... then how does it solve problems?"]
+
+Okay, the question that's been bugging you. If it's only guessing the next word, how can it write working code, or explain a tax form, or help plan a wedding?
+
+Honestly, when I first learned this as a software engineer, I was a little disappointed. That's it? Autocomplete? Then I thought about it more and... no, it's actually wild.
+
+[SLIDE 7: "To guess well, you have to understand a lot"]
+
+Here's the thing. To guess the next word really, really well, across every topic on the internet, you have to pick up a lot along the way.
+
+Think about finishing this sentence. "She dropped the glass, and it..." You need to know glasses break. "The recipe needs three eggs, but I only have two, so I..." Now you need a bit of reasoning. To predict well, the model had to soak up grammar, facts, patterns of logic, even how people explain things to each other.
+
+Nobody programmed those rules in. They got absorbed, because they help with the guessing.
+
+[SLIDE 8: "Step 2: Taught manners"]
+
+There's one more step. After all that reading, the model gets trained again to be a good helper. People show it examples of great answers, rate its responses, and it learns to be helpful instead of just continuing random internet text.
+
+That's the difference between a raw text predictor and the polite assistant you chat with.
+
+[SLIDE 9: "Guessing ≠ Knowing"]
+
+But here's the part to remember. Even after all that, it's still predicting what sounds right. Not looking it up in some giant database of facts.
+
+Most of the time, what sounds right and what is right are the same thing. The capital of France really is Paris.
+
+But sometimes they're not. And when they're not, it'll give you the wrong answer in the exact same confident voice as the right one.
+
+[SLIDE 10: "Next: Why AI lies with a straight face"]
+
+Which is exactly what the next video is about. Why AI makes things up, why it sounds so sure when it does, and how you can catch it every time.
+
+I gotchu.
+
+NOTE: Personalize: Slide 4 works best if you screen-record your own phone doing the autocomplete game and show the ridiculous result.
+
+Script 4: Why AI lies with a straight face
+
+Title: Why AI Makes Things Up (And How to Catch It) Thumbnail text: IT MADE THIS UP Short to cut: Slides 1 and 2, the lawyer story (about 35 seconds) Length: about 720 words, around 5 minutes
+
+[SLIDE 1: A fake-looking court document with a big red stamp: "DOES NOT EXIST"]
+
+In 2023, a lawyer in New York handed a judge a legal document packed with court cases. Real-sounding names, dates, quotes from the judges.
+
+The problem? Several of those cases never existed. ChatGPT made them up. And the lawyers got fined.
+
+So why does AI do this? And how do you make sure it never happens to you? Let's go.
+
+[SLIDE 2: "It's not lying. It doesn't know it's wrong."]
+
+First, a quick fix to the title. AI isn't really lying. Lying means you know the truth and hide it.
+
+AI doesn't know it's wrong. That's actually worse, in a way. Because a liar sometimes looks nervous. AI just... doesn't.
+
+The official name for this is hallucination. When AI gives you something that sounds confident and is simply false.
+
+[SLIDE 3: "Remember: it's guessing what comes next"]
+
+If you watched my last video, you already know the reason. AI writes by guessing what word comes next, based on patterns from everything it read.
+
+It's predicting what sounds right. Not checking what is right.
+
+[SLIDE 4: Court case format: "Name v. Name (Year)" with blanks]
+
+Now go back to the lawyer. A court case citation has a shape. Two names, a "v" in the middle, a year, a court. The AI has seen thousands of those.
+
+So when you ask for cases that support your argument, it knows exactly what a case looks like. It can fill in the shape perfectly. What it can't always do is make sure the thing inside the shape is real.
+
+It's like... you know when someone tells a story at a party and they're so smooth you just believe it? Right format, right details, right tone. Doesn't mean it happened.
+
+[SLIDE 5: "Why doesn't it just say 'I don't know'?"]
+
+So why doesn't it just say "I don't know"?
+
+Partly because it was trained to be helpful. Giving an answer feels more helpful than not giving one. Newer AI models are getting better at admitting when they're unsure. But it still happens. A lot.
+
+And it's done it to me. I'm a software engineer, and AI has confidently suggested code that uses a feature that sounds perfect... and doesn't exist. Looked completely normal. Just wasn't real.
+
+[SLIDE 6: "The danger zones"]
+
+Here's the useful part. AI isn't equally likely to make stuff up about everything. There are danger zones.
+
+Exact numbers and statistics. Quotes, anything in quotation marks. Sources, links, book titles, court cases. And niche stuff, like a small business, a local rule, a person who isn't famous.
+
+Notice the pattern? The rarer or more specific something is, the less the AI saw it during training. So the more it guesses.
+
+Ask it why the sky is blue, you're fine. Ask it what your town council decided last March, be very careful.
+
+[SLIDE 7: "How to catch it"]
+
+So how do you catch it?
+
+First, if it gives you a source, open the source. Don't just see a link and trust it. Click it. Check it says what the AI said it says. Honestly, this one check would've saved that lawyer.
+
+Second, use the search option when facts matter. Most AI apps can now look things up on the web and show you where they got it. Way safer than answering from memory.
+
+[SLIDE 8: "The fresh-chat trick"]
+
+And here's a trick I like. Open a brand new chat and ask the exact same question.
+
+If it's a real fact, you'll usually get the same answer. If it's made up, the details often change. Different dates, different names. When the story keeps changing... it was never a real story.
+
+[SLIDE 9: "Use it for thinking. Check it for facts."]
+
+None of this means AI is useless. It's brilliant for brainstorming, explaining, drafting, organizing your thoughts. Stuff where "sounds right" is good enough.
+
+The rule is simple. Use it for thinking. Check it for facts. Especially when money, health or legal stuff is involved.
+
+[SLIDE 10: "Next: Why AI forgets what you told it"]
+
+Next video, another thing that confuses everyone. You tell the AI something important at the start of a long chat, and twenty messages later, it's gone. Like it never happened. There's a real reason for that, and a simple fix.
+
+I gotchu.
+
+NOTE: Personalize: Only keep the slide 5 line about AI suggesting code that doesn't exist if it's true for you. If not, swap in your own moment of catching AI being wrong.
+
+NOTE: Fact note: The lawyer story is the 2023 Mata v. Avianca case. The two lawyers and their firm were fined $5,000. Worth a quick search to add a screenshot of a news headline for slide 1.
+
+Script 5: Why AI forgets what you told it
+
+Title: Why AI Forgets What You Told It (Simple Fix) Thumbnail text: IT FORGOT ME? Short to cut: Slides 3 and 4, the "it rereads everything" reveal (about 45 seconds) Length: about 700 words, around 5 minutes
+
+[SLIDE 1: A chat bubble: "I'm vegetarian." Then 20 messages later: "Try this chicken recipe!"]
+
+You tell the AI something important right at the start. Twenty messages later, it acts like you never said it.
+
+It's not ignoring you. It's running out of whiteboard.
+
+By the end of this, you'll know exactly why it happens, and the simple fixes I actually use. But first, something that surprises almost everyone.
+
+[SLIDE 2: "AI doesn't remember your conversation."]
+
+The AI doesn't remember your conversation. At all.
+
+I know. It feels like it does. It answers your follow-up questions, it refers back to stuff you said. So how?
+
+[SLIDE 3: Animation: the whole chat gets sent again with each new message]
+
+Here's what actually happens. Every single time you hit send, the app takes the entire conversation, every message from the very top, and hands it to the AI again. Fresh.
+
+The AI reads the whole thing, top to bottom, writes the next reply... and then forgets it all. Until you send another message, and it reads everything again from scratch.
+
+It's like a new person walking into the room each time, reading the full chat log really fast, and replying like they were there the whole time.
+
+[SLIDE 4: A whiteboard filling up with writing]
+
+Now here's where the whiteboard comes in.
+
+There's a limit to how much the AI can read at once. It's called the context window. Think of it as a whiteboard. Everything in your chat has to fit on it.
+
+Short chat? Loads of room. But keep going, paste in a long document, a few more back and forths, and the whiteboard fills up.
+
+[SLIDE 5: Oldest writing on the whiteboard getting erased]
+
+When it's full, something has to give. Depending on the app, the oldest messages get wiped off. Or squished into a short summary, and the details get lost in the squishing.
+
+And guess what's at the top of the whiteboard. Your very first message. The one where you said you're vegetarian.
+
+[SLIDE 6: "Lost in the middle"]
+
+There's a sneakier version too. Even when everything fits, AI tends to pay the most attention to the start and the end of a long conversation. Stuff buried in the middle can kind of... fade. Researchers have a name for this. Lost in the middle.
+
+At work, as a software engineer, this is honestly one of the first things you run into building anything with AI. You can't just throw everything at it and hope. You have to decide what goes on the whiteboard.
+
+[SLIDE 7: "But my app remembers my name!"]
+
+Quick side note, because someone will ask. Some apps now have a memory feature, where they remember things about you across different chats.
+
+That's a separate system. The app saves little notes about you and slips them onto the whiteboard at the start of each chat. Useful. But it's still the same whiteboard, with the same limit.
+
+[SLIDE 8: "The fixes"]
+
+Okay. The fixes.
+
+New topic, new chat. If you've been planning a holiday for an hour and now want help with your CV, open a fresh chat. Clean whiteboard, better answers.
+
+Put the important stuff in one message. Instead of dropping details across twenty messages, write one short brief. Who you are, what you want, the rules. Something like, "I'm vegetarian, cooking for two, I hate washing up."
+
+[SLIDE 9: "The summary trick"]
+
+And my favorite. When a chat gets long and the answers start getting weird, ask it, "summarize everything important from this conversation." Copy that summary. Open a new chat. Paste it in.
+
+You just wiped the whiteboard and rewrote only the stuff that matters. The answers get sharp again. Almost every time.
+
+[SLIDE 10: "It's not forgetting you. It's running out of room."]
+
+So next time the AI forgets something, don't get annoyed. It's not ignoring you. It's rereading everything, every time, on a whiteboard that's only so big.
+
+[SLIDE 11: "Next: How AI agents use tools"]
+
+Next video, we go back to agents. Because an AI that can only read and write is one thing. An AI that can use tools, search the web, check your calendar, send an email, that's a whole different animal. I'll show you how that actually works.
+
+I gotchu.
+
+NOTE: Personalize: The slide 6 line about running into this at work is written to be general. Add a real, non-confidential example if you have one.
+
+Script 6: How AI agents use tools
+
+Title: AI Can't Click Anything. So How Do Agents Do Stuff? Thumbnail text: IT CAN'T CLICK Short to cut: Slides 3 to 5, the room-with-a-slot analogy (about 50 seconds) Length: about 700 words, around 5 minutes
+
+[SLIDE 1: "AI can't click anything."]
+
+Here's something most people don't realize. AI can't actually click anything. It can't open your email, check the weather or book a table. On its own, all it can do is write text.
+
+So how are AI agents doing all of that right now? By the end of this video you'll know exactly how. And there's one question you should always ask before letting an agent use tools for you. I'll give you that at the end.
+
+[SLIDE 2: "Remember: it reads text, it writes text"]
+
+If you've been watching this series, you know the basics. AI takes in text and guesses what comes next. Text in, text out.
+
+That's it. No hands. No mouse. No internet, unless someone gives it one.
+
+[SLIDE 3: Illustration: a figure in a small room, one slot in the door]
+
+So picture this. The AI is a really smart person locked in a room. No windows, no phone. Just one little slot in the door.
+
+You slide in a note. "What's the weather in Lagos tomorrow? Should I bring an umbrella?"
+
+The person inside is smart, but they have no idea about tomorrow's weather. They're in a room.
+
+[SLIDE 4: The note going out through the slot: "WEATHER: Lagos, tomorrow"]
+
+But now imagine there's a helper outside the door, and a list taped to the wall inside. The list says, here are the things the helper can do for you. Check the weather. Search the web. Look at the calendar.
+
+So instead of guessing, the person writes a special note. "Weather tool. Lagos. Tomorrow." And slides it out.
+
+[SLIDE 5: A note coming back in: "Rain, 80% chance"]
+
+The helper runs off, checks the weather, and slides back the answer. "Rain. Eighty percent chance."
+
+Now the person inside reads that and writes back to you. "Yeah, bring an umbrella."
+
+That's tool use. The AI never touched the weather app. It just wrote a very specific request, and the app it lives in did the actual work.
+
+[SLIDE 6: "The loop: Think → Ask for a tool → Read the result → Repeat"]
+
+And here's where it becomes an agent. It doesn't stop at one note.
+
+Say you ask it to find a free evening next week and book dinner. It checks your calendar. Reads the result. Okay, Thursday's free. Then it searches for restaurants. Reads that. Then it... wait, actually, a good agent does one more thing here. It checks back with you. "Found a place for Thursday at seven. Want me to book it?"
+
+Think, ask for a tool, read what comes back, decide the next step. Over and over until the job's done. That loop is the engine inside every agent.
+
+[SLIDE 7: Plug icons connecting to apps]
+
+Quick bonus, because you might hear this word. MCP.
+
+As a software engineer, this is one of the parts I find genuinely exciting. Connecting tools used to be custom work every single time. MCP is basically a standard plug. Like how any USB device works with any laptop. It lets AI apps connect to all kinds of tools in the same way.
+
+You don't need to know how it works. Just know that when an app says it "supports MCP," it means it can plug into more tools.
+
+[SLIDE 8: "Tools = permissions"]
+
+Okay. The question I promised you.
+
+Before you let an agent use tools, ask: what can it do without asking me first?
+
+Because every tool is a permission. Reading your calendar is pretty harmless. Sending emails as you, spending money, deleting files, that's a different level.
+
+Good agents look things up freely but stop and check before anything you can't undo. If an app doesn't make that clear, don't hand it the keys.
+
+[SLIDE 9: Back to the room: "Smart brain + helper + list of tools"]
+
+So next time you see an AI booking flights or answering your emails, picture the room. A smart brain that can't touch anything, a helper outside the door, and a list of what that helper is allowed to do.
+
+The brain decides. The tools do.
+
+[SLIDE 10: "Next: Anatomy of a good prompt"]
+
+Next video, we go back to the thing you type into the box. Because the difference between a useless AI answer and a brilliant one is usually four small parts in your message. I'll show you all of them.
+
+I gotchu.
+
+Script 7: Anatomy of a good prompt
+
+Title: Anatomy of a Good Prompt: The 4 Parts Most People Skip Thumbnail text: YOU'RE USING 1 OF 4 Short to cut: Slide 8, the "ask me questions first" trick (about 35 seconds) Length: about 690 words, around 5 minutes
+
+[SLIDE 1: "ANATOMY OF A PROMPT" in your series style, four empty colored blocks]
+
+The difference between a useless AI answer and a brilliant one is usually four small parts in your message. Most people only use one of them.
+
+We're going to build a prompt from scratch, one block at a time, and watch the answer get better with every block. And at the end there's a trick that basically writes the prompt for you.
+
+[SLIDE 2: The bad prompt: "Write a birthday message for my mum."]
+
+Here's where most people start. "Write a birthday message for my mum."
+
+And you get back something like, "Happy birthday to the most amazing mother in the world! Your love and kindness light up every room."
+
+It's fine. It's also a greeting card from a petrol station. It could be for anyone's mum. That's because you only gave it one block.
+
+[SLIDE 3: Block 1 lights up: "THE TASK"]
+
+Block one. The task. What you want it to do.
+
+"Write a birthday message" is a task. Everybody gets this block. It's the other three that make the magic.
+
+[SLIDE 4: Block 2 lights up: "THE CONTEXT"]
+
+Block two. The context. The stuff that's in your head that the AI can't see.
+
+"My mum's turning sixty. She just retired after thirty years as a nurse. She's funny, a bit sarcastic, and she'd cringe at anything too soppy."
+
+Now look at the answer. Suddenly it's about her. The nursing, the retirement, the sense of humor. Same AI. You just let it into your head.
+
+[SLIDE 5: Block 3 lights up: "THE RULES"]
+
+Block three. The rules. Length, tone, what to avoid.
+
+"Keep it under fifty words. It's going in a card, so no emojis. Don't say 'queen.'"
+
+You'd be surprised how much the AI wants to call your mum a queen. The rules stop the stuff you'd delete anyway.
+
+[SLIDE 6: Block 4 lights up: "WHAT GOOD LOOKS LIKE"]
+
+Block four. Show it what good looks like.
+
+This is the one almost nobody uses, and it's probably the most powerful. "Here's something I wrote her last year that she loved," and paste it in. Or, "make it sound like how I text, like this."
+
+An example beats a description every time. Telling it "be casual" is vague. Showing it how you actually talk... that's a blueprint.
+
+[SLIDE 7: Before and after side by side, all four blocks lit]
+
+Put them together, and compare. The first message could be for anyone. The new one could only be for your mum.
+
+That's the real test of a good prompt, by the way. Could the answer only be for you? If it could be for anyone, you're missing a block. Usually context.
+
+And as someone who works with AI every day as a software engineer, I'll be honest. I still catch myself writing lazy one-block prompts. Then I wonder why the answer is lazy.
+
+[SLIDE 8: "The cheat code: Ask me questions first"]
+
+Okay, the trick I promised. If you don't know what context to give, make the AI figure it out.
+
+Add this line to any prompt. "Before you answer, ask me any questions you need."
+
+Instead of guessing, it'll come back with something like, "How old is she turning? What's your relationship like? Is this funny or heartfelt?" You answer, and boom. All four blocks, filled in, and you barely had to think.
+
+[SLIDE 9: Four blocks recap, quick]
+
+So. The task. The context. The rules. And an example of what good looks like.
+
+You don't need all four every time. Asking what time it is in Tokyo doesn't need your life story. But anything personal, anything you'd actually send to a real person, give it the blocks.
+
+[SLIDE 10: "Next: Why AI gives a different answer every time"]
+
+Quick thing you might notice now. Ask the same prompt twice and you get two different answers. Is that a bug? Nope. Next video, I'll show you why AI rolls the dice on purpose.
+
+I gotchu.
+
+NOTE: Language note: "Mum" and "petrol station" are British. If your audience is mostly American, swap to "mom" and "gas station."
+
+Script 8: Why AI answers change every time
+
+Title: Why AI Gives a Different Answer Every Time Thumbnail text: IT ROLLS DICE Short to cut: Slides 3 and 4, the weighted dice (about 40 seconds) Length: about 690 words, around 5 minutes
+
+[SLIDE 1: Same question, two different answers side by side]
+
+Ask AI the exact same question twice, and you'll get two different answers.
+
+That's not a bug. It's rolling dice. On purpose.
+
+By the end of this video you'll know why it does that, why that's actually a good thing, and when it should make you suspicious.
+
+[SLIDE 2: "The cat sat on the ___"]
+
+Quick reminder from earlier in the series. AI writes by guessing the next word, over and over.
+
+But here's the part I skipped. It doesn't come up with just one guess. It comes up with a whole list of possible next words, and how likely each one is.
+
+"The cat sat on the..." Mat is very likely. Floor, pretty likely. Sofa, sure. Moon, very unlikely. But not impossible.
+
+[SLIDE 3: Weighted dice graphic: mat 60%, floor 20%, sofa 15%, other 5%]
+
+Now it has to pick one. And this is the moment everything changes.
+
+It doesn't always pick the top word. Instead, imagine a weighted dice. "Mat" takes up most of the sides. "Floor" gets a few. "Moon" gets a tiny sliver. Then it rolls.
+
+Most of the time you get "mat." Sometimes "sofa." And very, very occasionally, the moon.
+
+[SLIDE 4: A sentence branching into different paths]
+
+And because it does this for every single word, one different roll early on sends the whole answer down a different path. Different first sentence, different second sentence, completely different answer by the end.
+
+That's why you never get the exact same reply twice.
+
+[SLIDE 5: "Why not always pick the top word?"]
+
+Okay, fair question. Why not just always pick the most likely word? Wouldn't that be more accurate?
+
+Remember the phone autocomplete game from my ChatGPT video? You keep tapping the middle suggestion and get, "I'm going to be there in a few minutes and I will be there in a few minutes and..."
+
+That's what always picking the top word does. It gets stuck in loops. It sounds flat and robotic. A little bit of randomness is what makes the writing sound natural. Almost human.
+
+[SLIDE 6: A dial from "Predictable" to "Wild"]
+
+And there's actually a dial for this. It's called temperature.
+
+Turn it low, and the AI plays it safe. Picks the likely words, gives similar answers every time. Turn it up, and it takes more risks. More creative... and at the top of the dial, honestly, more unhinged.
+
+As a software engineer, when I build things with AI, this is one of the first settings I think about. Pulling facts out of a document? Low. Brainstorming names for something? Higher.
+
+In the normal chat apps you use, you usually can't see this dial. The company has already set it somewhere in the middle for you.
+
+[SLIDE 7: "Other reasons answers change"]
+
+There are a couple of other reasons too, just so you know. If the app has memory turned on, it knows different stuff about you each time. If it searched the web, the search results might have changed. And the companies update their models, so the AI you talk to next month isn't exactly the one you talk to today.
+
+[SLIDE 8: "When different is GOOD"]
+
+So how do you use this?
+
+For anything creative, the randomness is your friend. Don't like the answer? Hit regenerate. You're just rolling the dice again. Ideas, names, captions, jokes... roll a few times and pick your favorite.
+
+[SLIDE 9: "When different is a WARNING"]
+
+But for facts, flip it around. A real fact should come out the same way every time. So if you ask the same factual question in a fresh chat and the answer keeps changing, the dates, the numbers, the names... that's a red flag. It's rolling dice on something that shouldn't have any dice.
+
+That's the fresh-chat trick from my video on why AI makes things up. Now you know why it works.
+
+[SLIDE 10: "Next: How AI learned everything"]
+
+So we know how AI picks its words. But where did it learn all those words in the first place? Next video, how AI learned basically everything, in five minutes.
+
+I gotchu.
+
+Script 9: How AI learned everything
+
+Title: How AI Learned Everything (In 5 Minutes) Thumbnail text: ONE GAME. BILLIONS OF TIMES. Short to cut: Slides 3 to 5, the knobs analogy (about 50 seconds) Length: about 710 words, around 5 minutes
+
+[SLIDE 1: "Nobody taught it English."]
+
+Nobody sat down and taught ChatGPT English. Or cooking. Or coding. Or how to write a breakup text.
+
+It learned all of it by playing one simple game. Billions and billions of times.
+
+By the end of this video you'll understand how AI actually learns. And why it has no idea what happened last week.
+
+[SLIDE 2: Stage 1: "Read everything" with a mountain of books and web pages]
+
+Stage one. Gather the reading material.
+
+AI companies collect an enormous amount of text. Websites, books, articles, forums, code, encyclopedias. So much text that if you tried to read it yourself, you'd need thousands of lifetimes. And then some.
+
+But reading isn't learning. So what do they actually do with it?
+
+[SLIDE 3: Stage 2: "The game" with a sentence and a hidden next word]
+
+Stage two. The game.
+
+Take a sentence from all that text. Hide the next word. Ask the AI to guess it.
+
+"The dog wagged its..." Guess.
+
+At the very beginning, the AI is completely clueless. It might guess "refrigerator." Total nonsense. Then it gets told the real answer. "Tail."
+
+[SLIDE 4: A panel with thousands of tiny knobs]
+
+Now here's the clever part. Inside the AI are billions of tiny numbers. Think of them like knobs. Like the knob on a shower, but billions of them, all connected.
+
+Every time it guesses wrong, a bit of math figures out which knobs to nudge, and by how much, so that next time "tail" becomes a slightly better guess.
+
+Just a tiny nudge. One guess, one nudge.
+
+[SLIDE 5: The same game on repeat, knobs slowly settling]
+
+Then do that again. And again. Trillions of words, over and over, for months.
+
+And slowly, something wild happens. The knobs settle into positions where the AI is really, really good at the game. And to be that good at guessing the next word, it's had to soak up grammar, facts, how a recipe is structured, how an argument works... all without anyone writing a single rule.
+
+Those settled knob positions? That's what people mean when they say "the model." The knobs are called parameters, by the way. When you hear "a model with billions of parameters," that's billions of knobs.
+
+[SLIDE 6: Rows of computer chips, big price tag]
+
+And this is why training AI costs so much. All that guessing and nudging runs on thousands of specialized chips for weeks or months. The biggest models cost tens of millions of dollars, or more, to train. Plus a lot of electricity.
+
+As a software engineer, the scale of this still kind of breaks my brain. Most code I write runs in a fraction of a second. This is months of computers doing one thing.
+
+[SLIDE 7: Stage 3: "Teaching manners"]
+
+But at this point, it's not a helpful assistant yet. It's a super-powered autocomplete. Ask it a question and it might just... continue writing more questions. Because that's what it saw on the internet.
+
+So, stage three. Teaching it manners.
+
+People write examples of great conversations. A question, a genuinely helpful answer. The AI trains on those. Then people rate its answers, this one's better, that one's worse, and the knobs get nudged toward the better ones.
+
+That's how you go from internet autocomplete to something that says, "Sure, here's a recipe for four."
+
+[SLIDE 8: A calendar with a date circled: "Training ends here"]
+
+Now, the bit that surprises people. Once training is done, the knobs are frozen. The learning stops.
+
+Which means the AI has a cutoff date. Anything that happened after its training ended, it simply never read. That's why AI sometimes has no idea about last week's news. Unless it can search the web, it's working from memory, and its memory has an end date.
+
+It also doesn't learn from your chat in real time. You teaching it something today doesn't change its knobs tomorrow.
+
+[SLIDE 9: Recap: Read → Guess & nudge → Manners → Frozen]
+
+So that's the whole journey. Read everything. Play the guessing game until the knobs settle. Get taught manners. Freeze.
+
+One game. Billions of times.
+
+[SLIDE 10: "Next: What 'AI model' actually means"]
+
+We threw around the word "model" a lot today. Next video, I'll show you what it actually means, and why a model is more like a recipe than a robot.
+
+I gotchu.
+
+NOTE: Fact note: "Tens of millions of dollars, or more" is deliberately broad. Public estimates for the biggest models range widely, so avoid quoting one exact figure.
+
+Script 10: What "AI model" actually means
+
+Title: What Is an "AI Model"? (It's Not a Robot) Thumbnail text: MODEL ≠ APP Short to cut: Slides 5 and 6, company vs app vs model with the car comparison (about 45 seconds) Length: about 690 words, around 5 minutes
+
+[SLIDE 1: A robot with a big red X, next to a recipe card]
+
+When people hear "AI model," most of them picture a robot. Or some glowing brain in a server room.
+
+It's actually closer to a recipe. A really, really big one.
+
+And once you get this, all those confusing names, ChatGPT, GPT, Claude, Gemini, finally sort themselves out. I'll show you the one comparison that makes it click.
+
+[SLIDE 2: A recipe card: "Grandma's jollof rice"]
+
+Think about a recipe. Someone figured it out through a lot of trial and error. Too much salt, not enough pepper, burnt the bottom... again. Eventually they wrote down exactly what works.
+
+The recipe isn't the kitchen. It isn't the cook. It's the knowledge, written down, so anyone can use it.
+
+[SLIDE 3: The knobs panel from the training video, now "frozen"]
+
+An AI model is the same idea. Remember from my video on how AI learned everything, all those billions of knobs that got nudged during training?
+
+When training's finished, the final position of every knob gets saved. That saved file of numbers is the model. That's it. A giant file of learned numbers.
+
+It's the recipe the training figured out.
+
+[SLIDE 4: A file icon labeled "model" with "billions of numbers" underneath]
+
+As a software engineer, here's the part that surprises people. Open one of these files and there's nothing magical inside. It's just numbers. Mountains of them. You'd never read it and understand anything.
+
+But run text through those numbers, and out comes an answer. The numbers are the recipe. The computer running them is the kitchen.
+
+[SLIDE 5: Three layers: Company / App / Model]
+
+Okay, here's where people get confused. There are three different things that all get called "AI."
+
+The company. The app. And the model.
+
+OpenAI is a company. ChatGPT is the app you open. And inside that app is a model, the GPT models, doing the actual thinking.
+
+Same for the others. Anthropic is the company, Claude is the app, and there are Claude models inside. Google's the company, Gemini's the app, Gemini models inside.
+
+[SLIDE 6: A car: brand, dashboard, engine]
+
+The easiest way to remember it? A car.
+
+The company is the car brand. The app is the dashboard, the steering wheel, the seats, the part you actually touch. And the model is the engine. You never look at the engine, but it's doing all the work.
+
+And funnily enough, they even use the same word. Car companies release a new "model" every year. AI companies do too.
+
+[SLIDE 7: Model names: big, medium, small]
+
+Which explains all those weird names you see. Most companies release a few sizes at once.
+
+Big models are the smartest, but slower and more expensive to run. Smaller models, often with names like "mini" or "flash" or "lite," are faster and cheaper, but not as sharp on hard problems.
+
+Like a car with a big engine versus a small one. The small one's fine for the school run. You'd want the big one for towing a trailer.
+
+[SLIDE 8: The same dashboard, engine being swapped]
+
+And here's the part that surprises people. The company can swap the engine without changing the dashboard.
+
+ChatGPT today isn't running the same model it ran a year ago. The app looks the same. But the engine inside has been swapped out, maybe more than once. That's why AI sometimes suddenly gets better at something. Or, honestly, sometimes a bit weird in a new way.
+
+[SLIDE 9: "Model = the learned recipe"]
+
+So, next time someone says "the new model is out," you know what they mean. Same dashboard, new engine. A new recipe, trained from scratch or improved, sitting inside the app you already use.
+
+Not a robot. A recipe.
+
+[SLIDE 10: "Next: Great at essays, bad at math"]
+
+Next video, a weird one. AI can write you a beautiful essay in ten seconds... and then mess up basic math. How? The answer goes right back to how these models read.
+
+I gotchu.
+
+NOTE: Personalize: Swap "Grandma's jollof rice" for any family recipe that fits you. Keep it specific. A real dish beats "a cake recipe."
+
+Script 11: Great at essays, bad at math
+
+Title: Why AI Writes Great Essays but Fails Basic Math Thumbnail text: A+ ESSAY. F IN MATH. Short to cut: Slide 3, the strawberry example (about 30 seconds) Length: about 690 words, around 5 minutes
+
+[SLIDE 1: A report card: Essay A+, Math F]
+
+AI can write you a beautiful essay in ten seconds. Then turn around and get a simple math question wrong.
+
+Same AI. Same conversation. How?
+
+There are two reasons, and the second one is honestly kind of beautiful once you see it. Plus, at the end, the simple fix so it doesn't happen to you.
+
+[SLIDE 2: "strawberry" split into chunks: "str" "aw" "berry"]
+
+Reason one. AI doesn't see letters and numbers the way you do.
+
+Remember tokens from earlier in the series? AI reads in chunks, not individual letters. So a word like "strawberry" might get chopped into something like "str," "aw," "berry."
+
+[SLIDE 3: "How many R's in strawberry?" with a confident wrong answer: "2"]
+
+Which is why, for a long time, lots of AI models famously got this question wrong. How many R's are in "strawberry"?
+
+You can just look. Three. But the AI never sees the letters one by one. It sees chunks. It's like being asked how many R's are in a word... while wearing glasses that blur the letters together.
+
+Numbers get chopped up the same way. A number like forty-seven thousand, three hundred and eighty-one might get split into weird pieces. Hard to do math on something you can't see clearly.
+
+[SLIDE 4: "Reason 2: Essays have many right answers. Math has one."]
+
+Reason two. And this is the good one.
+
+An essay has thousands of right answers. You can describe a sunset a million ways and they're all fine. If the AI picks a slightly different word, nobody cares. It might even be better.
+
+Math has one right answer. One wrong digit, anywhere, and the whole thing's wrong.
+
+[SLIDE 5: Weighted dice from the earlier video, rolling on a digit]
+
+Now remember how AI writes. It guesses the next piece, with a little bit of dice-rolling.
+
+For an essay, that's perfect. That's creativity.
+
+For math, that's a disaster. You don't want a little randomness in your tax return.
+
+[SLIDE 6: A student who's read every math book but never used a calculator]
+
+Here's how I think about it. Imagine someone who has read every math homework ever written, but has never actually used a calculator.
+
+Ask them seven times eight. They've seen "fifty-six" after that so many times, they just know. Easy.
+
+But ask them four thousand seven hundred and thirty-eight times two thousand nine hundred and forty-one... they've never seen that exact one. So they guess something that looks right. Right number of digits. Probably starts with the right number. And the middle is... vibes.
+
+That's the AI. It's predicting what the answer looks like, not calculating it.
+
+[SLIDE 7: "The fixes are already here"]
+
+The good news? This is getting much better, for two reasons.
+
+First, a lot of newer AI models "think" before answering. They write out the working step by step, like you did in school. Breaking a problem into small steps means way fewer big guesses.
+
+Second, tools. Remember the room with the slot in the door? An AI can slide out a note that says, "calculator, please." Or it writes a tiny bit of code and runs it. The computer does the actual math, perfectly, and the AI just explains the result.
+
+As a software engineer, that's genuinely how I'd want it. Let the AI do the language. Let the computer do the arithmetic. Each does what it's good at.
+
+[SLIDE 8: "Your fix"]
+
+So here's what you do. For any math that matters, money, measurements, anything with a budget, add one line to your prompt.
+
+"Show your working, and use a calculator or code if you can."
+
+Then actually glance at the working. If a step looks off, it probably is.
+
+[SLIDE 9: Report card updated: Essay A+, Math "B+ with a calculator"]
+
+So AI isn't bad at math because it's dumb. It's bad at math because it's a word-guesser doing a calculator's job. Give it the calculator, and suddenly it's pretty good.
+
+[SLIDE 10: "Next: How AI reads your documents"]
+
+Next video, something really practical. You hand AI a whole pile of documents and ask one question. How does it find the answer without memorizing any of it? There's a clever trick behind it.
+
+I gotchu.
+
+NOTE: Fact note: Before recording, test the strawberry question on the AI app you use. Many current models now get it right, so say "lots of AI models famously got this wrong" rather than claiming today's models still do.
+
+Script 12: How AI reads your documents (RAG)
+
+Title: How AI Reads Your Documents Without Memorizing Them Thumbnail text: OPEN-BOOK EXAM Short to cut: Slide 5, searching by meaning with the "days off" example (about 35 seconds) Length: about 700 words, around 5 minutes
+
+[SLIDE 1: A giant stack of documents, one highlighted paragraph]
+
+You upload a pile of documents, ask one question, and the AI finds the exact paragraph with the answer. In seconds.
+
+It didn't memorize your documents. It didn't read every page from scratch either. It's doing something a lot more clever.
+
+It's got a clunky name, RAG, but it's basically an open-book exam. By the end of this, you'll get exactly how it works. And the one weak spot you should know about.
+
+[SLIDE 2: "One PDF vs ten thousand"]
+
+First, a quick honest note. If you upload one normal-sized PDF, a lot of newer AI apps can just read the whole thing at once. Remember the whiteboard from my video on why AI forgets? One PDF often fits.
+
+But what about a thousand PDFs? A company's entire help center? Every email you've ever sent?
+
+That's never fitting on the whiteboard. So what do you do?
+
+[SLIDE 3: Closed-book exam vs open-book exam]
+
+Think about school. A closed-book exam is everything from memory. That's how AI answers by default, from what it learned in training.
+
+An open-book exam is different. You don't memorize the textbook. You just need to know how to find the right page, fast.
+
+RAG turns AI's closed-book exam into an open-book one.
+
+[SLIDE 4: Step 1: Documents chopped into small cards]
+
+Here's how it works. Step one, before you ever ask anything.
+
+All the documents get chopped into small pieces. A few paragraphs each. Think of it like cutting a textbook into index cards.
+
+[SLIDE 5: Step 2: Cards sorted on a map by meaning]
+
+Step two, and this is the clever part. Every card gets sorted by meaning. Not by the exact words on it. By what it's about.
+
+So say you ask, "how many days off do I get?" The card that answers it might be titled "annual leave policy." Not one word in common. But the meaning matches, so it gets found anyway.
+
+That's the difference from the search bar you're used to. Old-school search matches words. This matches meaning.
+
+[SLIDE 6: Step 3: Question comes in, top 3 cards pulled out]
+
+Step three. You ask your question. The system runs off and grabs the handful of cards that match your question best.
+
+[SLIDE 7: Step 4: Cards placed on the whiteboard next to the question]
+
+Step four. Those cards get put on the whiteboard, right next to your question, with an instruction. Something like, "answer using these."
+
+Now the AI reads just those few cards and writes the answer. And good apps show you which cards they used, so you can check.
+
+That's literally the name. Retrieval-Augmented Generation. Retrieve the right cards. Then generate the answer. Look it up, then write.
+
+[SLIDE 8: "Why this is a big deal"]
+
+Why does this matter so much?
+
+Because it fixes a few of AI's biggest problems at once. It can answer about your private stuff, which it never saw in training. It can use documents from this morning, not just from before its cutoff date. And since it's reading real sources, it's much less likely to make things up.
+
+As a software engineer, this is honestly one of the most common things companies build with AI right now. That "chat with our help center" box on a website? There's a good chance it's RAG underneath.
+
+[SLIDE 9: "The weak spot: the wrong card"]
+
+But here's the weak spot I promised. The answer is only as good as the cards it grabs.
+
+If the search grabs the wrong card, like the 2021 leave policy instead of this year's, the AI will write a confident answer... from the wrong card. It's doing the open-book exam perfectly, on the wrong page.
+
+So when an app shows you its sources, actually peek at them. Is it the right document? The current version?
+
+[SLIDE 10: Recap: Chop → Sort by meaning → Grab → Answer]
+
+So. Chop the documents into cards. Sort them by meaning. Grab the best cards for your question. Answer from those.
+
+An open-book exam, done in about two seconds.
+
+[SLIDE 11: "Next: How AI draws things that never existed"]
+
+That's text. But what about pictures? Next video, how AI makes images of things that have never existed. And it starts with pure static. I'll show you.
+
+I gotchu.
+
+Script 13: How AI draws things that never existed
+
+Title: How AI Makes Images From Pure Static Thumbnail text: IT STARTS AS STATIC Short to cut: Slides 5 and 6, static turning into a picture (about 40 seconds) Length: about 690 words, around 5 minutes
+
+[SLIDE 1: TV static on the left, a finished image on the right]
+
+Every AI image you've ever seen started like this. Pure static. Like an old TV with no signal.
+
+Then, step by step, the AI cleans up the static until a picture appears. A picture of something that has never existed.
+
+By the end of this video you'll know exactly how that works. And why, for years, AI couldn't draw a normal human hand.
+
+[SLIDE 2: "How do you teach a computer to draw?"]
+
+First question. How do you even teach a computer to draw?
+
+You can't give it a paintbrush. And you can't write rules like, "a cat has two ears, pointy, on top." There are way too many cats, in way too many poses.
+
+So instead, you teach it something weirder. You teach it to clean.
+
+[SLIDE 3: A photo of a dog getting noisier across five frames]
+
+Here's the training. Take a real photo. Say, a dog on a beach. Now add a little bit of static to it. Just a sprinkle. Then a bit more. Then more. Keep going until the dog is gone and it's pure static.
+
+That's the easy part. Anybody can ruin a photo.
+
+[SLIDE 4: Arrows going backwards: static → slightly less static]
+
+Now the AI's job is to go backwards. Look at a noisy image and guess what it looked like one step earlier. A tiny bit cleaner.
+
+And crucially, the photo comes with a caption. "A dog on a beach." So the AI learns, when the caption says dog, the cleaning should push toward dog-ish shapes. Fur. Ears. Sand.
+
+Do that with millions and millions of captioned images, and the AI gets incredibly good at cleaning. It learns what a "dog" looks like, what "beach" looks like, what "sunset" or "watercolor" or "1980s photo" looks like.
+
+[SLIDE 5: Pure static with your prompt above it]
+
+Now here's the magic trick. When you type a prompt, the AI starts with pure random static. There's no dog hiding in there. It's just noise.
+
+But the AI doesn't know that. It just does what it was trained to do. Clean a little bit, pushing toward your words.
+
+[SLIDE 6: Five frames: static slowly becoming an image]
+
+Clean. A blurry shape shows up. Clean again. The shape gets edges. Again. Colors. Again. Details.
+
+And after enough steps, there's a finished picture. It's a bit like seeing shapes in clouds, except the AI keeps sharpening the shape until it's real.
+
+That's called diffusion, by the way. You don't need the name. Just remember: it's cleaning static toward your words.
+
+[SLIDE 7: "An astronaut riding a horse, watercolor"]
+
+So how does it make things that never existed? Because it learned concepts, not photos.
+
+It knows roughly what an astronaut looks like. What a horse looks like. What watercolor looks like. It's never seen a watercolor astronaut riding a horse, but it can clean the static toward all three at once.
+
+[SLIDE 8: A cursed AI hand with seven fingers]
+
+Okay. The hands.
+
+For years, AI images had people with six fingers, seven fingers, fingers melting into each other. Why?
+
+Think about the training photos. Hands are in a million different positions. Fingers overlapping, half hidden, holding cups, blurred. The AI learned "hand-ish region with some finger-ish bits." Good enough for a general shape. Not good enough to count.
+
+Newer image models have gotten way better at hands, and at text in images too. But when something looks slightly off, it's often in the hands, the text, or the background details. Hold onto that. It's coming back in a later video about spotting AI images.
+
+[SLIDE 9: "The debate"]
+
+One honest note. These models learned from huge numbers of images, including art made by real artists, often without asking them. There's a big ongoing debate, and several court cases, about whether that's fair. Worth knowing when you use these tools.
+
+[SLIDE 10: Static → picture, one last time]
+
+So that's it. Train the AI to clean up noisy images. Then hand it pure static, give it your words, and let it clean its way to something new.
+
+No paintbrush. Just very, very good cleaning.
+
+[SLIDE 11: "Next: Is it safe to put your info into AI?"]
+
+All these AI tools want your photos, your documents, your questions. Next video, is it actually safe to put your personal info into AI? I'll tell you what really happens to it, and the settings to check today.
+
+I gotchu.
+
+NOTE: Personalize: On slide 1, generate your own before and after image with whatever AI image tool you use. Showing your own result feels more real than stock images.
+
+Script 14: Is it safe to put my info into AI?
+
+Title: Is It Safe to Put Your Info Into ChatGPT? (What Really Happens) Thumbnail text: WHERE DOES IT GO? Short to cut: Slide 7, the "never paste" list (about 40 seconds) Length: about 700 words, around 5 minutes
+
+[SLIDE 1: A chat box with a message flying out of it toward a server]
+
+Everything you type into an AI chat gets saved somewhere. Where it goes next depends on a setting most people have never looked at.
+
+I'm not here to scare you off AI. I use it every day. But by the end of this, you'll know what actually happens to your messages, the stuff you should never paste in, and the setting to check today.
+
+[SLIDE 2: "Where does your message go?"]
+
+So, you hit send. Where does it go?
+
+Not into the AI's brain. Remember from earlier in the series, the model's knobs are frozen. Your chat doesn't change it in real time.
+
+It goes to the company's servers. The AI reads it there, writes a reply, and your conversation gets stored, usually so you can scroll back and see your old chats.
+
+[SLIDE 3: Three arrows from the server: "stored", "reviewed", "training?"]
+
+Once it's stored, a few things can happen, depending on the company and your settings.
+
+It can just sit there as your chat history. It can be checked for safety, for example if something gets flagged for abuse, and sometimes that means a real person reviews it. And, the big one, it might be used to help train future AI models.
+
+[SLIDE 4: "The training setting"]
+
+That last one is what most people worry about. And it's the one you have the most control over.
+
+Most of the big AI apps have a setting in their privacy or data controls that decides whether your chats can be used to improve their models. On some apps it's on by default. On others, it's off. And companies change these policies over time.
+
+So don't trust what you heard last year. Go into your settings and check. It takes about a minute. Honestly, pause this video and do it now. I'll wait.
+
+[SLIDE 5: "Temporary chat" toggle]
+
+While you're in there, look for a temporary chat or incognito mode. Many apps have one now. Those chats usually don't show up in your history and aren't used for training. Good for anything a bit personal.
+
+And if you use a memory feature, where the app remembers things about you, you can usually see and delete what it's saved. Worth a look. It's sometimes surprising what it picked up.
+
+[SLIDE 6: "Work is different"]
+
+Now, work. As a software engineer, this is a big deal where I work, and probably where you work too.
+
+Pasting your company's private documents into a personal AI account can break your company's rules, even if you meant well. Lots of companies now have their own approved AI tools with stricter privacy. Use those for work stuff. If you're not sure, ask before you paste.
+
+[SLIDE 7: "Never paste" list]
+
+Okay. Here's my personal "never paste" list, whatever the settings say.
+
+Passwords and PINs. Full bank card numbers. Your full ID or social security number. And other people's private information, like a friend's medical stuff, without their permission.
+
+Why, if the company is careful? Because any company can have a data breach. And the safest data is data that was never sent.
+
+[SLIDE 8: "The swap trick"]
+
+But you can still get help with personal things. Use the swap trick.
+
+Instead of pasting your real letter with your name, address and account number, swap them out. "My name is Person A. My bank is Bank B. Account number X." The AI doesn't need the real details to help you write the complaint.
+
+Same answer. Nothing sensitive sent.
+
+[SLIDE 9: "Shared links are public-ish"]
+
+One more sneaky one. Some apps let you share a chat with a link. Anyone with that link can usually see the whole conversation. So before you share a chat, scroll through it. Make sure you didn't mention your address three messages up.
+
+[SLIDE 10: "Check the setting. Swap the details. Never paste the keys."]
+
+So, is it safe? Mostly, if you're smart about it. Check your training setting. Use temporary chats for personal stuff. Swap out real details. And never paste in anything that works like a key: passwords, card numbers, ID numbers.
+
+[SLIDE 11: "Next: How to spot AI photos, voices and videos"]
+
+Next video, the flip side. Scammers are using AI too. Fake photos, fake voices, even fake video calls. I'll show you how to spot them in seconds.
+
+I gotchu.
+
+NOTE: Fact note: Before recording, open the settings in ChatGPT, Claude and Gemini and screen-record where the training and temporary chat options are. Setting names and defaults change, so show what's current rather than naming exact defaults in the voiceover.
+
+Script 15: How to spot AI photos, voices and videos
+
+Title: How to Spot AI Photos, Voices and Videos (Before You Get Fooled) Thumbnail text: REAL OR AI? Short to cut: Slide 10, the real-or-AI quiz. Ask viewers to comment their answer (about 30 seconds) Length: about 720 words, around 5 minutes
+
+[SLIDE 1: A viral-looking photo with "REAL?" stamped on it]
+
+That photo your aunt shared on Facebook? There's a decent chance AI made it. And that phone call from a relative, panicking, asking you to send money fast? That voice might be AI too.
+
+By the end of this, you'll know the signs to look for in photos, voices and videos. But I'll be honest with you up front. The signs are fading. So I'm also giving you the one habit that works even when the fakes are perfect. Stick around for it, because it matters more than everything else.
+
+[SLIDE 2: "Photos" with a zoomed-in AI image]
+
+Let's start with photos. Remember from my video on how AI makes images? It's cleaning static toward a general idea. So look where general ideas break down.
+
+Hands. Count the fingers. Check if they bend the right way.
+
+Text. Signs, labels, T-shirts. AI text used to be total gibberish, and it's much better now, but look closely. Letters that melt, words that almost make sense.
+
+[SLIDE 3: Background zoom: melting faces, a lamp post merging into a tree]
+
+Then the background. This is where I'd look first, honestly. AI puts its effort where you're looking, in the middle. The edges get lazy. Faces in the crowd that look like wax. A railing that turns into a tree. Earrings that don't match.
+
+And that too-perfect look. Skin with zero pores, lighting that's a little too dreamy, everyone looking like an ad.
+
+[SLIDE 4: "Voices" with a sound wave]
+
+Now voices. And this one's scary, because it's being used in real scams.
+
+AI can now copy a voice from a short clip. A video you posted. A voicemail. Then scammers call a family member. "Mum, I've been in an accident, I need money, please don't tell Dad."
+
+The voice sounds right. The panic sounds right. That's the whole point.
+
+[SLIDE 5: Tells for AI voice]
+
+Signs to listen for: slightly flat emotion even when the words are dramatic. Odd pauses in weird places. Breathing that sounds off, or no breathing at all. Answers that don't quite respond to what you just asked.
+
+But here's the thing. On a phone line, with someone panicking, you probably won't catch these. Which is why you need the habit. Coming up.
+
+[SLIDE 6: "Videos" with a video call grid]
+
+Video. In 2024, a finance worker at a big company in Hong Kong joined a video call with what looked like his boss and several colleagues. They told him to transfer money. He sent about twenty-five million dollars.
+
+Every other person on that call was a deepfake.
+
+[SLIDE 7: Tells for AI video]
+
+What to watch for: lips slightly out of sync with the words. Blinking that looks off. Edges of the face that shimmer or blur when they move their head. Hair and glasses that glitch.
+
+If you're suspicious on a live call, ask them to do something unexpected. Turn their head fully to the side. Wave a hand in front of their face. It's not foolproof anymore, but it can still break a weaker fake.
+
+[SLIDE 8: "The habit that always works: Check the source, not the pixels"]
+
+Okay. The habit I promised.
+
+Stop trying to win on pixels. The fakes are getting too good. Instead, check the source.
+
+For a photo, where did it come from? A real news outlet, or an account called something like Daily Amazing Pics? You can also do a reverse image search to see where else it's appeared.
+
+For a call asking for money, hang up. Call the person back on the number you already have saved. A real emergency survives a two-minute callback. A scam doesn't.
+
+[SLIDE 9: "Set a family safe word"]
+
+And set up a family safe word. Tonight. A random word only your family knows. Like, "pineapple mechanic." If someone calls in a panic asking for money, ask for the word.
+
+As a software engineer, I'll tell you, this low-tech trick beats any detection software I know of. No AI can guess a word it's never heard.
+
+[SLIDE 10: Quiz: two images side by side, "Which one is AI?"]
+
+Quick test before you go. One of these is real. One is AI. Which is which? Drop your answer in the comments. I'll pin the right answer.
+
+[SLIDE 11: "Urgency + money + secrecy = STOP"]
+
+One line to remember. If something is urgent, involves money, and asks you to keep it secret... stop. That combination is the fingerprint of a scam, AI or not.
+
+[SLIDE 12: "Next: 5 things AI still can't do"]
+
+Next video, let's balance out the scary stuff. Five things AI still can't do, no matter what the hype says.
+
+I gotchu.
+
+NOTE: Fact note: The Hong Kong case was reported in early 2024 and involved the engineering firm Arup. Reports put the losses at about HK$200 million, or roughly US$25 million. Find a news headline for slide 6.
+
+NOTE: Personalize: For slide 10, generate one image yourself and pair it with a real photo you took, so you know the answer for sure.
+
+Script 16: 5 things AI still can't do
+
+Title: 5 Things AI Still Can't Do (No Matter the Hype) Thumbnail text: AI CAN'T DO THIS Short to cut: Number 5 on its own (about 40 seconds) Length: about 700 words, around 5 minutes
+
+[SLIDE 1: "5 things AI can't do" with five empty boxes]
+
+Five things AI still can't do, no matter what the hype says. And number five is the reason I'm honestly not worried about AI replacing you.
+
+One quick rule first. AI moves fast. Stuff it couldn't do last year, it does now. So I'm not listing things like "it can't draw hands." That got fixed. These are deeper. Things that come from what AI actually is.
+
+[SLIDE 2: Box 1: "Know when it's wrong"]
+
+Number one. It can't reliably tell when it's wrong.
+
+If you've watched this series, you know why. It's predicting what sounds right. And a wrong answer can sound exactly as confident as a right one.
+
+It's getting better at saying "I'm not sure." But you can't count on it to raise its own hand. That's still your job. For anything that matters, you check.
+
+[SLIDE 3: Box 2: "Know your life"]
+
+Number two. It doesn't know your life unless you tell it.
+
+It doesn't know your boss is touchy about deadlines. Or that your sister hates surprises. Or that your budget is tight this month because the car broke down... again.
+
+All the stuff that makes advice actually good for you lives in your head. The AI only knows what you type. That's why the prompt video matters so much. You are the context.
+
+[SLIDE 4: Box 3: "Actually experience anything"]
+
+Number three. It hasn't experienced anything.
+
+It can describe the smell of rain. It's read a million descriptions of it. But it's never stood outside after a storm.
+
+It can write a beautiful message about losing a grandparent. It has never sat at a funeral.
+
+That's not a knock on it. It's just what it is. It's learned from people's descriptions of life. It hasn't lived one. So when you need someone who's been through the thing, a friend who's been through it, a real doctor who's seen a hundred patients like you, AI is a helpful extra. Not a replacement.
+
+[SLIDE 5: Box 4: "Take responsibility"]
+
+Number four. It can't take responsibility.
+
+AI can draft the contract. It can't sign it. It can suggest the medicine. It can't be the doctor who's accountable if it goes wrong. It can write the code. It can't be the one who gets called when it breaks.
+
+As a software engineer, I see this every day. AI writes a lot of code now. But when something breaks in the middle of the night, a person still has to understand it, decide what to do, and own the decision. You can't point at the AI and say, "it did it."
+
+Responsibility doesn't transfer. It stays with a human.
+
+[SLIDE 6: Pattern interrupt: "Before number 5..." with a question mark]
+
+Okay, before number five. Quick question for you. What do you think it is? Pause, guess, and let me know in the comments if you got it.
+
+[SLIDE 7: Box 5: "Decide what matters"]
+
+Number five. It can't decide what matters to you.
+
+AI is incredible at the how. How do I write this. How do I plan this trip. How do I fix this spreadsheet.
+
+But the why, and the what... should I take this job? What kind of life do I want? Is this business idea worth three years of my weekends? That's yours.
+
+AI can lay out the options. It can argue both sides. But it doesn't have to live with the choice. You do.
+
+[SLIDE 8: "AI does the how. You decide the why."]
+
+And that's exactly why I'm not worried about it replacing you. The more AI can do the how, the more valuable it becomes to be the person who knows the why. Who knows what's worth doing. Who knows the people involved. Who takes responsibility for the call.
+
+That's not a small role. That's the main role.
+
+[SLIDE 9: Recap: all five boxes filled]
+
+So. It can't reliably tell when it's wrong. It doesn't know your life. It hasn't lived one. It can't take responsibility. And it can't decide what matters to you.
+
+Use it like a brilliant assistant. Not like a boss.
+
+[SLIDE 10: "Next: Open source AI"]
+
+Next video, a fight happening in AI right now that affects everyone. Some companies keep their AI locked up like a secret recipe. Others give it away for free. Which is better? It's messier than you'd think.
+
+I gotchu.
+
+Script 17: Open source AI explained
+
+Title: Open Source AI Explained: Secret Recipe vs Free Recipe Thumbnail text: SECRET vs FREE Short to cut: Slides 2 and 3, secret sauce vs shared recipe (about 40 seconds) Length: about 700 words, around 5 minutes
+
+[SLIDE 1: A locked safe on one side, an open recipe book on the other]
+
+Some of the most powerful AI in the world is locked away like a secret recipe. And some of it, you could download for free tonight.
+
+Which is better? People at the top of the AI world are genuinely fighting about this. By the end of this video, you'll understand both sides. And why it actually matters to you, even if you never download anything.
+
+[SLIDE 2: "Closed" with a restaurant and a secret sauce bottle]
+
+Quick callback. In my video on what an AI model is, I said a model is basically a recipe. A giant file of learned numbers.
+
+So picture a famous restaurant with a secret sauce. You can go there and eat it. You can order it for delivery. But you'll never see the recipe.
+
+That's closed AI. The company keeps the model on its own computers. You use it through their app or their service, but you never get the file. Most of the big-name flagship AI assistants work this way.
+
+[SLIDE 3: "Open" with a recipe card being photocopied]
+
+Now picture a chef who publishes their recipe online. Anyone can download it. Cook it at home. Tweak it, add more spice, open their own restaurant with it.
+
+That's open AI models. The company releases the model file itself. Companies like Meta and Mistral, and Chinese labs like DeepSeek and Alibaba, have all released models that anyone can download.
+
+[SLIDE 4: "Open-ish" footnote]
+
+Quick nerdy footnote, because someone in the comments will say it. A lot of these are technically "open weights," not fully open source. You get the finished recipe, the numbers, but usually not all the ingredients they trained it on, or every step of how they made it. Some also come with rules about how you're allowed to use them.
+
+So "open" in AI is more of a spectrum than a yes or no.
+
+[SLIDE 5: "The case for open"]
+
+Okay, the fight. Here's the case people make for open.
+
+Anyone can look inside and study it, so researchers can check for problems instead of trusting a company's word. It's cheaper, because you're not paying someone every time you use it. You can run it on your own computer, so your data never leaves your house. And it stops a handful of big companies from controlling the most important technology of our time.
+
+[SLIDE 6: "The case for closed"]
+
+And the case people make for keeping it closed.
+
+Once you release a model, you can't take it back. Ever. If someone finds a way to misuse it, it's already out there on thousands of computers. The safety features built into a model can also be stripped out by whoever downloads it. And as AI gets more powerful, some people worry that giving everyone the full recipe for the most capable systems is a risk we can't undo.
+
+There are business reasons too, obviously. A secret recipe is easier to charge for.
+
+[SLIDE 7: A scale, balanced]
+
+So who's right? Honestly, both sides have real points. And a lot of people land somewhere in the middle. Open is great for smaller models. Be more careful with the most powerful ones.
+
+I'm not going to tell you what to think here. But now you can follow the argument when you hear it.
+
+[SLIDE 8: "Why this matters to you"]
+
+So why should you care, if you just use AI on your phone?
+
+First, privacy. You can run a small open model on a decent laptop with no internet at all. Nothing you type goes anywhere. For really sensitive stuff, that's a big deal.
+
+Second, a lot of the AI apps you use from smaller companies are built on open models underneath. It's why there are suddenly so many AI apps. Someone took a free recipe and opened a restaurant.
+
+And third, price. Free recipes floating around put pressure on everyone to make AI cheaper.
+
+[SLIDE 9: Safe vs recipe book, recap]
+
+So. Closed AI is the secret sauce you can taste but never see. Open AI is the recipe anyone can download and cook. Both are shaping what AI you get to use, and what it costs.
+
+[SLIDE 10: "Next: 5 AI words everyone uses wrong"]
+
+Next video, a fun one. Five AI words you hear every single day that almost everyone uses slightly wrong. Including, probably, you. And definitely including the news.
+
+I gotchu.
+
+NOTE: Personalize: If you've run an open model on your own computer, add a short screen recording on slide 8. It's a great proof moment. If not, keep the line general as written.
+
+NOTE: Balance note: This topic is genuinely debated. The script presents both sides without taking one, which keeps it trustworthy for a beginner audience.
+
+Script 18: 5 AI words everyone uses wrong
+
+Title: 5 AI Words Everyone Uses Wrong (Even the News) Thumbnail text: YOU'RE SAYING IT WRONG Short to cut: Word 5, AGI (about 45 seconds) Length: about 700 words, around 5 minutes
+
+[SLIDE 1: Five words in speech bubbles: AI, LEARNING, SEARCHING, AGENT, AGI]
+
+Five AI words you hear every single day. Almost everyone uses them slightly wrong. The news does it. Companies do it on purpose. And probably, no offense, you do too.
+
+By the end, you'll be the person in the group chat who actually knows what they mean. And the last one is the word that causes the most confusion of all.
+
+[SLIDE 2: Word 1: "AI" with a huge umbrella over lots of things]
+
+Word one. "AI." Just, AI.
+
+People use it like it means one thing. It doesn't. It's a giant umbrella.
+
+Your email spam filter? AI. Netflix recommending a show? AI. Face unlock on your phone? AI. ChatGPT? Also AI. But they work in totally different ways.
+
+When most people say "AI" today, they mean the chatty kind. Tools that write and talk. The more accurate name is generative AI, or large language models if it's text.
+
+So when a headline says "AI did something," ask: which AI? A toaster with a sensor gets called "AI-powered" now. It's a marketing sticker as much as a technology.
+
+[SLIDE 3: Word 2: "LEARNING" with a crossed-out "it learned from me"]
+
+Word two. "Learning."
+
+You hear people say, "I taught ChatGPT how I like my emails, so now it's learned."
+
+Mostly... no. Remember from my video on how AI learned everything. The learning happens during training. Then the knobs freeze. Your chat doesn't change the model.
+
+What's actually happening is either it's reading your earlier messages in the same chat, the whiteboard, or the app has a memory feature that saved a note about you. Useful. But that's taking notes, not learning.
+
+[SLIDE 4: Word 3: "SEARCHING" with a magnifying glass and a question mark]
+
+Word three. "Searching."
+
+"I searched it on ChatGPT."
+
+Did you, though? Sometimes yes, sometimes no. If the app used a web search tool, you'll usually see it happen, with links to sources. That's searching.
+
+But if it just answered straight away with no sources, it wasn't searching anything. It was answering from memory. From training. Which might be out of date, or just... made up.
+
+This one actually matters. Because "I searched it" makes something sound checked. Answering from memory isn't checked.
+
+[SLIDE 5: Word 4: "AGENT" slapped as a sticker on lots of products]
+
+Word four. "Agent."
+
+Right now every company wants to call their product an agent. It's the hot word. So it's getting stuck on everything.
+
+But remember the test from my chatbot versus assistant versus agent video. Who presses the button? If it only gives you advice and you do the doing, that's an assistant. Wearing an agent costume.
+
+As a software engineer, this is honestly the one I hear misused the most at work. The word "agent" gets put on things that are basically a chatbot with a nice name. When you hear it, ask: what can it actually do on its own?
+
+[SLIDE 6: Pattern interrupt: "And now... the big one."]
+
+Okay. The big one.
+
+[SLIDE 7: Word 5: "AGI" with a finish-line ribbon, and question marks around it]
+
+Word five. AGI. Artificial General Intelligence.
+
+You'll see headlines like, "Are we close to AGI?" As if it's a finish line everyone agrees on.
+
+Here's the thing most people don't know. There's no agreed definition. None.
+
+Some people mean an AI that can do most jobs a human can do. Some mean one that can learn any new skill like a person. Some companies have their own definitions, and some of them are tied to business deals. So two people can argue about whether AGI is five years away... and be talking about completely different things.
+
+[SLIDE 8: "Which AGI?"]
+
+So when someone says "AGI is coming," the best question you can ask is, "what do you mean by AGI?" Nine times out of ten, that's where the real conversation starts.
+
+[SLIDE 9: Recap: all five words with their corrections]
+
+So. AI is an umbrella, not one thing. It doesn't learn from your chats, it takes notes. It only searched if you saw sources. An agent presses the button. And AGI means whatever the person saying it means.
+
+[SLIDE 10: "Next: AI jargon speed round"]
+
+That was five words. Next video, we go faster. Ten AI terms in five minutes, speed-round style. Tokens, parameters, fine-tuning, all of it. By the end, you'll be able to read an AI headline without Googling half of it.
+
+I gotchu.
+
+Script 19: AI jargon speed round
+
+Title: 10 AI Terms in 5 Minutes (Speed Round) Thumbnail text: 10 TERMS. 5 MINUTES. Short to cut: Any single term. Each one works as its own 30-second Short, so this video gives you up to 10 Shorts Length: about 720 words, around 5 minutes
+
+[SLIDE 1: "10 TERMS / 5 MINUTES" with a countdown timer graphic]
+
+Ten AI terms. Five minutes. About thirty seconds each. By the end of this, you'll be able to read an AI headline without Googling half the words.
+
+There's a timer on screen. Let's see if I can beat it. And stay for number ten, because it's the one that helps you see through the charts in every AI launch.
+
+[SLIDE 2: Term 1: "LLM" with timer running]
+
+Number one. LLM. Large language model.
+
+It's the proper name for the thing behind ChatGPT, Claude, Gemini. "Large" because it's huge, billions of knobs. "Language" because it works with text. "Model" because, remember, it's the learned recipe.
+
+When people say "an LLM," they basically mean the chatty kind of AI.
+
+[SLIDE 3: Term 2: "TOKEN"]
+
+Number two. Token.
+
+The chunks AI reads and writes in. Sometimes a whole word, sometimes a piece of one. Roughly, a token is about three quarters of a word in English.
+
+You'll see it in pricing. AI companies often charge per token. More text, more tokens, more cost.
+
+[SLIDE 4: Term 3: "PARAMETERS"]
+
+Number three. Parameters.
+
+The knobs. The billions of little numbers inside the model that got adjusted during training. "A seventy-billion-parameter model" means seventy billion knobs.
+
+More knobs usually means more capable, but also slower and more expensive. Not always better, though. How it was trained matters a lot too.
+
+[SLIDE 5: Term 4: "TRAINING vs INFERENCE"]
+
+Number four. Training versus inference. Two for one, because they go together.
+
+Training is when the AI learns. Months, huge cost, happens once. Inference is when you use it. Every time you hit send, that's inference.
+
+If training is going to cooking school, inference is cooking dinner every night.
+
+[SLIDE 6: Term 5: "FINE-TUNING"]
+
+Number five. Fine-tuning.
+
+Taking a model that's already trained and giving it extra training on something specific. Legal documents. Customer support chats. A company's writing style.
+
+It's like a general doctor doing extra training to become a specialist. Same person, sharper at one thing.
+
+[SLIDE 7: Term 6: "CONTEXT WINDOW" with the whiteboard]
+
+Number six. Context window.
+
+The whiteboard. How much text the AI can look at in one go. Your chat, any documents you pasted, all of it has to fit.
+
+When companies brag about a "bigger context window," they mean a bigger whiteboard. More room before it starts forgetting.
+
+[SLIDE 8: Term 7: "MULTIMODAL" with text, image, audio, video icons]
+
+Number seven. Multimodal.
+
+AI that handles more than just text. You can show it a photo, talk to it, sometimes give it video. "Modes" just means types of input.
+
+So snapping a picture of a weird rash, or a broken washing machine... wait, maybe show a doctor the rash. But the washing machine, sure. That's multimodal.
+
+[SLIDE 9: Term 8: "GPU" with a chip]
+
+Number eight. GPU.
+
+The chips AI runs on. Originally made for video games, because they're great at doing tons of simple math at the same time. Turns out that's exactly what AI needs.
+
+When you hear about companies spending billions on AI, a huge chunk of that is GPUs. It's why the company Nvidia became so enormous.
+
+[SLIDE 10: Term 9: "API" with two apps connected by a cable]
+
+Number nine. API.
+
+As a software engineer, this is my world. An API is how one piece of software talks to another. Like a drive-through window. You don't go into the kitchen. You order through the window, and the food comes out.
+
+When an app says it's "powered by GPT" or "built on Claude," it's usually ordering through that company's API window.
+
+[SLIDE 11: Term 10: "BENCHMARK" with a report card]
+
+Number ten. Benchmark.
+
+A standard test for AI. A set of questions, the same for every model, so you can compare scores. Math tests. Coding tests. Exam questions.
+
+Here's why it matters. Every new AI launch comes with charts saying "we beat everyone on benchmarks." But models can end up tuned to do well on the specific test, the way a student can cram for one exam. High scores are a good sign. They're not the whole story. The real test is whether it's good at your stuff.
+
+[SLIDE 12: All ten terms on one slide, timer stopped]
+
+And... time. Ten terms. LLM, token, parameters, training and inference, fine-tuning, context window, multimodal, GPU, API, benchmark.
+
+Screenshot this slide. It's your cheat sheet.
+
+[SLIDE 13: "Next: I built an AI agent with zero code"]
+
+Next video, enough theory. I'm going to build an actual AI agent, with zero code, and show you every step. If I can do it on camera, you can do it tonight.
+
+I gotchu.
+
+NOTE: Pacing note: This one runs tight. Speed it up slightly in your AI voice settings, around 5 to 10 percent faster, to match the speed-round feel.
+
+Script 20: I built an AI agent with zero code (fill-in template)
+
+Title: I Built an AI Agent With Zero Code. You Can Too. Thumbnail text: ZERO CODE AGENT Short to cut: Slide 1, the finished agent working (about 20 seconds), then "full build on my channel" Length: about 650 words plus your filled-in parts, around 5 minutes
+
+This one depends on a real build, so the [FILL: …] parts are yours to write after you've done it. Never fake the results. Viewers can tell, and the "what went wrong" moment is what makes this video work.
+
+Suggested build: a "morning briefing" agent that checks your calendar and the weather, then sends you a short summary each morning. It's simple, visual, and useful to almost anyone. Good no-code options include an AI app with connectors turned on, or an automation tool like Zapier, Make or n8n. Pick whichever you can actually get working.
+
+[SLIDE 1: Screen recording of the finished agent sending its first briefing. No explanation yet.]
+
+This is an AI agent I built. It checks my calendar, checks the weather, and sends me a summary every morning. I didn't write a single line of code.
+
+By the end of this video, you'll see every step. Including the part where it went completely wrong. And you'll be able to build your own tonight.
+
+[SLIDE 2: "Why zero code?"]
+
+Now, I'm a software engineer. I could have coded this. But I wanted to prove a point. You don't need to code to build an agent anymore. So I built it the way anyone watching could.
+
+[SLIDE 3: "The plan": your agent's parts, using your five colored blocks]
+
+If you saw my first video on the five things that make an AI agent, here's how they map onto this one.
+
+[FILL: Walk through your five blocks as they apply to this build. Example: the brain is the AI model, the tools are calendar and weather, the goal is a useful summary, and so on.]
+
+And the big test from my chatbot versus agent video. Who presses the button? Here, the agent does. It sends the message on its own, every morning. That's what makes it an agent.
+
+[SLIDE 4: Screen recording: choosing the tool]
+
+Step one. Picking the tool.
+
+I used [FILL: tool name]. [FILL: one or two sentences on why. Free plan? Easy to set up? Already had it?]
+
+[SLIDE 5: Screen recording: connecting calendar and weather]
+
+Step two. Giving it tools.
+
+Remember the room with the slot in the door? This is where we tape the list to the wall. I connected [FILL: which tools] so it can actually check things instead of guessing.
+
+One thing I noticed. [FILL: what permissions it asked for]. This is the moment to think. Remember, every tool is a permission. It only needs to read my calendar. Not delete events. So that's all I gave it.
+
+[SLIDE 6: Screen recording: writing the instructions]
+
+Step three. The instructions. And this is basically a prompt, using the four blocks from my prompt video.
+
+[FILL: Read out your actual instructions. Point out the task, the context, the rules and any example you gave it.]
+
+[SLIDE 7: "What went wrong" in big red text]
+
+Okay. Here's where it went wrong.
+
+[FILL: The honest story of what broke on the first try. For example: it summarized the wrong day, it invented an event, the message was way too long, or a connection failed. Be specific. This is the most-watched part of build videos.]
+
+[SLIDE 8: Screen recording: the fix]
+
+Here's how I fixed it. [FILL: What you changed. Often it's a clearer rule in the instructions, like "only include events from today, and if there are none, say so."]
+
+And this is the real lesson. Building an agent isn't one perfect setup. It's set up, test, spot the weird thing, fix it. Same as any software, honestly.
+
+[SLIDE 9: Screen recording: final working run]
+
+And here's the final version running.
+
+[FILL: Show it working and read out the briefing it sent.]
+
+[SLIDE 10: "Cost and time"]
+
+Total time to build: [FILL]. Total cost: [FILL]. Lines of code: zero.
+
+[SLIDE 11: "Your turn"]
+
+So here's your challenge. Pick one boring thing you check every single day. The weather, your to-do list, a group chat you always have to catch up on. Build a tiny agent that does it for you.
+
+Start small. One job. One or two tools. Only the permissions it needs.
+
+If you build one, tell me in the comments what it does. I might feature the best ones in a future video.
+
+[SLIDE 12: "Next: I let an AI agent run my day"]
+
+And speaking of agents doing stuff for me... next video, I'm going further. I'm letting an AI agent run a whole day of my life. What could go wrong?
+
+I gotchu.
+
+Script 21: I let an AI agent run my day (fill-in template)
+
+Title: I Let an AI Agent Run My Day. Here's What Happened. Thumbnail text: AI RAN MY DAY Short to cut: Slide 8, the biggest fail of the day (about 30 seconds) Length: about 600 words plus your filled-in parts, around 5 minutes
+
+Like Script 20, this needs a real experiment. Write the [FILL: …] parts from what actually happened. The fails and the awkward moments are the video, so don't clean them up.
+
+Suggested setup: Pick a normal workday. Give the agent access to your calendar, email drafts (not sending) and a to-do list. Let it plan your day, draft replies and suggest meals. Keep a notes app open and jot down anything funny, useful or weird as it happens.
+
+[SLIDE 1: Cold open: the most surprising moment of the day, on screen with no context]
+
+[FILL: One sentence describing the wildest thing that happened. For example: "At two p.m., my AI agent tried to reschedule a meeting with my manager... to Saturday."]
+
+Yesterday, I let an AI agent run my whole day. My schedule, my to-do list, my emails, even what I ate.
+
+Some of it was genuinely amazing. Some of it was a disaster. And one moment was honestly a bit creepy. Let's go through the whole day.
+
+[SLIDE 2: "The rules" with a checklist]
+
+First, the rules. Because if you've watched my video on how agents use tools, you know every tool is a permission. So I set some limits.
+
+It could read my calendar and suggest changes. It could draft emails, but not send them. It could plan my meals and my to-do list. It could not spend money. At all. And it could not message my boss on its own. I'm brave, not reckless.
+
+[FILL: Any extra rules you set, and which app or agent you used.]
+
+[SLIDE 3: "Morning" with a sunrise icon]
+
+Morning.
+
+[FILL: What the agent planned for your morning. What it got right, what it got wrong. Include one specific detail, like the exact time it scheduled something or a weird suggestion it made.]
+
+[SLIDE 4: "The emails"]
+
+Then the emails. This is where I was most curious.
+
+[FILL: How its drafts compared to how you'd write. Read one out loud if it's not private. Did it sound like you? Did you change anything before sending?]
+
+[SLIDE 5: Scoreboard: Wins 1, Fails 0]
+
+Scoreboard so far. [FILL: Update the score as the day goes.]
+
+[SLIDE 6: "Midday" with a sun icon]
+
+Midday.
+
+[FILL: Lunch suggestion, schedule changes, anything unexpected. This is a good spot for a small, funny fail.]
+
+[SLIDE 7: "The creepy moment"]
+
+Okay. The creepy moment.
+
+[FILL: Something the agent knew or inferred that surprised you. For example, noticing a pattern in your calendar you hadn't realized yourself. If nothing felt creepy, change this to "The moment it impressed me."]
+
+And this is why I keep saying, know what your tools can see. It only knew that because I gave it access.
+
+[SLIDE 8: "The biggest fail" in red]
+
+And the biggest fail of the day.
+
+[FILL: The worst mistake. Explain why it happened using ideas from the series: it forgot something from earlier (the whiteboard), it made something up (hallucination), or it didn't know your context.]
+
+As a software engineer, I actually love these fails. Every one of them tells you exactly where the agent's edges are.
+
+[SLIDE 9: "Evening" with a moon icon]
+
+Evening.
+
+[FILL: How the day wrapped up. Did it plan dinner? Did it give you a summary of the day? How did you feel by the end: more relaxed, or more stressed?]
+
+[SLIDE 10: Final scoreboard]
+
+Final score. [FILL: Wins versus fails.]
+
+[SLIDE 11: "The verdict"]
+
+So, would I do it again?
+
+[FILL: Your honest verdict. Which jobs would you happily hand to an agent every day, and which would you never hand over again?]
+
+Here's my takeaway. Agents are great at the how. Scheduling, drafting, organizing. But they don't know what matters to me unless I tell them. Which, if you watched my video on five things AI still can't do, is exactly what you'd expect.
+
+[SLIDE 12: "What should I test next?"]
+
+That wraps up this run of videos. If you've watched from the start, you now understand AI better than most people who use it every day.
+
+What should I test next? Drop it in the comments. The best idea becomes a video.
+
+I gotchu.
+
+Panel review
+
+All 21 scripts were reviewed from four angles: a retention strategist, a script doctor, a beginner viewer and a fact checker. This is one reviewer (Claude) taking four focused passes, not four independent experts. Three fixes are already applied. The rest are listed below for you to decide on.
+
+Problems across all scripts
+
+"As a software engineer" appears in almost every script. Once a video it stops feeling like credibility and starts sounding like a catchphrase. Several of these lines also describe things I invented, like what you see at work. Keep it in Scripts 1, 6, 8, 12 and 19, where it adds a real insight, and cut or verify the rest.
+
+Too many openings start with "By the end of this video, you'll…" Viewers who binge the series will notice the pattern. Vary it: jump straight into the example, ask a question, or skip the promise when the hook already makes it.
+
+Callbacks can lose new viewers. Lines like "remember the whiteboard from my other video" work for bingers, but lose people who arrive from search. Every callback needs a one-line explanation of the idea so it stands on its own. Most scripts do this already. Scripts 11, 18 and 19 lean hardest on earlier videos, so check those.
+
+British and American English are mixed. Words like "mum," "shops," "CV" and "petrol station" sit next to dollars and "math." Pick one and I'll make them consistent.
+
+Script-by-script findings
+
+Script
+
+Lens
+
+Top issue
+
+Fix
+
+Status
+
+1. Where to start
+
+Beginner
+
+Strong. Landlord example may not fit viewers who own their homes
+
+Add a second example on slide 6, like a work email
+
+Suggested
+
+2. Chatbot vs agent
+
+Retention
+
+The "who presses the button" reveal lands at about 3 minutes, a little late
+
+Tease the question earlier, on slide 2
+
+Suggested
+
+3. ChatGPT is guessing
+
+Fact check
+
+Accurate. Good correction on tokens
+
+None
+
+Passed
+
+4. Why AI lies
+
+Fact check
+
+Lawyer story checks out (2023, $5,000 fine)
+
+Add a headline screenshot
+
+Suggested
+
+5. Why AI forgets
+
+Beginner
+
+"Lost in the middle" is a real research term but may confuse
+
+Fine to keep, since it's explained right away
+
+Passed
+
+6. Agents use tools
+
+Beginner
+
+The MCP slide is the most technical moment in the series
+
+Make slide 7 optional, or cut it for the Short
+
+Suggested
+
+7. Good prompt
+
+Script doctor
+
+"Petrol station" and "mum" are British
+
+Depends on your English choice
+
+Waiting on you
+
+8. Answers change
+
+Retention
+
+Slide 7, "other reasons," is a flat list
+
+Cut it to one sentence or drop it
+
+Suggested
+
+9. How AI learned
+
+Fact check
+
+Cost claim kept deliberately broad
+
+None
+
+Passed
+
+10. What a model is
+
+Fact check
+
+Invented memory of "the first time I looked at a model file"
+
+Rewritten as a general statement
+
+Fixed
+
+11. Essays vs math
+
+Retention
+
+Teaser promised a 100-page PDF, but Script 12 opens with a pile of documents
+
+Teaser rewritten to match
+
+Fixed
+
+12. RAG
+
+Beginner
+
+Clear. The index-card analogy works well
+
+None
+
+Passed
+
+13. AI images
+
+Fact check
+
+The fair-use debate is described neutrally
+
+None
+
+Passed
+
+14. Is it safe
+
+Fact check
+
+Settings and defaults change often
+
+Screen-record current settings before filming
+
+Suggested
+
+15. Spot AI fakes
+
+Fact check
+
+The 2024 Arup case checks out, about US$25 million
+
+Add a headline screenshot
+
+Suggested
+
+16. 5 things AI can't do
+
+Retention
+
+The pause-and-guess moment on slide 6 is good; keep it
+
+None
+
+Passed
+
+17. Open source
+
+Retention
+
+Slides 5 and 6 are dense back-to-back argument lists
+
+Add a quick question to viewers between them
+
+Suggested
+
+18. 5 words wrong
+
+Script doctor
+
+"The one I hear misused the most at work" is invented
+
+Verify or cut
+
+Suggested
+
+19. Jargon speed round
+
+Retention
+
+Hook overpromised that the video reveals if companies are "telling the truth"
+
+Softened to "see through the charts"
+
+Fixed
+
+20. Zero-code agent
+
+Fact check
+
+Template only. Results must be real
+
+Fill in after building
+
+Waiting on you
+
+21. AI runs my day
+
+Fact check
+
+Template only. Results must be real
+
+Fill in after the experiment
+
+Waiting on you
+
+Before you record
+
+Run each script through your AI voice once and listen without reading along. Any line you'd trip over if you said it out loud gets rewritten. After posting, check YouTube Studio's retention graph. The real test is where viewers actually leave, not what any reviewer thinks.
