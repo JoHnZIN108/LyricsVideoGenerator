@@ -1,0 +1,228 @@
+1
+00:00:00,350 --> 00:00:04,304
+ChatGPT doesn't actually know anything. It's guessing.
+
+2
+00:00:04,304 --> 00:00:10,222
+One word at a time. And it's scary good at it.
+
+3
+00:00:10,222 --> 00:00:15,255
+By the end of this video you'll understand what's actually happening when you hit enter.
+
+4
+00:00:15,255 --> 00:00:18,365
+And there's a question that'll bug you halfway through.
+
+5
+00:00:18,365 --> 00:00:21,392
+If it's only guessing, how can it solve problems? We'll get there.
+
+6
+00:00:22,697 --> 00:00:28,673
+Let's play a game. Finish this sentence in your head.
+
+7
+00:00:28,673 --> 00:00:33,121
+Peanut butter and... You said jelly. Or jam,
+
+8
+00:00:33,121 --> 00:00:35,893
+depending on where you live. You didn't look it up.
+
+9
+00:00:35,893 --> 00:00:37,263
+You've just seen those words together so many times that your brain filled the gap.
+
+10
+00:00:38,669 --> 00:00:45,045
+Another one. The capital of France is... Paris. Obviously.
+
+11
+00:00:45,045 --> 00:00:47,351
+That is basically the whole trick.
+
+12
+00:00:47,351 --> 00:00:51,386
+An AI like ChatGPT looks at everything written so far and asks one question.
+
+13
+00:00:51,386 --> 00:00:57,491
+What comes next? Then it adds that piece, and asks again. And again.
+
+14
+00:00:57,491 --> 00:01:01,301
+Hundreds of times, super fast, until you've got a full answer.
+
+15
+00:01:02,688 --> 00:01:05,089
+If that sounds familiar, it should.
+
+16
+00:01:05,089 --> 00:01:09,462
+Your phone does a tiny version of this. Try it after this video.
+
+17
+00:01:09,462 --> 00:01:12,513
+Type "I'm going to" and keep tapping the middle suggestion.
+
+18
+00:01:12,513 --> 00:01:13,773
+You'll get something like,
+
+19
+00:01:13,773 --> 00:01:17,858
+"I'm going to be there in a few minutes and I will be there in a few minutes and..."
+
+20
+00:01:17,858 --> 00:01:20,729
+It's nonsense. Your phone is guessing too, it's just really bad at it.
+
+21
+00:01:22,239 --> 00:01:27,032
+So what's the difference between your phone and ChatGPT? Scale.
+
+22
+00:01:27,032 --> 00:01:29,394
+Your phone learned from your texts.
+
+23
+00:01:29,394 --> 00:01:33,789
+Models like ChatGPT learned from an enormous amount of text. Books,
+
+24
+00:01:33,789 --> 00:01:36,525
+websites, articles, forums, code.
+
+25
+00:01:36,525 --> 00:01:39,767
+More reading than any human could do in thousands of lifetimes.
+
+26
+00:01:40,667 --> 00:01:42,719
+Okay, the question that's been bugging you.
+
+27
+00:01:42,719 --> 00:01:46,402
+If it's only guessing the next word, how can it write working code,
+
+28
+00:01:46,402 --> 00:01:50,141
+or explain a tax form, or help plan a wedding? Honestly,
+
+29
+00:01:50,141 --> 00:01:52,977
+when I first learned this as a software engineer,
+
+30
+00:01:52,977 --> 00:01:56,778
+I was a little disappointed. That's it? Autocomplete?
+
+31
+00:01:56,778 --> 00:01:59,904
+Then I thought about it more and... no, it's actually wild.
+
+32
+00:02:01,446 --> 00:02:04,901
+Here's the thing. To guess the next word really, really well,
+
+33
+00:02:04,901 --> 00:02:06,901
+across every topic on the internet,
+
+34
+00:02:06,901 --> 00:02:08,992
+you have to pick up a lot along the way.
+
+35
+00:02:08,992 --> 00:02:12,141
+Think about finishing this sentence. "She dropped the glass,
+
+36
+00:02:12,141 --> 00:02:15,486
+and it..." You need to know glasses break.
+
+37
+00:02:15,486 --> 00:02:19,514
+"The recipe needs three eggs, but I only have two, so I..."
+
+38
+00:02:19,514 --> 00:02:21,956
+Now you need a bit of reasoning. To predict well,
+
+39
+00:02:21,956 --> 00:02:25,673
+the model had to soak up grammar, facts, patterns of logic,
+
+40
+00:02:25,673 --> 00:02:28,140
+even how people explain things to each other.
+
+41
+00:02:28,140 --> 00:02:31,170
+Nobody programmed those rules in. They got absorbed,
+
+42
+00:02:31,170 --> 00:02:32,812
+because they help with the guessing.
+
+43
+00:02:34,340 --> 00:02:39,416
+There's one more step. After all that reading,
+
+44
+00:02:39,416 --> 00:02:43,035
+the model gets trained again to be a good helper.
+
+45
+00:02:43,035 --> 00:02:47,887
+People show it examples of great answers, rate its responses,
+
+46
+00:02:47,887 --> 00:02:52,595
+and it learns to be helpful instead of just continuing random internet text.
+
+47
+00:02:52,595 --> 00:02:55,219
+That's the difference between a raw text predictor and the polite assistant you chat with.
+
+48
+00:02:56,771 --> 00:03:00,852
+But here's the part to remember. Even after all that,
+
+49
+00:03:00,852 --> 00:03:03,585
+it's still predicting what sounds right.
+
+50
+00:03:03,585 --> 00:03:08,007
+Not looking it up in some giant database of facts. Most of the time,
+
+51
+00:03:08,007 --> 00:03:11,595
+what sounds right and what is right are the same thing.
+
+52
+00:03:11,595 --> 00:03:16,047
+The capital of France really is Paris. But sometimes they're not.
+
+53
+00:03:16,047 --> 00:03:17,853
+And when they're not,
+
+54
+00:03:17,853 --> 00:03:22,012
+it'll give you the wrong answer in the exact same confident voice as the right one.
+
+55
+00:03:23,675 --> 00:03:27,793
+Which is exactly what the next video is about. Why AI makes things up,
+
+56
+00:03:27,793 --> 00:03:29,858
+why it sounds so sure when it does,
+
+57
+00:03:29,858 --> 00:03:32,805
+and how you can catch it every time. I gotchu.
+

@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=1920, height=1080"/>
+<script src="assets/gsap.min.js"></script><script src="assets/CustomEase.min.js"></script>
+<style>@font-face{font-family:Inter;font-weight:500;src:url(assets/fonts/inter-latin-500-normal.woff2) format("woff2")}@font-face{font-family:Inter;font-weight:600;src:url(assets/fonts/inter-latin-600-normal.woff2) format("woff2")}@font-face{font-family:Inter;font-weight:700;src:url(assets/fonts/inter-latin-700-normal.woff2) format("woff2")}@font-face{font-family:Inter;font-weight:800;src:url(assets/fonts/inter-latin-800-normal.woff2) format("woff2")}@font-face{font-family:Inter;font-weight:900;src:url(assets/fonts/inter-latin-900-normal.woff2) format("woff2")}@font-face{font-family:"Archivo Black";src:url(assets/fonts/archivo-black-latin-400-normal.woff2) format("woff2")}:root{--night:#0a1128;--night-950:#050918;--night-glow:#1a2c68;--surface:#111b3d;--surface-raised:#18265a;--line:#2a3a70;--grid:rgba(34, 211, 238, 0.09);--grid-fine:rgba(34, 211, 238, 0.04);--ink:#f4f7ff;--ink-muted:#aab6db;--ink-dim:#7d8ab5;--orange:#ff7a1a;--orange-soft:rgba(255, 122, 26, 0.16);--on-orange:#0a1128;--cyan:#22d3ee;--cyan-soft:rgba(34, 211, 238, 0.14);--on-cyan:#0a1128;--danger:#ff5c7a;--danger-soft:rgba(255, 92, 122, 0.14);--space-1:8px;--space-2:16px;--space-3:24px;--space-4:32px;--space-6:48px;--space-8:64px;--space-12:96px;--safe-x:128px;--safe-y:96px;--radius-sm:12px;--radius-md:24px;--radius-lg:48px;--radius-pill:999px;--glow-cyan:0 0 0 2px #22d3ee, 0 0 24px rgba(34, 211, 238, 0.55), 0 0 72px rgba(34, 211, 238, 0.25);--glow-orange:0 0 0 2px #ff7a1a, 0 0 24px rgba(255, 122, 26, 0.55), 0 0 72px rgba(255, 122, 26, 0.25);--glow-danger:0 0 0 2px #ff5c7a, 0 0 24px rgba(255, 92, 122, 0.5), 0 0 64px rgba(255, 92, 122, 0.22);--glow-text-cyan:0 0 18px rgba(34, 211, 238, 0.65), 0 0 48px rgba(34, 211, 238, 0.3);--glow-text-orange:0 0 18px rgba(255, 122, 26, 0.6), 0 0 48px rgba(255, 122, 26, 0.28);--lift:0 30px 80px rgba(2, 5, 16, 0.6);--dur-fast:0.2s;--dur-base:0.45s;--dur-slow:0.8s;--stagger-word:0.08s;--stagger-line:0.15s;--ease-out:cubic-bezier(0.16, 1, 0.3, 1);--ease-pop:cubic-bezier(0.34, 1.56, 0.64, 1);--ease-slam:cubic-bezier(0.7, 0, 0.84, 0);--ease-in-out:cubic-bezier(0.65, 0, 0.35, 1);--font-display:"Archivo Black","Arial Black",sans-serif;--font-sans:Inter,"Helvetica Neue",Arial,sans-serif;}
+
+/* =====================================================================
+   igotchu — NEON BLUEPRINT
+   Plain CSS. Needs tokens.css (colour/spacing/radius/shadow vars) first.
+   Every frame is .ig-frame (1920x1080) or .ig-frame--thumb (1280x720).
+   ===================================================================== */
+
+:root {
+  --ig-ease-out: var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+  --ig-ease-pop: var(--ease-pop, cubic-bezier(0.34, 1.56, 0.64, 1));
+  --ig-ease-slam: var(--ease-slam, cubic-bezier(0.7, 0, 0.84, 0));
+  --ig-ease-io: var(--ease-in-out, cubic-bezier(0.65, 0, 0.35, 1));
+  --ig-display: var(--font-display, "Archivo Black", "Arial Black", sans-serif);
+  --ig-sans: var(--font-sans, Inter, "Helvetica Neue", Arial, sans-serif);
+}
+
+html, body { margin: 0; background: var(--night-950); }
+
+/* ---------- Frame: night + radial glow + blueprint grid ---------- */
+.ig-frame {
+  position: relative; width: 1920px; height: 1080px; overflow: hidden;
+  color: var(--ink); font-family: var(--ig-sans);
+  background-color: var(--night);
+  background-image:
+    radial-gradient(ellipse 55% 50% at 50% 42%, rgba(34, 211, 238, 0.08), transparent 70%),
+    radial-gradient(ellipse 110% 95% at 50% 42%, var(--night-glow) 0%, var(--night) 52%, var(--night-950) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+.ig-frame::before { /* blueprint grid, faded toward the edges */
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(var(--grid) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, var(--grid) 1.5px, transparent 1.5px),
+    linear-gradient(var(--grid-fine) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-fine) 1px, transparent 1px);
+  background-size: 128px 128px, 128px 128px, 32px 32px, 32px 32px;
+  background-position: -1px -1px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 80% at 50% 45%, #000 35%, transparent 100%);
+          mask-image: radial-gradient(ellipse 85% 80% at 50% 45%, #000 35%, transparent 100%);
+}
+.ig-frame > * { z-index: 1; }
+.ig-frame--thumb { width: 1280px; height: 720px; }
+.ig-frame--thumb::before { background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px; }
+.ig-frame--plain::before { display: none; }
+
+/* blueprint crop marks in the four corners */
+.ig-crops { position: absolute; inset: 56px 72px; pointer-events: none; }
+.ig-crops i { position: absolute; width: 40px; height: 40px; border-color: var(--cyan); border-style: solid; border-width: 0; opacity: .45; }
+.ig-crops i:nth-child(1) { top: 0; left: 0; border-top-width: 3px; border-left-width: 3px; }
+.ig-crops i:nth-child(2) { top: 0; right: 0; border-top-width: 3px; border-right-width: 3px; }
+.ig-crops i:nth-child(3) { bottom: 0; left: 0; border-bottom-width: 3px; border-left-width: 3px; }
+.ig-crops i:nth-child(4) { bottom: 0; right: 0; border-bottom-width: 3px; border-right-width: 3px; }
+
+/* title-safe box: 96px top/bottom, 128px sides */
+.ig-safe { position: absolute; top: var(--safe-y, 96px); bottom: var(--safe-y, 96px); left: var(--safe-x, 128px); right: var(--safe-x, 128px); }
+.ig-center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+
+/* ---------- Type ---------- */
+.ig-hxl, .ig-h, .ig-hsm, .ig-title, .ig-thumb-text, .ig-wordmark { font-family: var(--ig-display); font-weight: 400; margin: 0; }
+.ig-hxl { font-size: 130px; line-height: .98; letter-spacing: -0.01em; }
+.ig-h { font-size: 112px; line-height: 1; letter-spacing: -0.01em; }
+.ig-hsm { font-size: 96px; line-height: 1.04; letter-spacing: -0.005em; }
+.ig-title { font-size: 64px; line-height: 1.08; }
+.ig-body-lg { font-size: 56px; line-height: 1.25; font-weight: 600; margin: 0; }
+.ig-body { font-size: 48px; line-height: 1.3; font-weight: 500; margin: 0; }
+.ig-body-sm { font-size: 40px; line-height: 1.35; font-weight: 500; margin: 0; }
+.ig-label { font-size: 32px; line-height: 1.2; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.ig-label-sm { font-size: 28px; line-height: 1.2; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.ig-muted { color: var(--ink-muted); }
+.ig-dim { color: var(--ink-dim); }
+.ig-em-o { color: var(--orange); text-shadow: var(--glow-text-orange); }
+.ig-em-c { color: var(--cyan); text-shadow: var(--glow-text-cyan); }
+.ig-em-d { color: var(--danger); }
+
+/* ---------- Kicker (pill label above a headline) ---------- */
+.ig-kicker {
+  display: inline-flex; align-items: center; gap: 16px; padding: 14px 28px;
+  border-radius: var(--radius-pill); background: var(--orange-soft); box-shadow: var(--glow-orange);
+  color: var(--orange); font-size: 32px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+}
+.ig-kicker--cyan { background: var(--cyan-soft); box-shadow: var(--glow-cyan); color: var(--cyan); }
+.ig-kicker-dot { width: 14px; height: 14px; border-radius: 50%; background: currentColor; box-shadow: 0 0 12px currentColor; }
+
+/* ---------- Wordmark (lower-left bug) ---------- */
+.ig-wordmark { position: absolute; left: 96px; bottom: 64px; font-size: 44px; line-height: 1; letter-spacing: -0.01em; color: var(--ink); opacity: .92; }
+.ig-wordmark b { font-weight: 400; color: var(--orange); text-shadow: var(--glow-text-orange); }
+.ig-wordmark--inline { position: static; }
+
+/* ---------- Title card ---------- */
+.ig-titlecard { position: absolute; left: var(--safe-x, 128px); right: 640px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 40px; }
+.ig-underline { height: 12px; width: 360px; border-radius: 6px; background: var(--orange); box-shadow: 0 0 24px rgba(255, 122, 26, .6); transform-origin: left; }
+
+/* ---------- Big statement ---------- */
+.ig-statement .ig-hxl + .ig-hxl { margin-top: 16px; }
+
+/* ---------- Fill in the blank ---------- */
+.ig-sentence { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0 32px; }
+.ig-blank {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  min-width: 340px; height: 124px; padding: 0 32px; border-radius: var(--radius-sm);
+  background: var(--cyan-soft); box-shadow: var(--glow-cyan); color: var(--cyan);
+}
+.ig-blank::after { /* blinking caret while empty */
+  content: ""; position: absolute; left: 50%; top: 24px; bottom: 24px; width: 6px; margin-left: -3px;
+  background: var(--cyan); border-radius: 3px; display:none;
+}
+.ig-guesses { display: flex; gap: 32px; margin-top: 72px; }
+.ig-guess { display: flex; flex-direction: column; gap: 14px; width: 330px; padding: 28px 32px; border-radius: var(--radius-md); background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); text-align: left; }
+.ig-guess .word { font-size: 48px; font-weight: 700; }
+.ig-guess .bar { height: 14px; border-radius: 7px; background: var(--surface-raised); overflow: hidden; }
+.ig-guess .bar i { display: block; height: 100%; width: var(--p); border-radius: 7px; background: var(--ink-dim); transform-origin: left; }
+.ig-guess .pct { font-size: 28px; font-weight: 700; letter-spacing: .06em; color: var(--ink-dim); }
+.ig-guess--win { box-shadow: var(--glow-cyan); background: var(--cyan-soft); }
+.ig-guess--win .word, .ig-guess--win .pct { color: var(--cyan); }
+.ig-guess--win .bar i { background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
+.ig-guess--odd .word, .ig-guess--odd .pct { color: var(--orange); }
+.ig-guess--odd .bar i { background: var(--orange); }
+
+/* ---------- Word chips (tokens) ---------- */
+.ig-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; max-width: 1560px; }
+.ig-chip { display: inline-flex; flex-direction: column; align-items: center; gap: 12px; }
+.ig-chip .t {
+  display: inline-flex; align-items: center; height: 104px; padding: 0 30px; border-radius: var(--radius-sm);
+  background: var(--surface-raised); box-shadow: inset 0 0 0 2px var(--cyan), 0 0 20px rgba(34, 211, 238, .25);
+  font-size: 52px; font-weight: 700; color: var(--ink); white-space: pre;
+}
+.ig-chip .t s { text-decoration: none; color: var(--cyan); opacity: .8; } /* visible leading space: · */
+.ig-chip .id { font-size: 28px; font-weight: 700; letter-spacing: .06em; color: var(--ink-dim); }
+.ig-chip--o .t { background: var(--orange-soft); box-shadow: var(--glow-orange); color: var(--orange); }
+.ig-chip--o .id { color: var(--orange); }
+
+/* ---------- Callout label with pointer ---------- */
+.ig-callout { position: absolute; }
+.ig-pill {
+  display: inline-flex; align-items: center; gap: 14px; padding: 16px 30px; border-radius: var(--radius-pill);
+  background: var(--night); box-shadow: var(--glow-cyan); color: var(--cyan);
+  font-size: 32px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap;
+}
+.ig-pill--o { box-shadow: var(--glow-orange); color: var(--orange); }
+.ig-pointer { position: absolute; overflow: visible; pointer-events: none; }
+.ig-pointer path { fill: none; stroke: var(--cyan); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 8px rgba(34, 211, 238, .8)); }
+.ig-pointer circle { fill: var(--cyan); filter: drop-shadow(0 0 10px rgba(34, 211, 238, .9)); }
+.ig-pointer circle.ring { fill: none; stroke: var(--cyan); stroke-width: 3; }
+.ig-pointer--o path { stroke: var(--orange); filter: drop-shadow(0 0 8px rgba(255, 122, 26, .8)); }
+.ig-pointer--o circle { fill: var(--orange); filter: drop-shadow(0 0 10px rgba(255, 122, 26, .9)); }
+.ig-pointer--o circle.ring { fill: none; stroke: var(--orange); }
+
+/* ---------- Highlight ring ---------- */
+.ig-ringed { position: relative; display: inline-block; }
+.ig-ring { position: absolute; left: -104px; top: -46px; width: calc(100% + 168px); height: calc(100% + 92px); overflow: visible; pointer-events: none; }
+.ig-ring ellipse, .ig-ring rect, .ig-ring path { fill: none; stroke: var(--cyan); stroke-width: 7; stroke-linecap: round; filter: drop-shadow(0 0 10px rgba(34, 211, 238, .9)) drop-shadow(0 0 28px rgba(34, 211, 238, .45)); }
+.ig-ring--o ellipse, .ig-ring--o rect, .ig-ring--o path { stroke: var(--orange); filter: drop-shadow(0 0 10px rgba(255, 122, 26, .9)) drop-shadow(0 0 28px rgba(255, 122, 26, .45)); }
+
+/* ---------- Stamp ---------- */
+.ig-stamp {
+  position: absolute; display: inline-block; padding: 26px 56px 30px; border-radius: var(--radius-sm);
+  border: 10px solid var(--danger); outline: 4px solid var(--danger); outline-offset: 10px;
+  color: var(--danger); font-family: var(--ig-display); font-size: 150px; line-height: 1; letter-spacing: .02em;
+  text-shadow: 0 0 24px rgba(255, 92, 122, .55); box-shadow: 0 0 40px rgba(255, 92, 122, .35), inset 0 0 40px rgba(255, 92, 122, .2);
+  background: rgba(10, 17, 40, .55); transform: rotate(-8deg);
+}
+.ig-stamp::after { /* ink wear: small knocked-out speckles */
+  content: ""; position: absolute; inset: -14px; pointer-events: none;
+  background-image: radial-gradient(circle, var(--night) 0 3px, transparent 4px), radial-gradient(circle, var(--night) 0 2px, transparent 3px);
+  background-size: 97px 61px, 53px 41px; background-position: 11px 7px, 30px 22px; opacity: .55;
+}
+.ig-stamp--cyan { border-color: var(--cyan); outline-color: var(--cyan); color: var(--cyan); text-shadow: var(--glow-text-cyan); box-shadow: 0 0 40px rgba(34, 211, 238, .35), inset 0 0 40px rgba(34, 211, 238, .2); }
+
+/* ---------- Comparison boxes ---------- */
+.ig-compare { display: grid; grid-template-columns: 1fr 240px 1fr; align-items: center; width: 100%; }
+.ig-box { position: relative; min-height: 520px; padding: 56px 56px 60px; border-radius: var(--radius-md); background: var(--surface); box-shadow: var(--glow-orange), var(--lift); display: flex; flex-direction: column; gap: 28px; box-sizing: border-box; }
+.ig-box--c { box-shadow: var(--glow-cyan), var(--lift); }
+.ig-box .ig-label { color: var(--orange); }
+.ig-box--c .ig-label { color: var(--cyan); }
+.ig-box .ig-body-lg { color: var(--ink); }
+.ig-arrow { width: 240px; height: 120px; overflow: visible; }
+.ig-arrow path { fill: none; stroke: var(--cyan); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 10px rgba(34, 211, 238, .8)); }
+.ig-arrow-label { text-align: center; margin-top: 8px; }
+
+/* ---------- Venn ---------- */
+.ig-venn { position: relative; width: 1120px; height: 660px; }
+.ig-venn .circle {
+  position: absolute; top: 20px; width: 620px; height: 620px; border-radius: 50%;
+  display: flex; flex-direction: column; justify-content: center; box-sizing: border-box; mix-blend-mode: screen;
+}
+.ig-venn .circle.a { left: 0; background: rgba(255, 122, 26, .14); box-shadow: var(--glow-orange); padding: 0 330px 0 72px; color: var(--orange); }
+.ig-venn .circle.b { right: 0; background: rgba(34, 211, 238, .14); box-shadow: var(--glow-cyan); padding: 0 72px 0 330px; color: var(--cyan); text-align: right; }
+.ig-venn .overlap { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; width: 220px; }
+
+/* ---------- Caption bar (word by word) ---------- */
+.ig-caption {
+  position: absolute; left: 50%; bottom: 128px; transform: translateX(-50%); max-width: 1400px;
+  padding: 22px 40px 26px; border-radius: var(--radius-md); background: rgba(10, 17, 40, .82);
+  box-shadow: inset 0 0 0 2px var(--line), var(--lift); text-align: center;
+  font-size: 54px; line-height: 1.2; font-weight: 800; color: var(--ink);
+}
+.ig-caption span { display: inline-block; padding: 2px 12px 6px; margin: 0 -2px; border-radius: 12px; color: var(--ink-dim); }
+.ig-caption span.said { color: var(--ink); }
+.ig-caption span.now { background: var(--cyan); color: var(--on-cyan); box-shadow: 0 0 24px rgba(34, 211, 238, .6); }
+.ig-caption span.hot { color: var(--orange); } /* a keyword after it has been said */
+
+/* ---------- Phone / chat mockup ---------- */
+.ig-phone {
+  position: absolute; width: 620px; height: 1040px; border-radius: 72px; padding: 22px; box-sizing: border-box;
+  background: #0d1633; box-shadow: inset 0 0 0 3px var(--line), 0 0 0 2px rgba(34, 211, 238, .35), 0 0 60px rgba(34, 211, 238, .18), var(--lift);
+}
+.ig-phone .screen { position: relative; height: 100%; border-radius: 52px; background: var(--surface); overflow: hidden; display: flex; flex-direction: column; }
+.ig-phone .notch { position: absolute; top: 18px; left: 50%; width: 150px; height: 40px; margin-left: -75px; border-radius: 20px; background: var(--night-950); }
+.ig-phone .head { display: flex; align-items: center; gap: 18px; padding: 88px 36px 26px; border-bottom: 2px solid var(--line); }
+.ig-phone .avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--cyan-soft); box-shadow: var(--glow-cyan); display: grid; place-items: center; color: var(--cyan); font-weight: 800; font-size: 28px; }
+.ig-phone .name { font-size: 34px; font-weight: 800; }
+.ig-phone .status { font-size: 28px; font-weight: 600; color: var(--cyan); }
+.ig-phone .thread { flex: 1; display: flex; flex-direction: column; gap: 26px; padding: 36px 30px; }
+.ig-bubble { max-width: 470px; padding: 24px 30px; border-radius: 34px; font-size: 36px; line-height: 1.3; font-weight: 600; }
+.ig-bubble--me { align-self: flex-end; background: var(--surface-raised); color: var(--ink); border-bottom-right-radius: 10px; }
+.ig-bubble--ai { align-self: flex-start; background: var(--cyan-soft); color: var(--ink); box-shadow: var(--glow-cyan); border-bottom-left-radius: 10px; }
+.ig-bubble--ai b { color: var(--cyan); font-weight: 800; }
+.ig-typing { align-self: flex-start; display: flex; gap: 12px; padding: 30px 34px; border-radius: 34px; border-bottom-left-radius: 10px; background: var(--cyan-soft); box-shadow: inset 0 0 0 2px rgba(34, 211, 238, .5); }
+.ig-typing i { width: 16px; height: 16px; border-radius: 50%; background: var(--cyan);  }
+.ig-typing i:nth-child(2) { animation-delay: .15s; } .ig-typing i:nth-child(3) { animation-delay: .3s; }
+.ig-phone .input { margin: 0 24px 34px; height: 92px; border-radius: 46px; background: var(--night); box-shadow: inset 0 0 0 2px var(--line); display: flex; align-items: center; padding: 0 32px; font-size: 30px; font-weight: 600; color: var(--ink-dim); }
+
+/* ---------- Progress bar ---------- */
+.ig-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 88px; }
+.ig-progress .track { position: absolute; left: 0; right: 0; bottom: 0; height: 12px; background: rgba(42, 58, 112, .7); display: flex; gap: 6px; }
+.ig-progress .seg { flex: 1; position: relative; background: rgba(42, 58, 112, .9); }
+.ig-progress .fill { position: absolute; left: 0; bottom: 0; height: 12px; background: var(--cyan); box-shadow: 0 0 16px rgba(34, 211, 238, .8); }
+.ig-progress .fill::after { content: ""; position: absolute; right: -10px; top: -6px; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 4px var(--cyan), 0 0 24px var(--cyan); }
+.ig-progress .chapters { position: absolute; left: 0; right: 0; bottom: 30px; display: flex; gap: 6px; }
+.ig-progress .chapters span { flex: 1; padding-left: 24px; font-size: 28px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-dim); }
+.ig-progress .chapters span.on { color: var(--cyan); text-shadow: var(--glow-text-cyan); }
+.ig-progress .chapters span.done { color: var(--ink-muted); }
+
+/* ---------- End card ---------- */
+.ig-signoff { font-family: var(--ig-display); font-size: 180px; line-height: 1; letter-spacing: -0.015em; margin: 0; color: var(--cyan); text-shadow: 0 0 24px rgba(34, 211, 238, .7), 0 0 80px rgba(34, 211, 238, .35); }
+.ig-signoff b { font-weight: 400; color: var(--orange); text-shadow: var(--glow-text-orange); }
+.ig-slot { position: absolute; border-radius: var(--radius-md); border: 3px dashed rgba(34, 211, 238, .55); background: rgba(17, 27, 61, .6); display: flex; align-items: flex-end; padding: 28px 32px; box-sizing: border-box; }
+.ig-slot--round { border-radius: 50%; align-items: center; justify-content: center; text-align: center; border-color: rgba(255, 122, 26, .6); }
+
+/* ---------- Thumbnail ---------- */
+.ig-thumb-text { position: absolute; left: 64px; top: 50%; transform: translateY(-50%); font-size: 150px; line-height: .9; letter-spacing: -0.015em; text-transform: uppercase; color: var(--ink); text-shadow: 0 6px 0 var(--night-950), 0 0 40px rgba(5, 9, 24, .9); z-index: 2; }
+.ig-thumb-text .o { color: var(--orange); text-shadow: 0 6px 0 var(--night-950), 0 0 36px rgba(255, 122, 26, .55); }
+.ig-thumb-text .c { color: var(--cyan); text-shadow: 0 6px 0 var(--night-950), 0 0 36px rgba(34, 211, 238, .55); }
+.ig-thumb-art { position: absolute; right: 0; top: 0; bottom: 0; width: 620px; }
+
+/* ---------- Illustration scene ---------- */
+.ig-scene-art { position: absolute; inset: 0; }
+.ig-scene-art svg, .ig-scene-art img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.ig-scene-scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5, 9, 24, .92) 0%, rgba(5, 9, 24, .6) 34%, rgba(5, 9, 24, 0) 55%); }
+.ig-scene-head { position: absolute; left: var(--safe-x, 128px); top: var(--safe-y, 96px); width: 760px; display: flex; flex-direction: column; gap: 28px; }
+
+
+#root{position:relative}
+.clip{position:absolute;inset:0}
+.scene{overflow:hidden}
+.cam{position:absolute;inset:0;transform-origin:50% 45%}
+.scene.plain{background:var(--night)}
+/* everything animated starts hidden; containers that are shown by their children stay visible */
+.scene [id]{opacity:0}
+.ch,.tw,.rw{display:none}
+#s4 .ch,#s4 .tw,#s6 .ch,.scene .rw{opacity:1}
+#s4 .k,#s4-phone,#s3-loop,#s1-chat .reply,.pr-dock{opacity:1}
+#s6-card,#s7-soak,#s8-cmp,#s8-head,#s9-v,#s3-fill,#s6-hi,#s6 .box{opacity:1}
+#s2-caret,#s3-caret{opacity:1}
+/* chat window used by the predictor */
+.chatwin{position:absolute;right:128px;top:150px;width:760px;padding:40px;border-radius:var(--radius-md);background:var(--surface);
+  box-shadow:inset 0 0 0 2px var(--line),var(--lift);display:flex;flex-direction:column;gap:28px}
+.chatwin.wide{position:relative;right:auto;top:auto;width:1200px}
+.cw-head{display:flex;align-items:center;gap:14px;font-size:30px;font-weight:800;color:var(--ink-muted);padding-bottom:20px;border-bottom:2px solid var(--line)}
+.cw-dot{width:18px;height:18px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}
+.chatwin .ig-bubble{max-width:none;font-size:40px}
+.cw-q{align-self:flex-end}.cw-a{align-self:flex-start;min-height:52px}
+.caret{color:var(--cyan);font-weight:400}
+.pr-dock{position:relative;height:250px}
+.pr-panel{position:absolute;left:0;right:0;top:0;display:flex;flex-direction:column;gap:14px;padding:22px 26px;border-radius:var(--radius-md);
+  background:var(--night);box-shadow:inset 0 0 0 2px var(--line)}
+.pr-row{display:grid;grid-template-columns:260px 1fr 110px;align-items:center;gap:22px;font-size:36px;font-weight:700;color:var(--ink-muted)}
+.pr-row .bar{height:16px;border-radius:8px;background:var(--surface-raised);overflow:hidden}
+.pr-row .bar i{display:block;height:100%;border-radius:8px;background:var(--ink-dim);transform-origin:left}
+.pr-row .pct{font-size:30px;color:var(--ink-dim);text-align:right}
+.pr-panel.lock .pr-row.win{color:var(--cyan);text-shadow:var(--glow-text-cyan)}
+.pr-panel.lock .pr-row.win .bar i{background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+.pr-panel.lock .pr-row.win .pct{color:var(--cyan)}
+/* slide 1 */
+.s1-left{position:absolute;left:128px;top:0;bottom:0;width:900px;display:flex;flex-direction:column;justify-content:center;gap:44px}
+.s1-left .ln{display:block}
+.qcard{position:absolute;left:128px;right:128px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:44px}
+/* fill in the blank */
+.blank-caret{position:absolute;left:50%;top:24px;bottom:24px;width:6px;margin-left:-3px;background:var(--cyan);border-radius:3px}
+.ig-blank{min-width:360px}
+.ig-guess .bar i{transform-origin:left}
+.s2-note{margin-top:64px}
+/* slide 3 loop */
+.s3-loop{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:44px}
+.loopsteps{display:flex;align-items:center;gap:18px}.loopsteps .arr{font-size:44px;color:var(--ink-dim)}
+.s3-count{font-size:48px;font-weight:800}
+.s3-loop .pr-dock{height:250px}
+/* slide 4 phone */
+.rig{position:absolute;left:40%;top:50%;width:620px;height:1040px;margin-left:-310px;margin-top:-520px}
+.ig-phone.p4{left:0;top:0}
+.p4 .thread{flex:1}.p4 .ig-bubble.in{align-self:flex-start;background:var(--surface-raised);border-bottom-left-radius:10px;border-bottom-right-radius:34px;font-size:32px}
+.compose{margin:10px 22px;min-height:70px;border-radius:34px;box-shadow:inset 0 0 0 2px var(--line);padding:14px 24px;font-size:31px;font-weight:600;line-height:1.35;color:var(--ink)}
+.caret2{color:var(--cyan);font-weight:400}
+.suggbar{position:relative;height:70px;background:var(--night)}
+.sset{position:absolute;inset:0;display:flex;align-items:center;opacity:0}
+.sset span{flex:1;text-align:center;font-size:28px;font-weight:600;color:var(--ink-muted);border-right:2px solid var(--line)}
+.sset span:last-child{border-right:none}.sset .mid{color:var(--cyan);font-weight:800}
+.tap{position:absolute;left:50%;top:50%;width:130px;height:130px;margin:-65px 0 0 -65px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,122,26,.85) 0%,rgba(255,122,26,.35) 45%,rgba(255,122,26,0) 70%)}
+.kb{background:var(--night);padding:12px 8px 30px;display:flex;flex-direction:column;gap:12px}
+.krow{display:flex;justify-content:center;gap:7px}
+.k{width:48px;height:64px;border-radius:10px;background:var(--surface-raised);color:var(--ink);font-size:27px;font-weight:600;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 0 var(--night-950)}
+.k.fn{background:var(--surface);width:64px;font-size:24px}.k.w2{width:112px;font-size:22px}.k.space{width:250px;font-size:22px;color:var(--ink-muted)}
+.s4-stamp{left:-20px;top:640px;font-size:96px;z-index:5}
+.s4-label{position:absolute;right:128px;top:50%;margin-top:-170px;display:flex;flex-direction:column;align-items:flex-start;gap:30px}
+.s4-out{position:absolute;right:128px;top:50%;margin-top:-120px;width:780px;display:flex;flex-direction:column;gap:24px}
+/* illustration scenes */
+.art{position:absolute;inset:0;transform-origin:50% 50%}
+.art img{position:absolute;inset:0;width:1920px;height:1080px;object-fit:cover}
+.ig-pointer .c,.ig-pointer path.c{stroke:var(--cyan)}
+.s5-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,9,24,.7) 0%,rgba(5,9,24,0) 30%,rgba(5,9,24,0) 70%,rgba(5,9,24,.85) 100%)}
+.s5-scale{position:absolute;left:0;right:0;top:360px;text-align:center;font-family:var(--ig-display);font-size:200px;margin:0;color:var(--ink);text-shadow:var(--glow-text-orange)}
+.s5-life{position:absolute;left:128px;top:110px}
+.s6-head{position:absolute;left:128px;right:128px;top:96px;text-align:center;display:flex;flex-direction:column;gap:20px}
+.morph{position:absolute;left:50%;top:470px;width:1100px;height:440px;margin-left:-550px;border-radius:var(--radius-md);background:var(--surface);box-shadow:var(--glow-cyan),var(--lift)}
+.mc{position:absolute;inset:0;padding:44px 56px;display:flex;flex-direction:column;gap:30px;align-items:flex-start}
+.code{font-family:"DejaVu Sans Mono",monospace;font-size:36px;line-height:1.6;color:var(--ink);white-space:pre}
+.code .kw{color:var(--orange);font-style:normal}.code .n{color:var(--cyan);font-style:normal}
+.form{width:100%;display:flex;flex-direction:column;gap:14px}
+.fr{display:flex;justify-content:space-between;padding:18px 24px;border-radius:12px;box-shadow:inset 0 0 0 2px var(--line);font-size:34px;font-weight:600}
+.fr.hi{box-shadow:inset 0 0 0 3px var(--cyan)}.fv{color:var(--cyan);font-weight:800}
+.chk{display:flex;flex-direction:column;gap:18px}
+.ck{display:flex;align-items:center;gap:24px;font-size:38px;font-weight:600}
+.box{width:44px;height:44px;border-radius:10px;box-shadow:inset 0 0 0 3px var(--ink-dim)}
+.box.on{background:var(--cyan);box-shadow:0 0 16px var(--cyan)}
+.s6-auto{position:absolute;left:0;right:0;top:420px;text-align:center}
+.s6-auto .ig-hxl{display:inline}
+.caret3{color:var(--cyan)}
+.s6-wild{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center}
+.s6-wild h1{position:relative;z-index:2}
+#s6-w{display:inline-block}
+.burst{position:absolute;left:50%;top:50%;width:1200px;height:1200px;margin:-600px 0 0 -600px;overflow:visible}
+.burst path{stroke:var(--orange);stroke-width:10;stroke-linecap:round;stroke-dasharray:100}
+.sentcard{position:absolute;left:128px;bottom:150px;display:flex;align-items:center;gap:32px;padding:30px 44px;border-radius:var(--radius-md);background:rgba(10,17,40,.88);box-shadow:inset 0 0 0 2px var(--line),var(--lift)}
+.sentcard .ans{font-family:var(--ig-display);font-size:64px}
+.recipe{position:absolute;left:50%;top:50%;width:1000px;margin:-330px 0 0 -500px;padding:52px 60px;border-radius:var(--radius-md);background:var(--surface);
+  box-shadow:var(--glow-orange),var(--lift);display:flex;flex-direction:column;gap:26px;align-items:flex-start}
+.eggs{display:flex;gap:30px}
+.egg{display:block;width:92px;height:118px;border-radius:50% 50% 46% 46%/60% 60% 40% 40%;background:#f4f7ff;box-shadow:0 0 18px rgba(244,247,255,.35)}
+.egg.miss{background:transparent;box-shadow:none;border:5px dashed var(--orange)}
+.recipe .ans{font-family:var(--ig-display)}
+.s7-soak{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:52px}
+.s8-top{position:absolute;left:0;right:0;top:0;height:360px;background:linear-gradient(180deg,rgba(5,9,24,.85),rgba(5,9,24,0))}
+.s8-head{position:absolute;left:0;right:0;top:80px;display:flex;flex-direction:column;align-items:center;gap:24px;transform-origin:50% 0}
+.s8-cmp{padding-top:170px}
+.ringrect{fill:none;stroke:var(--orange);stroke-width:8;stroke-dasharray:1100;filter:drop-shadow(0 0 12px rgba(255,122,26,.9))}
+.ig-arrow path{stroke-dasharray:340}
+.s9-state{justify-content:center}
+.s9-v .ig-venn .circle{mix-blend-mode:normal}
+.s9-chat{right:auto;left:50%;top:170px;width:1000px;margin-left:-500px}
+.s9-stamp{left:930px;top:330px;font-size:100px;z-index:5}
+.s9-truth{position:absolute;left:0;right:0;bottom:170px;text-align:center}
+.s9-note{position:absolute;left:0;right:0;top:80px;text-align:center}
+.s10-end{position:absolute;inset:0;text-align:center;padding-top:140px}
+#s10-sign{opacity:0}
+/* rail + bug */
+#rail{position:absolute;left:0;right:0;bottom:0;height:88px;z-index:20}
+#rail .chapters span.on{color:var(--cyan);text-shadow:var(--glow-text-cyan)}#rail .chapters span.done{color:var(--ink-muted)}
+#pfill{position:absolute;left:0;bottom:0;height:12px;background:var(--cyan);box-shadow:0 0 16px rgba(34,211,238,.8)}
+#bug{bottom:120px;z-index:20}
+#crops{z-index:19}
+</style></head>
+<body>
+<div id="root" class="ig-frame" data-composition-id="main" data-start="0" data-duration="220.773" data-width="1920" data-height="1080">
+  <audio id="vo" src="assets/mix.mp3" data-start="0" data-duration="220.773" data-track-index="0" data-volume="1"></audio>
+  <section id="s1" class="clip scene " data-start="0" data-duration="22.347" data-track-index="1"><div class="cam">
+  <div class="s1-left">
+    <h1 class="ig-hxl"><span class="ln" id="s1-l1">ChatGPT doesn't</span><span class="ln" id="s1-l2">know <span class="ig-em-o">anything.</span></span></h1>
+    <p class="ig-body-lg ig-muted" id="s1-sub">It's <span class="ig-em-c">guessing.</span> One word at a time.</p>
+  </div>
+  <div class="chatwin" id="s1-chat">
+    <div class="cw-head"><div class="cw-dot"></div><span>Chatbot</span></div>
+    <div class="ig-bubble ig-bubble--me cw-q" id="s1-q">Is a tomato a fruit?</div>
+    <div class="ig-bubble ig-bubble--ai cw-a" id="s1-a"><span class="reply"><span class="rw" id="h-w0">Yes, </span><span class="rw" id="h-w1">technically </span><span class="rw" id="h-w2">it's </span><span class="rw" id="h-w3">a </span><span class="rw" id="h-w4">fruit. </span></span><span class="caret" id="s1-caret">|</span></div>
+    <div class="pr-dock"><div class="pr-panel" id="h-p0"><div class="pr-row win"><span class="w">Yes,</span><span class="bar"><i style="width:78%"></i></span></div><div class="pr-row"><span class="w">No,</span><span class="bar"><i style="width:14%"></i></span></div><div class="pr-row"><span class="w">Well,</span><span class="bar"><i style="width:8%"></i></span></div></div><div class="pr-panel" id="h-p1"><div class="pr-row win"><span class="w">technically</span><span class="bar"><i style="width:55%"></i></span></div><div class="pr-row"><span class="w">it's</span><span class="bar"><i style="width:30%"></i></span></div><div class="pr-row"><span class="w">actually</span><span class="bar"><i style="width:15%"></i></span></div></div><div class="pr-panel" id="h-p2"><div class="pr-row win"><span class="w">it's</span><span class="bar"><i style="width:70%"></i></span></div><div class="pr-row"><span class="w">a</span><span class="bar"><i style="width:18%"></i></span></div><div class="pr-row"><span class="w">tomatoes</span><span class="bar"><i style="width:12%"></i></span></div></div><div class="pr-panel" id="h-p3"><div class="pr-row win"><span class="w">a</span><span class="bar"><i style="width:88%"></i></span></div><div class="pr-row"><span class="w">not</span><span class="bar"><i style="width:8%"></i></span></div><div class="pr-row"><span class="w">the</span><span class="bar"><i style="width:4%"></i></span></div></div><div class="pr-panel" id="h-p4"><div class="pr-row win"><span class="w">fruit.</span><span class="bar"><i style="width:71%"></i></span></div><div class="pr-row"><span class="w">berry.</span><span class="bar"><i style="width:17%"></i></span></div><div class="pr-row"><span class="w">vegetable.</span><span class="bar"><i style="width:12%"></i></span></div></div></div>
+  </div>
+  <div class="qcard" id="s1-q2"><span class="ig-kicker"><span class="ig-kicker-dot"></span>Hold on to this</span>
+    <h2 class="ig-hsm">If it's only guessing&hellip;<br/>how can it <span class="ig-em-o">solve problems?</span></h2></div></div></section><section id="s2" class="clip scene " data-start="22.347" data-duration="15.973" data-track-index="1"><div class="cam">
+  <div class="ig-safe ig-center">
+    <div class="ig-label ig-dim" id="s2-lab" style="margin-bottom:48px">Finish the sentence in your head</div>
+    <div class="ig-sentence ig-hsm"><span id="s2-sent">Peanut butter and</span>
+      <span class="ig-blank" id="s2-blank"><span class="blank-caret" id="s2-caret"></span><span id="s2-ans">jelly</span></span></div>
+    <div class="ig-guesses">
+      <div class="ig-guess ig-guess--win" id="s2-g1"><span class="word">jelly</span><span class="bar"><i style="--p:78%"></i></span></div>
+      <div class="ig-guess ig-guess--odd" id="s2-g2"><span class="word">jam</span><span class="bar"><i style="--p:16%"></i></span></div>
+      <div class="ig-guess" id="s2-g3"><span class="word">honey</span><span class="bar"><i style="--p:6%"></i></span></div>
+    </div>
+    <div class="ig-label ig-em-c s2-note" id="s2-note">Seen together a thousand times</div>
+  </div></div></section><section id="s3" class="clip scene " data-start="38.319" data-duration="24.018" data-track-index="1"><div class="cam">
+  <div class="ig-safe ig-center" id="s3-fill">
+    <div class="ig-sentence ig-hsm"><span id="s3-sent">The capital of France is</span>
+      <span class="ig-blank" id="s3-blank"><span class="blank-caret" id="s3-caret"></span><span id="s3-ans">Paris</span></span></div>
+    <div class="ig-guesses">
+      <div class="ig-guess ig-guess--win" id="s3-g1"><span class="word">Paris</span><span class="bar"><i style="--p:94%"></i></span><span class="pct">94%</span></div>
+      <div class="ig-guess" id="s3-g2"><span class="word">beautiful</span><span class="bar"><i style="--p:4%"></i></span><span class="pct">4%</span></div>
+      <div class="ig-guess" id="s3-g3"><span class="word">Lyon</span><span class="bar"><i style="--p:2%"></i></span><span class="pct">2%</span></div>
+    </div>
+  </div>
+  <div class="s3-loop" id="s3-loop">
+    <div class="loopsteps">
+      <span class="ig-pill" id="s3-k1">Read so far</span><span class="arr" id="s3-ar1">&rarr;</span>
+      <span class="ig-pill" id="s3-k2">Guess next word</span><span class="arr" id="s3-ar2">&rarr;</span>
+      <span class="ig-pill" id="s3-k3">Add it</span><span class="arr" id="s3-ar3">&rarr;</span>
+      <span class="ig-pill ig-pill--o" id="s3-k4">Repeat</span>
+    </div>
+    <div class="chatwin wide" id="s3-chat">
+      <div class="ig-bubble ig-bubble--me cw-q">What's the capital of France?</div>
+      <div class="ig-bubble ig-bubble--ai cw-a"><span class="reply">Paris. <span class="rw" id="lp-w0">It's </span><span class="rw" id="lp-w1">known </span><span class="rw" id="lp-w2">for </span><span class="rw" id="lp-w3">the </span><span class="rw" id="lp-w4">Eiffel </span><span class="rw" id="lp-w5">Tower, </span><span class="rw" id="lp-w6">art, </span><span class="rw" id="lp-w7">food </span><span class="rw" id="lp-w8">and </span><span class="rw" id="lp-w9">fashion. </span></span></div>
+      <div class="pr-dock"><div class="pr-panel" id="lp-p0"><div class="pr-row win"><span class="w">It's</span><span class="bar"><i style="width:60%"></i></span></div><div class="pr-row"><span class="w">Paris</span><span class="bar"><i style="width:25%"></i></span></div><div class="pr-row"><span class="w">The</span><span class="bar"><i style="width:15%"></i></span></div></div><div class="pr-panel" id="lp-p1"><div class="pr-row win"><span class="w">known</span><span class="bar"><i style="width:50%"></i></span></div><div class="pr-row"><span class="w">famous</span><span class="bar"><i style="width:35%"></i></span></div><div class="pr-row"><span class="w">home</span><span class="bar"><i style="width:15%"></i></span></div></div><div class="pr-panel" id="lp-p2"><div class="pr-row win"><span class="w">for</span><span class="bar"><i style="width:90%"></i></span></div><div class="pr-row"><span class="w">as</span><span class="bar"><i style="width:7%"></i></span></div><div class="pr-row"><span class="w">by</span><span class="bar"><i style="width:3%"></i></span></div></div><div class="pr-panel" id="lp-p3"><div class="pr-row win"><span class="w">the</span><span class="bar"><i style="width:70%"></i></span></div><div class="pr-row"><span class="w">its</span><span class="bar"><i style="width:25%"></i></span></div><div class="pr-row"><span class="w">art</span><span class="bar"><i style="width:5%"></i></span></div></div><div class="pr-panel" id="lp-p4"><div class="pr-row win"><span class="w">Eiffel</span><span class="bar"><i style="width:80%"></i></span></div><div class="pr-row"><span class="w">Louvre</span><span class="bar"><i style="width:15%"></i></span></div><div class="pr-row"><span class="w">food</span><span class="bar"><i style="width:5%"></i></span></div></div><div class="pr-panel" id="lp-p5"><div class="pr-row win"><span class="w">Tower,</span><span class="bar"><i style="width:97%"></i></span></div><div class="pr-row"><span class="w">Tower.</span><span class="bar"><i style="width:2%"></i></span></div><div class="pr-row"><span class="w">tower</span><span class="bar"><i style="width:1%"></i></span></div></div><div class="pr-panel" id="lp-p6"><div class="pr-row win"><span class="w">art,</span><span class="bar"><i style="width:50%"></i></span></div><div class="pr-row"><span class="w">food,</span><span class="bar"><i style="width:40%"></i></span></div><div class="pr-row"><span class="w">wine,</span><span class="bar"><i style="width:10%"></i></span></div></div><div class="pr-panel" id="lp-p7"><div class="pr-row win"><span class="w">food</span><span class="bar"><i style="width:60%"></i></span></div><div class="pr-row"><span class="w">fashion</span><span class="bar"><i style="width:30%"></i></span></div><div class="pr-row"><span class="w">cafes</span><span class="bar"><i style="width:10%"></i></span></div></div><div class="pr-panel" id="lp-p8"><div class="pr-row win"><span class="w">and</span><span class="bar"><i style="width:85%"></i></span></div><div class="pr-row"><span class="w">&</span><span class="bar"><i style="width:10%"></i></span></div><div class="pr-row"><span class="w">or</span><span class="bar"><i style="width:5%"></i></span></div></div><div class="pr-panel" id="lp-p9"><div class="pr-row win"><span class="w">fashion.</span><span class="bar"><i style="width:55%"></i></span></div><div class="pr-row"><span class="w">wine.</span><span class="bar"><i style="width:30%"></i></span></div><div class="pr-row"><span class="w">romance.</span><span class="bar"><i style="width:15%"></i></span></div></div></div>
+    </div>
+    <div class="s3-count" id="s3-count"><span class="ig-em-o">&times; hundreds</span> &middot; super fast</div>
+  </div></div></section><section id="s4" class="clip scene " data-start="62.338" data-duration="19.551" data-track-index="1"><div class="cam">
+  <div class="rig" id="s4-rig">
+    <div class="ig-phone p4" id="s4-phone"><div class="screen">
+      <div class="notch"></div>
+      <div class="head"><div class="avatar">J</div><div><div class="name">Jay</div><div class="status">online</div></div></div>
+      <div class="thread">
+        <div class="ig-bubble ig-bubble--me in">yo where are you??</div>
+        <div class="ig-bubble ig-bubble--me in">we're all here already</div>
+      </div>
+      <div class="compose"><span class="ctext"><span class="ch" id="s4-c0">I</span><span class="ch" id="s4-c1">'</span><span class="ch" id="s4-c2">m</span><span class="ch" id="s4-c3">&nbsp;</span><span class="ch" id="s4-c4">g</span><span class="ch" id="s4-c5">o</span><span class="ch" id="s4-c6">i</span><span class="ch" id="s4-c7">n</span><span class="ch" id="s4-c8">g</span><span class="ch" id="s4-c9">&nbsp;</span><span class="ch" id="s4-c10">t</span><span class="ch" id="s4-c11">o</span><span class="tw" id="s4-t0"> be</span><span class="tw" id="s4-t1"> there</span><span class="tw" id="s4-t2"> in</span><span class="tw" id="s4-t3"> a</span><span class="tw" id="s4-t4"> few</span><span class="tw" id="s4-t5"> minutes</span><span class="tw" id="s4-t6"> and</span><span class="tw" id="s4-t7"> I</span><span class="tw" id="s4-t8"> will</span><span class="tw" id="s4-t9"> be</span><span class="tw" id="s4-t10"> there</span><span class="tw" id="s4-t11"> in</span><span class="tw" id="s4-t12"> a</span><span class="tw" id="s4-t13"> few</span><span class="tw" id="s4-t14"> minutes</span><span class="tw" id="s4-t15"> and</span></span><span class="caret2">|</span></div>
+      <div class="suggbar"><div class="sset" id="s4-set0"><span>I</span><span class="mid">be</span><span>the</span></div><div class="sset" id="s4-set1"><span>here</span><span class="mid">there</span><span>back</span></div><div class="sset" id="s4-set2"><span>the</span><span class="mid">in</span><span>at</span></div><div class="sset" id="s4-set3"><span>few</span><span class="mid">a</span><span>bit</span></div><div class="sset" id="s4-set4"><span>couple</span><span class="mid">few</span><span>lot</span></div><div class="sset" id="s4-set5"><span>min</span><span class="mid">minutes</span><span>hours</span></div><div class="sset" id="s4-set6"><span>so</span><span class="mid">and</span><span>but</span></div><div class="sset" id="s4-set7"><span>we</span><span class="mid">I</span><span>you</span></div><div class="sset" id="s4-set8"><span>be</span><span class="mid">will</span><span>have</span></div><div class="sset" id="s4-set9"><span>home</span><span class="mid">be</span><span>back</span></div><div class="sset" id="s4-set10"><span>here</span><span class="mid">there</span><span>at</span></div><div class="sset" id="s4-set11"><span>on</span><span class="mid">in</span><span>at</span></div><div class="sset" id="s4-set12"><span>the</span><span class="mid">a</span><span>few</span></div><div class="sset" id="s4-set13"><span>couple</span><span class="mid">few</span><span>lot</span></div><div class="sset" id="s4-set14"><span>min</span><span class="mid">minutes</span><span>days</span></div><div class="sset" id="s4-set15"><span>so</span><span class="mid">and</span><span>lol</span></div><div class="sset" id="s4-set16"><span>the</span><span class="mid">be</span><span>get</span></div><div class="tap" id="s4-tap"></div></div>
+      <div class="kb"><div class="krow"><b class="k" id="s4-kQ">Q</b><b class="k" id="s4-kW">W</b><b class="k" id="s4-kE">E</b><b class="k" id="s4-kR">R</b><b class="k" id="s4-kT">T</b><b class="k" id="s4-kY">Y</b><b class="k" id="s4-kU">U</b><b class="k" id="s4-kI">I</b><b class="k" id="s4-kO">O</b><b class="k" id="s4-kP">P</b></div><div class="krow"><b class="k" id="s4-kA">A</b><b class="k" id="s4-kS">S</b><b class="k" id="s4-kD">D</b><b class="k" id="s4-kF">F</b><b class="k" id="s4-kG">G</b><b class="k" id="s4-kH">H</b><b class="k" id="s4-kJ">J</b><b class="k" id="s4-kK">K</b><b class="k" id="s4-kL">L</b></div><div class="krow"><b class="k fn">&#8679;</b><b class="k" id="s4-kZ">Z</b><b class="k" id="s4-kX">X</b><b class="k" id="s4-kC">C</b><b class="k" id="s4-kV">V</b><b class="k" id="s4-kB">B</b><b class="k" id="s4-kN">N</b><b class="k" id="s4-kM">M</b><b class="k fn">&#9003;</b></div><div class="krow"><b class="k fn w2">123</b><b class="k space" id="s4-kspace">space</b><b class="k fn w2">return</b></div></div>
+    </div></div>
+    <div class="ig-stamp s4-stamp" id="s4-stamp">NONSENSE.</div>
+  </div>
+  <div class="s4-label" id="s4-lab"><span class="ig-kicker ig-kicker--cyan"><span class="ig-kicker-dot"></span>Try it</span>
+    <p class="ig-body-lg">Type <b class="ig-em-c">"I'm going to"</b><br/>tap the <b class="ig-em-o">middle</b> word.<br/>Again. And again.</p></div>
+  <div class="s4-out" id="s4-b"><h2 class="ig-hsm">Your phone is guessing too.</h2><p class="ig-body-lg ig-muted">It's just <span class="ig-em-o">really bad</span> at it.</p></div></div></section><section id="s5" class="clip scene plain" data-start="81.889" data-duration="18.428" data-track-index="1"><div class="cam">
+  <div class="art" id="s5-art"><img src="assets/brain-library.png" alt=""/>
+    <svg class="ig-pointer" viewBox="0 0 1920 1080" style="left:0;top:0;width:1920px;height:1080px">
+      <circle id="s5-d1" cx="330" cy="700" r="12"/><path id="s5-l1" d="M330 700 V560 H430" style="stroke-dasharray:260"/>
+      <circle id="s5-d2" cx="1340" cy="150" r="12" class="c"/><path id="s5-l2" class="c" d="M1340 150 H1080 V230" style="stroke-dasharray:360"/>
+    </svg>
+    <div class="ig-callout" style="left:440px;top:522px"><span class="ig-pill ig-pill--o" id="s5-p1">Your phone: your texts</span></div>
+    <div class="ig-callout" style="left:760px;top:240px"><span class="ig-pill" id="s5-p2">ChatGPT: books, sites, forums, code</span></div>
+  </div>
+  <div class="s5-scrim"></div>
+  <h1 class="s5-scale" id="s5-scale">Scale.</h1>
+  <div class="s5-life" id="s5-life"><p class="ig-body-lg">More reading than any human<br/>could do in <span class="ig-em-o">thousands of lifetimes.</span></p></div></div></section><section id="s6" class="clip scene " data-start="100.317" data-duration="20.779" data-track-index="1"><div class="cam">
+  <div class="s6-head" id="s6-head"><div class="ig-label ig-dim">The question that's been bugging you</div>
+    <h1 class="ig-hsm">Wait&hellip; then how does it<br/><span class="ig-em-o">solve problems?</span></h1></div>
+  <div class="morph" id="s6-card">
+    <div class="mc" id="s6-m1"><span class="ig-pill">Write working code</span><div class="code"><div class="cl" id="s6-cl0"><i class="kw">def</i> plan_wedding(guests):</div><div class="cl" id="s6-cl1">    venue = find_venue(<i class="n">120</i>)</div><div class="cl" id="s6-cl2">    <i class="kw">return</i> budget(venue)</div></div></div>
+    <div class="mc" id="s6-m2"><span class="ig-pill">Explain a tax form</span>
+      <div class="form"><div class="fr"><span>Line 12 &middot; Deductions</span><span class="fv">$13,850</span></div>
+      <div class="fr hi" id="s6-hi"><span>Line 15 &middot; Taxable income</span><span class="fv">?</span></div>
+      <div class="fr"><span>Line 16 &middot; Tax</span><span class="fv">&mdash;</span></div></div></div>
+    <div class="mc" id="s6-m3"><span class="ig-pill">Help plan a wedding</span><div class="chk"><div class="ck" id="s6-ck0"><span class="box" id="s6-cb0"></span>Book the venue</div><div class="ck" id="s6-ck1"><span class="box" id="s6-cb1"></span>Send invites</div><div class="ck" id="s6-ck2"><span class="box" id="s6-cb2"></span>Taste the cake</div><div class="ck" id="s6-ck3"><span class="box" id="s6-cb3"></span>Pick the music</div></div></div>
+  </div>
+  <div class="s6-auto" id="s6-auto"><span class="ig-hxl">That's it? </span><span class="ig-hxl ig-em-o"><span class="ch" id="s6-a0">A</span><span class="ch" id="s6-a1">u</span><span class="ch" id="s6-a2">t</span><span class="ch" id="s6-a3">o</span><span class="ch" id="s6-a4">c</span><span class="ch" id="s6-a5">o</span><span class="ch" id="s6-a6">m</span><span class="ch" id="s6-a7">p</span><span class="ch" id="s6-a8">l</span><span class="ch" id="s6-a9">e</span><span class="ch" id="s6-a10">t</span><span class="ch" id="s6-a11">e</span><span class="ch" id="s6-a12">?</span></span><span class="ig-hxl caret3" id="s6-caret">|</span></div>
+  <div class="s6-wild" id="s6-wild"><h1 class="ig-hxl">It's actually <span class="ig-em-c" id="s6-w">wild.</span></h1>
+    <svg class="burst" viewBox="-300 -300 600 600"><path id="s6-r0" d="M0 -190 V-290" transform="rotate(-30)"/><path id="s6-r1" d="M0 -190 V-290" transform="rotate(0)"/><path id="s6-r2" d="M0 -190 V-290" transform="rotate(30)"/><path id="s6-r3" d="M0 -190 V-290" transform="rotate(150)"/><path id="s6-r4" d="M0 -190 V-290" transform="rotate(180)"/><path id="s6-r5" d="M0 -190 V-290" transform="rotate(210)"/></svg></div></div></section><section id="s7" class="clip scene plain" data-start="121.096" data-duration="32.743" data-track-index="1"><div class="cam">
+  <div class="art" id="s7-art"><img src="assets/glass.png" alt=""/>
+    <svg class="ig-pointer ig-pointer--o" viewBox="0 0 1920 1080" style="left:0;top:0;width:1920px;height:1080px">
+      <circle id="s7-d1" cx="1060" cy="720" r="12"/><path id="s7-l1" d="M1060 720 V860 H900" style="stroke-dasharray:320"/></svg>
+    <div class="ig-callout" style="left:560px;top:830px"><span class="ig-pill ig-pill--o" id="s7-p1">Glasses break</span></div>
+  </div>
+  <div class="ig-scene-scrim"></div>
+  <div class="ig-scene-head" id="s7-head" style="width:1000px"><span class="ig-kicker"><span class="ig-kicker-dot"></span>Here's the thing</span>
+    <h1 class="ig-hsm">To guess well,<br/>you have to<br/><span class="ig-em-c">understand a lot.</span></h1></div>
+  <div class="sentcard" id="s7-sent"><span class="ig-body">"She dropped the glass, and it&hellip;"</span><span class="ans ig-em-c" id="s7-a1">breaks</span></div>
+  <div class="recipe" id="s7-rec">
+    <div class="ig-label ig-dim">Pancakes</div>
+    <div class="rq ig-body-lg">Needs <b>3 eggs</b></div>
+    <div class="eggs"><i class="egg" id="s7-e1"></i><i class="egg" id="s7-e2"></i><i class="egg miss" id="s7-e3"></i></div>
+    <div class="ig-body">"&hellip;but I only have two, so I&hellip;"</div>
+    <div class="ans ig-body-lg ig-em-c" id="s7-a2">buy one more.</div>
+    <span class="ig-pill" id="s7-need">Needs reasoning</span>
+  </div>
+  <div class="s7-soak" id="s7-soak"><div class="ig-label ig-dim" id="s7-sl">What it soaked up</div>
+    <div class="ig-chips">
+      <span class="ig-chip" id="s7-c1"><span class="t">grammar</span></span><span class="ig-chip" id="s7-c2"><span class="t">facts</span></span>
+      <span class="ig-chip" id="s7-c3"><span class="t">logic</span></span><span class="ig-chip ig-chip--o" id="s7-c4"><span class="t">how people explain</span></span></div>
+    <p class="ig-body-lg" id="s7-b">Nobody programmed it in. <span class="ig-em-o">It got absorbed.</span></p></div></div></section><section id="s8" class="clip scene plain" data-start="153.84" data-duration="22.582" data-track-index="1"><div class="cam">
+  <div class="art" id="s8-art"><img src="assets/manners.png" alt=""/>
+    <svg class="ig-pointer" viewBox="0 0 1920 1080" style="left:0;top:0;width:1920px;height:1080px">
+      <circle id="s8-d1" cx="560" cy="640" r="12"/><path id="s8-l1" d="M560 640 V420 H470" style="stroke-dasharray:320"/>
+      <rect id="s8-ring" class="ringrect" x="1030" y="540" width="330" height="200" rx="26"/>
+      <path id="s8-l2" d="M1195 540 V470" style="stroke-dasharray:80"/></svg>
+    <div class="ig-callout" style="left:150px;top:385px"><span class="ig-pill" id="s8-p1">Examples of great answers</span></div>
+    <div class="ig-callout" style="left:960px;top:400px"><span class="ig-pill ig-pill--o" id="s8-p2">Rated by people</span></div>
+  </div>
+  <div class="s8-top"></div>
+  <div class="s8-head" id="s8-head"><span class="ig-kicker"><span class="ig-kicker-dot"></span>Step 2</span><h1 class="ig-h">Taught <span class="ig-em-o">manners.</span></h1></div>
+  <div class="ig-safe ig-center s8-cmp" id="s8-cmp"><div class="ig-compare">
+    <div class="ig-box" id="s8-b1"><span class="ig-label">Raw text predictor</span><p class="ig-body-lg">Continues random internet text</p></div>
+    <div><svg class="ig-arrow" viewBox="0 0 240 120"><path id="s8-arr" d="M20 60 H214 M172 20 L216 60 L172 100" style="stroke-dasharray:340"/></svg>
+      <div class="ig-arrow-label ig-label-sm ig-em-c" id="s8-al">trained</div></div>
+    <div class="ig-box ig-box--c" id="s8-b2"><span class="ig-label">Helpful assistant</span><p class="ig-body-lg">The one you chat with</p></div>
+  </div></div></div></section><section id="s9" class="clip scene " data-start="176.421" data-duration="26.761" data-track-index="1"><div class="cam">
+  <div class="ig-safe ig-center s9-state" id="s9-state">
+    <h1 class="ig-hxl" id="s9-a">Guessing <span class="ig-em-o">&ne;</span> Knowing</h1>
+    <p class="ig-body-lg ig-muted" id="s9-sub" style="margin-top:40px">It predicts what <i>sounds</i> right. It doesn't look it up.</p></div>
+  <div class="ig-safe ig-center s9-v" id="s9-v"><div class="ig-venn">
+    <div class="circle a" id="s9-c1"><span class="ig-label">Sounds right</span></div>
+    <div class="circle b" id="s9-c2"><span class="ig-label">Is right</span></div>
+    <div class="overlap" id="s9-ov"><span class="ig-label" style="color:var(--ink)">Paris &#10003;</span></div></div></div>
+  <div class="chatwin s9-chat" id="s9-chat">
+    <div class="ig-bubble ig-bubble--me cw-q" id="s9-q">What's the capital of Australia?</div>
+    <div class="ig-bubble ig-bubble--ai cw-a" id="s9-ans"><span class="reply">It's <span class="rw" id="wr-w0">Sydney. </span></span></div>
+    <div class="pr-dock"><div class="pr-panel" id="wr-p0"><div class="pr-row win"><span class="w">Sydney.</span><span class="bar"><i style="width:61%"></i></span><span class="pct">61%</span></div><div class="pr-row"><span class="w">Canberra.</span><span class="bar"><i style="width:35%"></i></span><span class="pct">35%</span></div><div class="pr-row"><span class="w">Melbourne.</span><span class="bar"><i style="width:4%"></i></span><span class="pct">4%</span></div></div></div>
+  </div>
+  <div class="ig-stamp s9-stamp" id="s9-stamp">WRONG.</div>
+  <div class="s9-truth" id="s9-truth"><span class="ig-label ig-dim">Actually:</span> <span class="ig-body-lg ig-em-c">Canberra</span></div>
+  <div class="s9-note" id="s9-note"><p class="ig-body-lg">Same bars. <span class="ig-em-o">Same confidence.</span></p></div></div></section><section id="s10" class="clip scene " data-start="203.182" data-duration="17.591" data-track-index="1"><div class="cam">
+  <div class="ig-safe ig-center" id="s10-next">
+    <span class="ig-kicker ig-kicker--cyan" id="s10-k"><span class="ig-kicker-dot"></span>Next video</span>
+    <h1 class="ig-hxl" id="s10-t" style="margin-top:48px">Why AI lies with a<br/><span class="ig-em-o">straight face</span></h1>
+    <p class="ig-body-lg ig-muted" id="s10-tease" style="margin-top:40px">It once made up a whole court case.</p></div>
+  <div class="s10-end" id="s10-end">
+    <h1 class="ig-signoff" id="s10-sign">I gotchu<b>.</b></h1>
+    <p class="ig-body-lg ig-muted" id="s10-sub" style="margin-top:28px">Watch one of these next</p>
+    <div class="ig-slot" id="s10-sl1" style="left:176px;top:500px;width:600px;height:338px"><span class="ig-label-sm" style="color:var(--cyan)">Next video</span></div>
+    <div class="ig-slot ig-slot--round" id="s10-sl2" style="left:810px;top:520px;width:300px;height:300px"><span class="ig-label-sm" style="color:var(--orange)">Subscribe</span></div>
+    <div class="ig-slot" id="s10-sl3" style="left:1144px;top:500px;width:600px;height:338px"><span class="ig-label-sm" style="color:var(--cyan)">Best for you</span></div>
+  </div></div></section>
+  <div class="ig-crops" id="crops"><i></i><i></i><i></i><i></i></div>
+  <div class="ig-wordmark" id="bug">igotchu<b>.</b></div>
+  <div class="ig-progress" id="rail"><div class="chapters"><span id="ch0">The trick</span><span id="ch1">Your phone</span><span id="ch2">How it's smart</span><span id="ch3">Guessing ≠ knowing</span></div>
+    <div class="track"><div class="seg"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div></div><div id="pfill"></div></div>
+</div>
+<script>
+  gsap.registerPlugin(CustomEase);
+  CustomEase.create("igOut","0.16,1,0.3,1");
+  CustomEase.create("igPop","0.34,1.56,0.64,1");
+  CustomEase.create("igSlam","0.7,0,0.84,0");
+  CustomEase.create("igIO","0.65,0,0.35,1");
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  tl.fromTo("#h-p0",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},1.35);
+  tl.fromTo("#h-p0 .bar i",{scaleX:0},{scaleX:1,duration:0.77,ease:"igOut",stagger:.06},1.4);
+  tl.set("#h-p0",{className:"pr-panel lock"},2.404);
+  tl.set("#h-w0",{display:"inline"},2.54);
+  tl.fromTo("#h-w0",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},2.54);
+  tl.fromTo("#h-p0",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},2.93);
+  tl.fromTo("#h-p1",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},3.05);
+  tl.fromTo("#h-p1 .bar i",{scaleX:0},{scaleX:1,duration:0.68,ease:"igOut",stagger:.06},3.1);
+  tl.set("#h-p1",{className:"pr-panel lock"},3.98);
+  tl.set("#h-w1",{display:"inline"},4.1);
+  tl.fromTo("#h-w1",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},4.1);
+  tl.fromTo("#h-p1",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},4.43);
+  tl.fromTo("#h-p2",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},4.55);
+  tl.fromTo("#h-p2 .bar i",{scaleX:0},{scaleX:1,duration:0.54,ease:"igOut",stagger:.06},4.6);
+  tl.set("#h-p2",{className:"pr-panel lock"},5.294);
+  tl.set("#h-w2",{display:"inline"},5.39);
+  tl.fromTo("#h-w2",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},5.39);
+  tl.fromTo("#h-p2",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},5.63);
+  tl.fromTo("#h-p3",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},5.75);
+  tl.fromTo("#h-p3 .bar i",{scaleX:0},{scaleX:1,duration:0.45,ease:"igOut",stagger:.06},5.8);
+  tl.set("#h-p3",{className:"pr-panel lock"},6.37);
+  tl.set("#h-w3",{display:"inline"},6.45);
+  tl.fromTo("#h-w3",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},6.45);
+  tl.fromTo("#h-p3",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},6.63);
+  tl.fromTo("#h-p4",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},6.75);
+  tl.fromTo("#h-p4 .bar i",{scaleX:0},{scaleX:1,duration:0.63,ease:"igOut",stagger:.06},6.8);
+  tl.set("#h-p4",{className:"pr-panel lock"},7.618);
+  tl.set("#h-w4",{display:"inline"},7.73);
+  tl.fromTo("#h-w4",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},7.73);
+  tl.fromTo("#h-p4",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},8.03);
+  tl.fromTo("#s1 .cam",{scale:1,x:0},{scale:1.03,x:0,duration:22.347,ease:"sine.inOut"},0);
+  tl.fromTo("#s1-l1",{"opacity": 0, "y": 50},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},0.15);
+  tl.fromTo("#s1-l2",{"opacity": 0, "y": 50},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},0.35);
+  tl.fromTo("#s1-chat",{"opacity": 0, "y": 260},{"opacity": 1, "y": 0, "duration": 0.8, "ease": "igOut"},0.3);
+  tl.fromTo("#s1-q",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},0.9);
+  tl.fromTo("#s1-a",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},1.25);
+  tl.fromTo("#s1-caret",{opacity:1},{opacity:0,duration:.5,ease:"steps(1)",repeat:18,yoyo:true},1.25);
+  tl.fromTo("#s1-sub",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},2.627);
+  tl.fromTo("#s1-l1",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},17.965);
+  tl.fromTo("#s1-l2",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},17.965);
+  tl.fromTo("#s1-sub",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},17.965);
+  tl.to("#s1-chat",{x:620,opacity:.25,duration:.6,ease:"igIO"},17.865);
+  tl.fromTo("#s1-q2",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},18.365);
+  tl.fromTo("#s2 .cam",{scale:1,x:0},{scale:1.04,x:0,duration:15.973,ease:"sine.inOut"},22.347);
+  tl.fromTo("#s2-lab",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},22.647);
+  tl.fromTo("#s2-sent",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},28.373);
+  tl.fromTo("#s2-blank",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},28.673);
+  tl.fromTo("#s2-caret",{opacity:1},{opacity:0,duration:.5,ease:"steps(1)",repeat:2,yoyo:true},28.973);
+  tl.fromTo("#s2-caret",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none"},30.659);
+  tl.fromTo("#s2-ans",{"opacity": 0, "y": -60, "scale": 0.8},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.55, "ease": "igPop"},30.809);
+  tl.fromTo("#s2-g1",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},30.959);
+  tl.fromTo("#s2-g1 .bar i",{"scaleX": 0},{"scaleX": 1, "duration": 0.6, "ease": "igOut"},31.159);
+  tl.fromTo("#s2-g2",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},32.111);
+  tl.fromTo("#s2-g2 .bar i",{"scaleX": 0},{"scaleX": 1, "duration": 0.6, "ease": "igOut"},32.311);
+  tl.fromTo("#s2-g3",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},32.261);
+  tl.fromTo("#s2-g3 .bar i",{"scaleX": 0},{"scaleX": 1, "duration": 0.6, "ease": "igOut"},32.461);
+  tl.fromTo("#s2-note",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},36.193);
+  tl.fromTo("#lp-p0",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},52.714);
+  tl.fromTo("#lp-p0 .bar i",{scaleX:0},{scaleX:1,duration:0.41,ease:"igOut",stagger:.06},52.764);
+  tl.set("#lp-p0",{className:"pr-panel lock"},53.272);
+  tl.set("#lp-w0",{display:"inline"},53.344);
+  tl.fromTo("#lp-w0",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},53.344);
+  tl.fromTo("#lp-p0",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},53.494);
+  tl.fromTo("#lp-p1",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},53.614);
+  tl.fromTo("#lp-p1 .bar i",{scaleX:0},{scaleX:1,duration:0.34,ease:"igOut",stagger:.06},53.664);
+  tl.set("#lp-p1",{className:"pr-panel lock"},54.079);
+  tl.set("#lp-w1",{display:"inline"},54.139);
+  tl.fromTo("#lp-w1",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},54.139);
+  tl.fromTo("#lp-p1",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},54.244);
+  tl.fromTo("#lp-p2",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},54.364);
+  tl.fromTo("#lp-p2 .bar i",{scaleX:0},{scaleX:1,duration:0.27,ease:"igOut",stagger:.06},54.414);
+  tl.set("#lp-p2",{className:"pr-panel lock"},54.736);
+  tl.set("#lp-w2",{display:"inline"},54.784);
+  tl.fromTo("#lp-w2",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},54.784);
+  tl.fromTo("#lp-p2",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},54.844);
+  tl.fromTo("#lp-p3",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},54.964);
+  tl.fromTo("#lp-p3 .bar i",{scaleX:0},{scaleX:1,duration:0.23,ease:"igOut",stagger:.06},55.014);
+  tl.set("#lp-p3",{className:"pr-panel lock"},55.274);
+  tl.set("#lp-w3",{display:"inline"},55.314);
+  tl.fromTo("#lp-w3",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},55.314);
+  tl.fromTo("#lp-p3",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},55.344);
+  tl.fromTo("#lp-p4",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},55.464);
+  tl.fromTo("#lp-p4 .bar i",{scaleX:0},{scaleX:1,duration:0.19,ease:"igOut",stagger:.06},55.514);
+  tl.set("#lp-p4",{className:"pr-panel lock"},55.724);
+  tl.set("#lp-w4",{display:"inline"},55.758);
+  tl.fromTo("#lp-w4",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},55.758);
+  tl.fromTo("#lp-p4",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},55.764);
+  tl.fromTo("#lp-p5",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},55.884);
+  tl.fromTo("#lp-p5 .bar i",{scaleX:0},{scaleX:1,duration:0.16,ease:"igOut",stagger:.06},55.934);
+  tl.set("#lp-p5",{className:"pr-panel lock"},56.107);
+  tl.set("#lp-w5",{display:"inline"},56.136);
+  tl.fromTo("#lp-w5",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},56.136);
+  tl.fromTo("#lp-p5",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},56.124);
+  tl.fromTo("#lp-p6",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},56.244);
+  tl.fromTo("#lp-p6 .bar i",{scaleX:0},{scaleX:1,duration:0.14,ease:"igOut",stagger:.06},56.294);
+  tl.set("#lp-p6",{className:"pr-panel lock"},56.43);
+  tl.set("#lp-w6",{display:"inline"},56.454);
+  tl.fromTo("#lp-w6",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},56.454);
+  tl.fromTo("#lp-p6",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},56.424);
+  tl.fromTo("#lp-p7",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},56.544);
+  tl.fromTo("#lp-p7 .bar i",{scaleX:0},{scaleX:1,duration:0.12,ease:"igOut",stagger:.06},56.594);
+  tl.set("#lp-p7",{className:"pr-panel lock"},56.705);
+  tl.set("#lp-w7",{display:"inline"},56.726);
+  tl.fromTo("#lp-w7",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},56.726);
+  tl.fromTo("#lp-p7",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},56.684);
+  tl.fromTo("#lp-p8",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},56.804);
+  tl.fromTo("#lp-p8 .bar i",{scaleX:0},{scaleX:1,duration:0.11,ease:"igOut",stagger:.06},56.854);
+  tl.set("#lp-p8",{className:"pr-panel lock"},56.953);
+  tl.set("#lp-w8",{display:"inline"},56.972);
+  tl.fromTo("#lp-w8",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},56.972);
+  tl.fromTo("#lp-p8",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},56.924);
+  tl.fromTo("#lp-p9",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},57.044);
+  tl.fromTo("#lp-p9 .bar i",{scaleX:0},{scaleX:1,duration:0.1,ease:"igOut",stagger:.06},57.094);
+  tl.set("#lp-p9",{className:"pr-panel lock"},57.18);
+  tl.set("#lp-w9",{display:"inline"},57.198);
+  tl.fromTo("#lp-w9",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},57.198);
+  tl.fromTo("#lp-p9",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},57.144);
+  tl.fromTo("#s3 .cam",{scale:1,x:0},{scale:1.035,x:0,duration:24.018,ease:"sine.inOut"},38.319);
+  tl.fromTo("#s3-sent",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},38.619);
+  tl.fromTo("#s3-blank",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},38.819);
+  tl.fromTo("#s3-caret",{opacity:1},{opacity:0,duration:.5,ease:"steps(1)",repeat:5,yoyo:true},39.119);
+  tl.fromTo("#s3-caret",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none"},42.531);
+  tl.fromTo("#s3-g1",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},39.519);
+  tl.fromTo("#s3-g1 .bar i",{"scaleX": 0},{"scaleX": 1, "duration": 0.6, "ease": "igOut"},39.719);
+  tl.fromTo("#s3-g2",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},39.669);
+  tl.fromTo("#s3-g2 .bar i",{"scaleX": 0},{"scaleX": 1, "duration": 0.6, "ease": "igOut"},39.869);
+  tl.fromTo("#s3-g3",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},39.819);
+  tl.fromTo("#s3-g3 .bar i",{"scaleX": 0},{"scaleX": 1, "duration": 0.6, "ease": "igOut"},40.019);
+  tl.fromTo("#s3-ans",{"opacity": 0, "y": -60, "scale": 0.8},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.55, "ease": "igPop"},42.531);
+  tl.to("#s3-fill",{opacity:0,y:-60,duration:.35,ease:"power2.in"},50.486);
+  tl.fromTo("#s3-k1",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},50.886);
+  tl.fromTo("#s3-ar1",{"opacity": 0},{"opacity": 1, "duration": 0.2, "ease": "none"},50.986);
+  tl.fromTo("#s3-k2",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},51.036);
+  tl.fromTo("#s3-ar2",{"opacity": 0},{"opacity": 1, "duration": 0.2, "ease": "none"},51.136);
+  tl.fromTo("#s3-k3",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},51.186);
+  tl.fromTo("#s3-ar3",{"opacity": 0},{"opacity": 1, "duration": 0.2, "ease": "none"},51.286);
+  tl.fromTo("#s3-k4",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},51.336);
+  tl.fromTo("#s3-chat",{"opacity": 0, "y": 120},{"opacity": 1, "y": 0, "duration": 0.5, "ease": "igOut"},52.214);
+  tl.fromTo("#s3-k1",{boxShadow:"0 0 0 2px #22d3ee, 0 0 60px rgba(34,211,238,.9)",scale:1.08},{boxShadow:"0 0 0 2px #22d3ee, 0 0 24px rgba(34,211,238,.55), 0 0 72px rgba(34,211,238,.25)",scale:1,duration:0.81,ease:"igOut",immediateRender:false},52.714);
+  tl.fromTo("#s3-k2",{boxShadow:"0 0 0 2px #22d3ee, 0 0 60px rgba(34,211,238,.9)",scale:1.08},{boxShadow:"0 0 0 2px #22d3ee, 0 0 24px rgba(34,211,238,.55), 0 0 72px rgba(34,211,238,.25)",scale:1,duration:0.68,ease:"igOut",immediateRender:false},53.614);
+  tl.fromTo("#s3-k3",{boxShadow:"0 0 0 2px #22d3ee, 0 0 60px rgba(34,211,238,.9)",scale:1.08},{boxShadow:"0 0 0 2px #22d3ee, 0 0 24px rgba(34,211,238,.55), 0 0 72px rgba(34,211,238,.25)",scale:1,duration:0.54,ease:"igOut",immediateRender:false},54.364);
+  tl.fromTo("#s3-k1",{boxShadow:"0 0 0 2px #22d3ee, 0 0 60px rgba(34,211,238,.9)",scale:1.08},{boxShadow:"0 0 0 2px #22d3ee, 0 0 24px rgba(34,211,238,.55), 0 0 72px rgba(34,211,238,.25)",scale:1,duration:0.45,ease:"igOut",immediateRender:false},54.964);
+  tl.fromTo("#s3-k2",{boxShadow:"0 0 0 2px #22d3ee, 0 0 60px rgba(34,211,238,.9)",scale:1.08},{boxShadow:"0 0 0 2px #22d3ee, 0 0 24px rgba(34,211,238,.55), 0 0 72px rgba(34,211,238,.25)",scale:1,duration:0.38,ease:"igOut",immediateRender:false},55.464);
+  tl.fromTo("#s3-k3",{boxShadow:"0 0 0 2px #22d3ee, 0 0 60px rgba(34,211,238,.9)",scale:1.08},{boxShadow:"0 0 0 2px #22d3ee, 0 0 24px rgba(34,211,238,.55), 0 0 72px rgba(34,211,238,.25)",scale:1,duration:0.32,ease:"igOut",immediateRender:false},55.884);
+  tl.fromTo("#s3-k1",{boxShadow:"0 0 0 2px #22d3ee, 0 0 60px rgba(34,211,238,.9)",scale:1.08},{boxShadow:"0 0 0 2px #22d3ee, 0 0 24px rgba(34,211,238,.55), 0 0 72px rgba(34,211,238,.25)",scale:1,duration:0.27,ease:"igOut",immediateRender:false},56.244);
+  tl.fromTo("#s3-k2",{boxShadow:"0 0 0 2px #22d3ee, 0 0 60px rgba(34,211,238,.9)",scale:1.08},{boxShadow:"0 0 0 2px #22d3ee, 0 0 24px rgba(34,211,238,.55), 0 0 72px rgba(34,211,238,.25)",scale:1,duration:0.23,ease:"igOut",immediateRender:false},56.544);
+  tl.fromTo("#s3-k3",{boxShadow:"0 0 0 2px #22d3ee, 0 0 60px rgba(34,211,238,.9)",scale:1.08},{boxShadow:"0 0 0 2px #22d3ee, 0 0 24px rgba(34,211,238,.55), 0 0 72px rgba(34,211,238,.25)",scale:1,duration:0.22,ease:"igOut",immediateRender:false},56.804);
+  tl.fromTo("#s3-k1",{boxShadow:"0 0 0 2px #22d3ee, 0 0 60px rgba(34,211,238,.9)",scale:1.08},{boxShadow:"0 0 0 2px #22d3ee, 0 0 24px rgba(34,211,238,.55), 0 0 72px rgba(34,211,238,.25)",scale:1,duration:0.2,ease:"igOut",immediateRender:false},57.044);
+  tl.fromTo("#s3-count",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},57.491);
+  tl.fromTo("#s4-rig",{"opacity": 0, "y": 260},{"opacity": 1, "y": 0, "duration": 0.8, "ease": "igOut"},62.538);
+  tl.fromTo("#s4-rig",{rotation:-1.5},{rotation:1.5,duration:18.55,ease:"sine.inOut",immediateRender:false},62.538);
+  tl.fromTo("#s4-lab",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},67.218);
+  tl.fromTo("#s4-set0",{"opacity": 0},{"opacity": 1, "duration": 0.2, "ease": "none"},62.738);
+  tl.set("#s4-c0",{display:"inline"},69.962);
+  tl.fromTo("#s4-kI",{backgroundColor:"#ff7a1a",scale:1.25},{backgroundColor:"#18265a",scale:1,duration:.25,ease:"power1.out",immediateRender:false},69.962);
+  tl.set("#s4-c1",{display:"inline"},70.072);
+  tl.set("#s4-c2",{display:"inline"},70.182);
+  tl.fromTo("#s4-kM",{backgroundColor:"#ff7a1a",scale:1.25},{backgroundColor:"#18265a",scale:1,duration:.25,ease:"power1.out",immediateRender:false},70.182);
+  tl.set("#s4-c3",{display:"inline"},70.292);
+  tl.fromTo("#s4-kspace",{backgroundColor:"#ff7a1a",scale:1.25},{backgroundColor:"#18265a",scale:1,duration:.25,ease:"power1.out",immediateRender:false},70.292);
+  tl.set("#s4-c4",{display:"inline"},70.402);
+  tl.fromTo("#s4-kG",{backgroundColor:"#ff7a1a",scale:1.25},{backgroundColor:"#18265a",scale:1,duration:.25,ease:"power1.out",immediateRender:false},70.402);
+  tl.set("#s4-c5",{display:"inline"},70.512);
+  tl.fromTo("#s4-kO",{backgroundColor:"#ff7a1a",scale:1.25},{backgroundColor:"#18265a",scale:1,duration:.25,ease:"power1.out",immediateRender:false},70.512);
+  tl.set("#s4-c6",{display:"inline"},70.622);
+  tl.fromTo("#s4-kI",{backgroundColor:"#ff7a1a",scale:1.25},{backgroundColor:"#18265a",scale:1,duration:.25,ease:"power1.out",immediateRender:false},70.622);
+  tl.set("#s4-c7",{display:"inline"},70.732);
+  tl.fromTo("#s4-kN",{backgroundColor:"#ff7a1a",scale:1.25},{backgroundColor:"#18265a",scale:1,duration:.25,ease:"power1.out",immediateRender:false},70.732);
+  tl.set("#s4-c8",{display:"inline"},70.842);
+  tl.fromTo("#s4-kG",{backgroundColor:"#ff7a1a",scale:1.25},{backgroundColor:"#18265a",scale:1,duration:.25,ease:"power1.out",immediateRender:false},70.842);
+  tl.set("#s4-c9",{display:"inline"},70.952);
+  tl.fromTo("#s4-kspace",{backgroundColor:"#ff7a1a",scale:1.25},{backgroundColor:"#18265a",scale:1,duration:.25,ease:"power1.out",immediateRender:false},70.952);
+  tl.set("#s4-c10",{display:"inline"},71.062);
+  tl.fromTo("#s4-kT",{backgroundColor:"#ff7a1a",scale:1.25},{backgroundColor:"#18265a",scale:1,duration:.25,ease:"power1.out",immediateRender:false},71.062);
+  tl.set("#s4-c11",{display:"inline"},71.172);
+  tl.fromTo("#s4-kO",{backgroundColor:"#ff7a1a",scale:1.25},{backgroundColor:"#18265a",scale:1,duration:.25,ease:"power1.out",immediateRender:false},71.172);
+  tl.to("#s4-rig",{scale:1.2,y:-160,duration:1.0,ease:"igIO"},72.313);
+  tl.fromTo("#s4-lab",{"opacity": 1},{"opacity": 0, "duration": 0.3, "ease": "none", "immediateRender": false},72.413);
+  tl.set("#s4-t0",{display:"inline"},73.313);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},73.263);
+  tl.fromTo("#s4-set0",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},73.313);
+  tl.fromTo("#s4-set1",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},73.313);
+  tl.set("#s4-t1",{display:"inline"},73.572);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},73.522);
+  tl.fromTo("#s4-set1",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},73.572);
+  tl.fromTo("#s4-set2",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},73.572);
+  tl.set("#s4-t2",{display:"inline"},73.831);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},73.781);
+  tl.fromTo("#s4-set2",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},73.831);
+  tl.fromTo("#s4-set3",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},73.831);
+  tl.set("#s4-t3",{display:"inline"},74.09);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},74.04);
+  tl.fromTo("#s4-set3",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},74.09);
+  tl.fromTo("#s4-set4",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},74.09);
+  tl.set("#s4-t4",{display:"inline"},74.349);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},74.299);
+  tl.fromTo("#s4-set4",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},74.349);
+  tl.fromTo("#s4-set5",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},74.349);
+  tl.set("#s4-t5",{display:"inline"},74.608);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},74.558);
+  tl.fromTo("#s4-set5",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},74.608);
+  tl.fromTo("#s4-set6",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},74.608);
+  tl.set("#s4-t6",{display:"inline"},74.867);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},74.817);
+  tl.fromTo("#s4-set6",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},74.867);
+  tl.fromTo("#s4-set7",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},74.867);
+  tl.set("#s4-t7",{display:"inline"},75.126);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},75.076);
+  tl.fromTo("#s4-set7",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},75.126);
+  tl.fromTo("#s4-set8",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},75.126);
+  tl.set("#s4-t8",{display:"inline"},75.386);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},75.336);
+  tl.fromTo("#s4-set8",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},75.386);
+  tl.fromTo("#s4-set9",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},75.386);
+  tl.set("#s4-t9",{display:"inline"},75.645);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},75.595);
+  tl.fromTo("#s4-set9",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},75.645);
+  tl.fromTo("#s4-set10",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},75.645);
+  tl.set("#s4-t10",{display:"inline"},75.904);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},75.854);
+  tl.fromTo("#s4-set10",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},75.904);
+  tl.fromTo("#s4-set11",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},75.904);
+  tl.set("#s4-t11",{display:"inline"},76.163);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},76.113);
+  tl.fromTo("#s4-set11",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},76.163);
+  tl.fromTo("#s4-set12",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},76.163);
+  tl.set("#s4-t12",{display:"inline"},76.422);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},76.372);
+  tl.fromTo("#s4-set12",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},76.422);
+  tl.fromTo("#s4-set13",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},76.422);
+  tl.set("#s4-t13",{display:"inline"},76.681);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},76.631);
+  tl.fromTo("#s4-set13",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},76.681);
+  tl.fromTo("#s4-set14",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},76.681);
+  tl.set("#s4-t14",{display:"inline"},76.94);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},76.89);
+  tl.fromTo("#s4-set14",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},76.94);
+  tl.fromTo("#s4-set15",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},76.94);
+  tl.set("#s4-t15",{display:"inline"},77.199);
+  tl.fromTo("#s4-tap",{"opacity": 0.9, "scale": 0.3},{"opacity": 0, "scale": 1.6, "duration": 0.233, "ease": "power2.out", "immediateRender": false},77.149);
+  tl.fromTo("#s4-set15",{"opacity": 1},{"opacity": 0, "duration": 0.05, "ease": "none", "immediateRender": false},77.199);
+  tl.fromTo("#s4-set16",{"opacity": 0},{"opacity": 1, "duration": 0.05, "ease": "none"},77.199);
+  tl.to("#s4-rig",{scale:1,y:0,duration:.45,ease:"igOut"},77.408);
+  tl.fromTo("#s4-stamp",{"opacity": 0, "rotation": -16, "scale": 2.4},{"opacity": 1, "rotation": -8, "scale": 1, "duration": 0.32, "ease": "igSlam"},77.858);
+  tl.to("#s4-stamp",{keyframes:[{x:-10,y:6,duration:.07},{x:8,y:-4,duration:.07},{x:-4,y:2,duration:.07},{x:0,y:0,duration:.07}],ease:"none"},78.178);
+  tl.to("#s4-rig",{x:-430,duration:.8,ease:"igIO"},79.058);
+  tl.fromTo("#s4-b",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},79.558);
+  tl.fromTo("#s5-art",{"scale": 1.0},{"scale": 1.12, "duration": 18.428, "ease": "none"},81.889);
+  tl.fromTo("#s5-art",{opacity:0},{opacity:1,duration:3,ease:"sine.inOut",immediateRender:false},81.889);
+  tl.fromTo("#s5-scale",{"opacity": 0, "scale": 1.6},{"opacity": 1, "scale": 1, "duration": 0.45, "ease": "igSlam"},86.077);
+  tl.fromTo("#s5-scale",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},87.632);
+  tl.fromTo("#s5-d1",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},87.032);
+  tl.fromTo("#s5-l1",{"strokeDashoffset": 260, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.8, "ease": "igOut"},87.132);
+  tl.fromTo("#s5-p1",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},87.632);
+  tl.fromTo("#s5-d2",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},89.394);
+  tl.fromTo("#s5-l2",{"strokeDashoffset": 360, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.8, "ease": "igOut"},89.494);
+  tl.fromTo("#s5-p2",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},89.994);
+  tl.fromTo("#s5-life",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},96.525);
+  tl.fromTo("#s6 .cam",{scale:1,x:0},{scale:1.03,x:0,duration:20.779,ease:"sine.inOut"},100.317);
+  tl.fromTo("#s6-head",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},100.617);
+  tl.fromTo("#s6-card",{"opacity": 0, "y": 80},{"opacity": 1, "y": 0, "duration": 0.5, "ease": "igOut"},104.541);
+  tl.fromTo("#s6-m1",{"opacity": 0},{"opacity": 1, "duration": 0.2, "ease": "none"},104.541);
+  tl.fromTo("#s6-cl0",{"opacity": 0, "y": 20},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igOut"},104.941);
+  tl.fromTo("#s6-cl1",{"opacity": 0, "y": 20},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igOut"},105.191);
+  tl.fromTo("#s6-cl2",{"opacity": 0, "y": 20},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igOut"},105.441);
+  tl.fromTo("#s6-m1",{"opacity": 1},{"opacity": 0, "duration": 0.15, "ease": "none", "immediateRender": false},106.302);
+  tl.fromTo("#s6-m2",{"opacity": 0},{"opacity": 1, "duration": 0.2, "ease": "none"},106.402);
+  tl.fromTo("#s6-hi",{backgroundColor:"rgba(34,211,238,0)"},{backgroundColor:"rgba(34,211,238,.18)",duration:.4,immediateRender:false},106.902);
+  tl.fromTo("#s6-m2",{"opacity": 1},{"opacity": 0, "duration": 0.15, "ease": "none", "immediateRender": false},107.784);
+  tl.fromTo("#s6-m3",{"opacity": 0},{"opacity": 1, "duration": 0.2, "ease": "none"},107.884);
+  tl.fromTo("#s6-ck0",{"opacity": 0, "y": 16},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igOut"},107.934);
+  tl.set("#s6-cb0",{className:"box on"},108.484);
+  tl.fromTo("#s6-ck1",{"opacity": 0, "y": 16},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igOut"},108.054);
+  tl.set("#s6-cb1",{className:"box on"},108.734);
+  tl.fromTo("#s6-ck2",{"opacity": 0, "y": 16},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igOut"},108.174);
+  tl.set("#s6-cb2",{className:"box on"},108.984);
+  tl.fromTo("#s6-ck3",{"opacity": 0, "y": 16},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igOut"},108.294);
+  tl.set("#s6-cb3",{className:"box on"},109.234);
+  tl.fromTo("#s6-card",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},109.592);
+  tl.fromTo("#s6-head",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},109.592);
+  tl.fromTo("#s6-auto",{"opacity": 0},{"opacity": 1, "duration": 0.1, "ease": "none"},114.635);
+  tl.set("#s6-a0",{display:"inline"},115.185);
+  tl.set("#s6-a1",{display:"inline"},115.245);
+  tl.set("#s6-a2",{display:"inline"},115.305);
+  tl.set("#s6-a3",{display:"inline"},115.365);
+  tl.set("#s6-a4",{display:"inline"},115.425);
+  tl.set("#s6-a5",{display:"inline"},115.485);
+  tl.set("#s6-a6",{display:"inline"},115.545);
+  tl.set("#s6-a7",{display:"inline"},115.605);
+  tl.set("#s6-a8",{display:"inline"},115.665);
+  tl.set("#s6-a9",{display:"inline"},115.725);
+  tl.set("#s6-a10",{display:"inline"},115.785);
+  tl.set("#s6-a11",{display:"inline"},115.845);
+  tl.set("#s6-a12",{display:"inline"},115.905);
+  tl.fromTo("#s6-caret",{opacity:1},{opacity:0,duration:.5,ease:"steps(1)",repeat:7,yoyo:true},114.735);
+  tl.set("#s6-a12",{display:"none"},117.853);
+  tl.set("#s6-a11",{display:"none"},117.903);
+  tl.set("#s6-a10",{display:"none"},117.953);
+  tl.set("#s6-a9",{display:"none"},118.003);
+  tl.set("#s6-a8",{display:"none"},118.053);
+  tl.set("#s6-a7",{display:"none"},118.103);
+  tl.set("#s6-a6",{display:"none"},118.153);
+  tl.set("#s6-a5",{display:"none"},118.203);
+  tl.set("#s6-a4",{display:"none"},118.253);
+  tl.set("#s6-a3",{display:"none"},118.303);
+  tl.set("#s6-a2",{display:"none"},118.353);
+  tl.set("#s6-a1",{display:"none"},118.403);
+  tl.set("#s6-a0",{display:"none"},118.453);
+  tl.fromTo("#s6-auto",{"opacity": 1},{"opacity": 0, "duration": 0.1, "ease": "none", "immediateRender": false},118.653);
+  tl.fromTo("#s6-wild",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},118.753);
+  tl.fromTo("#s6-w",{"opacity": 0, "scale": 0.3},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},119.103);
+  tl.fromTo("#s6-r0",{"strokeDashoffset": 100, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.35, "ease": "igOut"},119.203);
+  tl.fromTo("#s6-r0",{"opacity": 1},{"opacity": 0, "duration": 0.3, "ease": "none", "immediateRender": false},119.853);
+  tl.fromTo("#s6-r1",{"strokeDashoffset": 100, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.35, "ease": "igOut"},119.203);
+  tl.fromTo("#s6-r1",{"opacity": 1},{"opacity": 0, "duration": 0.3, "ease": "none", "immediateRender": false},119.853);
+  tl.fromTo("#s6-r2",{"strokeDashoffset": 100, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.35, "ease": "igOut"},119.203);
+  tl.fromTo("#s6-r2",{"opacity": 1},{"opacity": 0, "duration": 0.3, "ease": "none", "immediateRender": false},119.853);
+  tl.fromTo("#s6-r3",{"strokeDashoffset": 100, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.35, "ease": "igOut"},119.203);
+  tl.fromTo("#s6-r3",{"opacity": 1},{"opacity": 0, "duration": 0.3, "ease": "none", "immediateRender": false},119.853);
+  tl.fromTo("#s6-r4",{"strokeDashoffset": 100, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.35, "ease": "igOut"},119.203);
+  tl.fromTo("#s6-r4",{"opacity": 1},{"opacity": 0, "duration": 0.3, "ease": "none", "immediateRender": false},119.853);
+  tl.fromTo("#s6-r5",{"strokeDashoffset": 100, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.35, "ease": "igOut"},119.203);
+  tl.fromTo("#s6-r5",{"opacity": 1},{"opacity": 0, "duration": 0.3, "ease": "none", "immediateRender": false},119.853);
+  tl.fromTo("#s7-art",{"scale": 1.0},{"scale": 1.12, "duration": 15.05, "ease": "none"},121.096);
+  tl.fromTo("#s7-art",{opacity:0},{opacity:1,duration:3,ease:"sine.inOut",immediateRender:false},121.096);
+  tl.to("#s7-art",{opacity:.12,duration:.6,ease:"power1.out"},135.147);
+  tl.fromTo("#s7-head",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},121.496);
+  tl.fromTo("#s7-head",{"opacity": 1},{"opacity": 0, "duration": 0.3, "ease": "none", "immediateRender": false},135.147);
+  tl.fromTo("#s7-sent",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},131.044);
+  tl.fromTo("#s7-a1",{"opacity": 0, "y": -60, "scale": 0.8},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.55, "ease": "igPop"},133.615);
+  tl.fromTo("#s7-d1",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},133.815);
+  tl.fromTo("#s7-l1",{"strokeDashoffset": 320, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.8, "ease": "igOut"},133.915);
+  tl.fromTo("#s7-p1",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},134.415);
+  tl.fromTo("#s7-sent",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},135.147);
+  tl.fromTo("#s7-d1",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},135.147);
+  tl.fromTo("#s7-l1",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},135.147);
+  tl.fromTo("#s7-p1",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},135.147);
+  tl.fromTo("#s7-rec",{"opacity": 0, "y": 80},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},135.547);
+  tl.fromTo("#s7-e1",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},135.947);
+  tl.fromTo("#s7-e2",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},136.097);
+  tl.fromTo("#s7-e3",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},136.247);
+  tl.fromTo("#s7-a2",{"opacity": 0, "y": -60, "scale": 0.8},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.55, "ease": "igPop"},139.214);
+  tl.fromTo("#s7-need",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},139.814);
+  tl.fromTo("#s7-rec",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},140.515);
+  tl.fromTo("#s7-sl",{"opacity": 0},{"opacity": 1, "duration": 0.3, "ease": "none"},140.815);
+  tl.fromTo("#s7-c1",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},143.313);
+  tl.fromTo("#s7-c2",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},143.801);
+  tl.fromTo("#s7-c3",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},144.269);
+  tl.fromTo("#s7-c4",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},145.935);
+  tl.fromTo("#s7-b",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},148.14);
+  tl.fromTo("#s8-art",{"scale": 1.0},{"scale": 1.1, "duration": 19.25, "ease": "none"},153.84);
+  tl.fromTo("#s8-art",{opacity:0},{opacity:1,duration:3,ease:"sine.inOut",immediateRender:false},153.84);
+  tl.to("#s8-art",{opacity:.1,duration:.6,ease:"power1.out"},172.095);
+  tl.fromTo("#s8-head .ig-kicker",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},154.14);
+  tl.fromTo("#s8-head h1",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},154.34);
+  tl.fromTo("#s8-d1",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},163.035);
+  tl.fromTo("#s8-l1",{"strokeDashoffset": 320, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.8, "ease": "igOut"},163.135);
+  tl.fromTo("#s8-p1",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},163.635);
+  tl.fromTo("#s8-ring",{"strokeDashoffset": 1100, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.8, "ease": "igOut"},166.613);
+  tl.fromTo("#s8-l2",{"strokeDashoffset": 80, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.3, "ease": "igOut"},167.113);
+  tl.fromTo("#s8-p2",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},167.313);
+  tl.fromTo("#s8-d1",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},172.095);
+  tl.fromTo("#s8-l1",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},172.095);
+  tl.fromTo("#s8-p1",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},172.095);
+  tl.fromTo("#s8-ring",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},172.095);
+  tl.fromTo("#s8-l2",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},172.095);
+  tl.fromTo("#s8-p2",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none", "immediateRender": false},172.095);
+  tl.to("#s8-head",{y:-30,scale:.8,duration:.6,ease:"igIO"},172.095);
+  tl.fromTo("#s8-b1",{"opacity": 0, "x": -160},{"opacity": 1, "x": 0, "duration": 0.7, "ease": "igIO"},172.395);
+  tl.fromTo("#s8-arr",{"strokeDashoffset": 340, "opacity": 1},{"strokeDashoffset": 0, "opacity": 1, "duration": 0.8, "ease": "igOut"},172.995);
+  tl.fromTo("#s8-al",{"opacity": 0},{"opacity": 1, "duration": 0.3, "ease": "none"},173.395);
+  tl.fromTo("#s8-b2",{"opacity": 0, "x": 160},{"opacity": 1, "x": 0, "duration": 0.7, "ease": "igIO"},173.495);
+  tl.fromTo("#wr-p0",{"opacity": 0},{"opacity": 1, "duration": 0.15, "ease": "none"},195.103);
+  tl.fromTo("#wr-p0 .bar i",{scaleX:0},{scaleX:1,duration:1.17,ease:"igOut",stagger:.06},195.153);
+  tl.set("#wr-p0",{className:"pr-panel lock"},196.715);
+  tl.set("#wr-w0",{display:"inline"},196.923);
+  tl.fromTo("#wr-w0",{"opacity": 0, "y": -24},{"opacity": 1, "y": 0, "duration": 0.3, "ease": "igPop"},196.923);
+  tl.fromTo("#s9 .cam",{scale:1,x:0},{scale:1.03,x:0,duration:26.761,ease:"sine.inOut"},176.421);
+  tl.fromTo("#s9-a",{"opacity": 0, "y": 50},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},176.721);
+  tl.fromTo("#s9-sub",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},183.585);
+  tl.fromTo("#s9-state",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none"},186.581);
+  tl.fromTo("#s9-c1",{"opacity": 0, "x": -160},{"opacity": 1, "x": 0, "duration": 0.7, "ease": "igIO"},187.081);
+  tl.fromTo("#s9-c2",{"opacity": 0, "x": 160},{"opacity": 1, "x": 0, "duration": 0.7, "ease": "igIO"},187.331);
+  tl.fromTo("#s9-ov",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},191.595);
+  tl.fromTo("#s9-v",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none"},193.603);
+  tl.fromTo("#s9-chat",{"opacity": 0, "y": 120},{"opacity": 1, "y": 0, "duration": 0.5, "ease": "igOut"},193.803);
+  tl.fromTo("#s9-q",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},194.103);
+  tl.fromTo("#s9-ans",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},194.803);
+  tl.fromTo("#s9-note",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},198.708);
+  tl.fromTo("#s9-stamp",{"opacity": 0, "rotation": -16, "scale": 2.4},{"opacity": 1, "rotation": -8, "scale": 1, "duration": 0.32, "ease": "igSlam"},200.108);
+  tl.to("#s9-stamp",{keyframes:[{x:-10,y:6,duration:.07},{x:8,y:-4,duration:.07},{x:-4,y:2,duration:.07},{x:0,y:0,duration:.07}],ease:"none"},200.428);
+  tl.fromTo("#s9-truth",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},201.008);
+  tl.fromTo("#s10-k",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},203.482);
+  tl.fromTo("#s10-t",{"opacity": 0, "y": 50},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},203.682);
+  tl.fromTo("#s10-tease",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},206.478);
+  tl.fromTo("#s10-next",{"opacity": 1},{"opacity": 0, "duration": 0.25, "ease": "none"},211.681);
+  tl.fromTo("#s10-end",{"opacity": 0},{"opacity": 1, "duration": 0.1, "ease": "none"},211.731);
+  tl.fromTo("#s10-sign",{opacity:0},{keyframes:[{opacity:1,duration:.11},{opacity:.2,duration:.07},{opacity:1,duration:.09},{opacity:.5,duration:.07},{opacity:1,duration:.11}],ease:"none"},211.731);
+  tl.fromTo("#s10-sub",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},212.831);
+  tl.fromTo("#s10-sl1",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},213.081);
+  tl.fromTo("#s10-sl2",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},213.231);
+  tl.fromTo("#s10-sl3",{"opacity": 0, "scale": 0.6},{"opacity": 1, "scale": 1, "duration": 0.5, "ease": "igPop"},213.381);
+  tl.set("#ch0",{className:"on"},0);
+  tl.set("#ch0",{className:"done"},62.337);
+  tl.set("#ch1",{className:"on"},62.338);
+  tl.set("#ch1",{className:"done"},100.317);
+  tl.set("#ch2",{className:"on"},100.317);
+  tl.set("#ch2",{className:"done"},176.422);
+  tl.set("#ch3",{className:"on"},176.421);
+  tl.set("#ch3",{className:"done"},220.773);
+  tl.fromTo("#pfill",{width:0},{width:1920,duration:220.773,ease:"none"},0);
+  tl.to("#rail",{opacity:0,duration:.3},211.631);
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+</body></html>
