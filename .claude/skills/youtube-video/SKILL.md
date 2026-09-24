@@ -1,6 +1,6 @@
 ---
 name: youtube-video
-description: Make a finished faceless, voiceover YouTube video for the igotchu AI-explainer channel from a script. Covers the Claude Design system (Neon Blueprint), the ElevenLabs voice (one clip per slide), AI concept illustrations, HyperFrames animated scenes, free synthesized sound effects, captions and rendering an MP4. Use whenever the user asks to make, build, render, upgrade or redesign a YouTube video, turn a script into a video, or add visuals, voice, captions, sound, music or illustrations to one.
+description: Make a finished faceless, voiceover YouTube video for the igotchu AI-explainer channel from a script. Covers the Claude Design styles (Neon Blueprint, plus the Type Lab's Instrument and Patent themes), the ElevenLabs voice (one clip per slide), AI concept illustrations, HyperFrames animated scenes, free synthesized sound effects, captions and rendering an MP4. Use whenever the user asks to make, build, render, upgrade or redesign a YouTube video, turn a script into a video, or add visuals, voice, captions, sound, music or illustrations to one.
 ---
 
 # igotchu YouTube video
@@ -26,7 +26,9 @@ Copy this structure for every new video. Its helpers are the reusable kit: `cue(
    - Follow its rules: orange means emphasis and warnings; cyan means answers and "the AI". Keep one glowing focus per frame, nothing smaller than 28 px, and text inside the title-safe box (96 px top/bottom, 128 px sides).
    - **Alternative styles: igotchu Type Lab** (https://claude.ai/artifact/5rVQ8uuKWCxB5kxw2UkphQ): **Instrument** (light hardware panel: screws, silkscreen, keys, LEDs, dark screens) and **Patent** (patent drawing sheet: ink border, "Sheet n of 10", FIG. n, line art, blue for the AI). The Lab offers 7 font pairings; the default is Condensed Grotesque (Bricolage Grotesque at wdth 75, DM Sans, JetBrains Mono, from `@fontsource`).
    - Same scenes, different skin: `THEME=instrument python3 build_v3.py` (or `patent`) writes `video_<theme>/`. Themes are CSS overrides of the DS tokens and components (`THEMES` in `build_v3.py`) plus per-slide decorations. The default (`neon`) writes `video/`.
-   - Illustration scenes in light themes: show the art on the device **screen** (Instrument) or as a framed **figure plate** (Patent), keeping its original colors. **Never color-invert illustrations**: it changed a person's skin tone.
+   - Theme parts to keep in sync: its eases (Instrument snaps with overshoot `0.3,1.45,0.5,1`; Patent is precise, `0.2,0.8,0.2,1` with no overshoot), `KEYBG` (the color phone keys return to after a flash), and the `common` layout nudges. The condensed font is wider at the same size, and the theme headers sit at the top, so headings drop to about 120 px and slide 1's headline shrinks.
+   - **The user hasn't chosen a style yet** (Neon vs Instrument vs Patent). Ask before building the next video, and make only that one unless they ask for all three.
+   - Illustration scenes in light themes: show the art on the device **screen** (Instrument) or as a framed **figure plate** (Patent), keeping its original colors. **Never color-invert illustrations**: it changed a person's skin tone. Real patent-style line art needs new images made in that style.
 1. **Script.** Scripts live in the "igotchu Video Scripts" Claude Doc. Each has `[SLIDE n: cue]` lines followed by the spoken text. Split them into `slides.json` as `{n, cue, text}`. The cue is only a starting idea: designing the actual scene is your job. **Don't change the user's script wording** unless they say yes (they turned down a hook rewrite). Cutting a whole aside they approve is fine.
 2. **Voice (ElevenLabs connector).** Generate **one clip per slide** with `creative_generate_speech` so each slide's timing is exact.
    - Put all clips in one flow (`creative_create_flow` first). Set `generations_count: 1`.
@@ -40,9 +42,10 @@ Copy this structure for every new video. Its helpers are the reusable kit: `cue(
    - Word timing: run `silencedetect` per clip to get speech segments (`segments.json`). `cue(n, phrase)` aligns the script's phrases (split at punctuation) to those segments with a small DP. It measured accurately on Script 3.
    - **Don't use `creative_transcribe_audio` for timestamps.** It was estimated at 242 credits, **charged 3,021**, and returned plain text with no word times.
 5. **Composition (HyperFrames).** One `<section class="clip scene">` per slide with an inner `.cam` wrapper, and GSAP tweens at absolute times from `cue()`. See "Scene kit" and "HyperFrames notes".
-6. **Sound, free.** Synthesize the SFX with ffmpeg (`v3/sfx/`: pop, click, whoosh, thud, ding; see the build notes). The helpers record events automatically: `pop()` → pop, `land()` → ding, `slam()` → thud, each scene start → whoosh, phone typing and taps → click. The end of `build_v3.py` mixes them under the voice and loudnorms to `video/assets/mix.mp3`. A music bed costs about 900 credits with ElevenLabs Music, or use a free YouTube Audio Library track.
+6. **Sound, free.** Synthesize the SFX with ffmpeg (`v3/sfx/`: pop, click, whoosh, thud, ding; see the build notes). The helpers record events automatically: `pop()` → pop, `land()` → ding, `slam()` → thud, each scene start → whoosh, phone typing and taps → click. The end of `build_v3.py` mixes them under the voice and loudnorms to `<out>/assets/mix.mp3`. A music bed costs about 900 credits with ElevenLabs Music, or use a free YouTube Audio Library track.
+6b. **Optional review.** Before a big redesign, the user likes getting the plan reviewed by 3 parallel Opus subagents with different lenses: retention strategist, motion designer in this stack, and beginner viewer plus producer/budget. Give each one the narration file and contact sheets, combine the results into one plan, and point out any disagreements.
 7. **Check.** `npx hyperframes lint .` (0 errors), then `npx hyperframes snapshot . --at <2–3 times per slide> --no-end --describe false -o ../snaps`. **Look at every contact sheet**, and fix overlaps, clipping, early or late reveals, and anything unreadable before rendering.
-8. **Render** in the background: `npx hyperframes render -q standard -f 30 -w 4 -o out.mp4`, about 3.5 min. `SendUserFile` has a **30 MB limit**, so re-encode with `-c:v libx264 -preset slow -crf 25 -c:a copy -movflags +faststart` first (about 18 MB). If the render fails with "Failed to run ffmpeg -version", run it again.
+8. **Render** in the background: `npx hyperframes render -q standard -f 30 -w 4 -o out.mp4`, about 3.5 min. `SendUserFile` has a **30 MB limit**, so re-encode with `-c:v libx264 -preset slow -crf 25 -c:a copy -movflags +faststart` first (about 18 MB). If the render fails with "Failed to run ffmpeg -version", run it again. For all three styles: `for th in neon instrument patent; do THEME=$th python3 build_v3.py; done`, then render each output folder (`video/`, `video_instrument/`, `video_patent/`) one after another, about 4 min each.
 9. **Extras.** Run `make_extras.py` → `captions.srt` (upload as closed captions). Fill in `youtube-extras.md`: title, thumbnail text, chapters from `timing.json`, a pinned comment for any cut aside, and the AI disclosure.
 
 ## Scene kit (what worked in v3)
@@ -82,6 +85,7 @@ A visual-metaphor image fades in slowly while pushing in (Ken Burns), and labels
 - Rendering needs FFmpeg (`apt-get install -y ffmpeg`) and Chromium: `HYPERFRAMES_BROWSER_PATH=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell`, `HYPERFRAMES_NO_TELEMETRY=1`.
 - Animate transforms and opacity only; `left`/`top` tweens are a lint **error**. No CSS `@keyframes`, no `Math.random`.
 - A second `fromTo` on the same element needs `immediateRender:false` (`_tw()` handles it). Use `tl.set(el,{className:…})` for state swaps.
+- Text color is inherited as a computed value: redefining `--ink` on a wrapper doesn't recolor text inside it. Also set `color:var(--ink)` on that wrapper (the Instrument screen scenes needed this).
 - `.scene [id]{opacity:0}` hides everything animated. Any container that isn't tweened itself must be listed as visible, or its children never appear.
 - Reveal text with `display:none` → `tl.set(el,{display:"inline"})` so it wraps naturally.
 - Blinking carets: a `fromTo` with `ease:"steps(1)"`, `repeat`, `yoyo`.
@@ -90,7 +94,7 @@ A visual-metaphor image fades in slowly while pushing in (Ken Burns), and labels
 ## Budget (ElevenLabs)
 
 - Free plan: 10k credits/month. One video's voice is about 3.5k credits, so the free plan covers 1–2 videos a month. Starter ($6): 30k credits, commercial rights, cloning, and likely no daily image cap.
-- Always use `estimate_only` first, and **ask before spending** when credits are low.
+- Always use `estimate_only` first, but **estimates can be badly wrong** (transcription: 242 estimated, 3,021 charged). Try a new kind of generation on a tiny input first, and **ask before spending** when credits are low (about 2,300–2,900 left after Script 3).
 
 ## Before the user uploads
 
