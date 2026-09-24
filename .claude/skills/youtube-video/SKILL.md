@@ -48,6 +48,41 @@ Copy this structure for every new video. Its helpers are the reusable kit: `cue(
 8. **Render** in the background: `npx hyperframes render -q standard -f 30 -w 4 -o out.mp4`, about 3.5 min. `SendUserFile` has a **30 MB limit**, so re-encode with `-c:v libx264 -preset slow -crf 25 -c:a copy -movflags +faststart` first (about 18 MB). If the render fails with "Failed to run ffmpeg -version", run it again. For all three styles: `for th in neon instrument patent; do THEME=$th python3 build_v3.py; done`, then render each output folder (`video/`, `video_instrument/`, `video_patent/`) one after another, about 4 min each.
 9. **Extras.** Run `make_extras.py` → `captions.srt` (upload as closed captions). Fill in `youtube-extras.md`: title, thumbnail text, chapters from `timing.json`, a pinned comment for any cut aside, and the AI disclosure.
 
+## Writing the script (from the 4-reviewer panel on Script 3)
+
+The panel scored the original Script 3 5/10 on relatability, takeaway, sounding human and structure. Write or revise every script with these rules, then run the de-AI checklist before recording anything.
+
+**Structure**
+- **Open on a real, checkable story or a scene, not a claim.** Put a person, stakes and a twist in the first 20 seconds, and deliver the title's promise within the first minute. Never "By the end of this video you'll understand…", and never announce the curiosity gap ("a question that'll bug you"); create it instead.
+- **Say the viewer's wrong belief out loud first, then take it apart** ("Most people think it looks your question up. It doesn't."). Veritasium creator Derek Muller's research found this nearly doubles learning.
+- **Link beats with "but" or "therefore", never "and then"** (Parker & Stone). Never run 3+ analogies in a row that prove the same point. Re-hook every 30–60 s with a new question the last answer raised.
+- **One takeaway spine (3 beats) plus one habit the viewer leaves with.** Cut side ideas that belong in another episode.
+- **Pay the twist off inside the video.** A teaser for the next episode comes after the payoff, not instead of it.
+
+**Examples and evidence**
+- **Use the viewer's life:** texts from mom, group chats, the barista, your own phone. Avoid the default AI-explainer examples (peanut butter and jelly, capital of France, "a smart friend").
+- **Add a 10-second "pause and try it now" moment**, plus a self-check question near the end.
+- **Use real, documented incidents** (court rulings, news) with the source shown on screen and linked in the description, so viewers can check them. Verify every fact, date and quote against primary sources; say what's proven versus alleged.
+- **Stay accurate:** "next word" is really tokens; ChatGPT can search the web ("unless it shows you links"); don't claim more than the evidence supports.
+
+**Personal truth, only from the user**
+- **Never invent the narrator's experiences** ("at work I see…", "when I first learned this…"). Put a `[FILL: …]` where a true story belongs, and ask the user for it. At least one real, specific story per script, told as a scene (when, where, what broke), not as "as a software engineer".
+- **One real opinion per script** that someone could disagree with.
+
+### De-AI checklist (run on every script)
+1. **Ban list, at most one per script:** Here's the thing / Here's the part / Honestly / Okay, / basically / scary good / actually wild / Let's / Quick [noun] / "If that sounds familiar, it should."
+2. **No "not X, (but) Y" contrasts.** State the positive claim.
+3. **No lists of three** unless the items are truly specific and uneven. Two or four items is fine. Prefer one weird, specific example.
+4. **Cut the last sentence of any slide that only sums it up** ("That is basically the whole trick.").
+5. **At least one `[FILL]` real personal detail per script, told as a scene.** "As a software engineer" at most once, and only where it adds something only an engineer would know.
+6. **One opinion someone could disagree with.**
+7. **At least one joke or aside, and one self-correction** ("well, sort of").
+8. **No more than two fragments in a row.** At least one long, loose spoken sentence per slide.
+9. **Don't tell viewers what they think or feel.** Ask, or react to a likely comment.
+10. **Vary openings, "next video" lead-ins, and where "I gotchu" lands** across the series (it closed 19 of 19 scripts the same way).
+11. **Read it aloud at speaking speed.** Rewrite anything you'd stumble on or wouldn't say to a friend.
+12. **No absolute promises** ("every time", "always") unless literally true.
+
 ## Scene kit (what worked in v3)
 
 - **Prediction chat box** (`predictor_steps`), the video's recurring image. A chat window builds the AI reply word by word. Before each word, a panel shows 3 candidates with growing bars, and the winner lights up cyan. Hook: bars **without numbers** (beginners can't read % yet). Show % only after the concept is explained. Payoff: a **wrong answer wins with the same bars and confidence** (keep the panel with `keep_last=True`), then a WRONG stamp and the real answer.
