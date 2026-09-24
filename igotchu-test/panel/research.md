@@ -52,3 +52,23 @@ Verified by three Opus research subagents. Some sites (CourtListener, senate.gov
 - **ChatGPT invents a murder, noyb complaint Mar 2025:** Arve Hjalmar Holmen. Dark, so use briefly. [noyb](https://noyb.eu/en/ai-hallucinations-chatgpt-created-fake-child-murderer)
 - **Try-it tip:** freshly invented books, sayings or local businesses expose guessing better than famous examples, which web search now finds. Results vary between runs and models, so say so on screen.
 - **Academic-paper fake citations:** not yet verified with specific cases. Research before using.
+
+## "It does real work" examples (Script 3, slide 6)
+- **2025 International Math Olympiad (HIGH confidence):**
+  - What happened: Google DeepMind's Gemini Deep Think and an experimental OpenAI model each solved 5 of 6 problems (35/42), exactly the gold cutoff. They wrote natural-language proofs within the students' time limits.
+  - Certification: the IMO certified DeepMind's result; its president Gregor Dolinar called the proofs "astonishing… clear, precise." OpenAI's result was graded by ex-medalists it hired, and it announced right after the closing ceremony although organizers had asked labs to wait. Terence Tao declined to comment on self-reported results.
+  - Sources: [DeepMind](https://deepmind.google/blog/advanced-version-of-gemini-with-deep-think-officially-achieves-gold-medal-standard-at-the-international-mathematical-olympiad/), [TechCrunch](https://techcrunch.com/2025/07/21/openai-and-google-outdo-the-mathletes-but-not-each-other)
+- **2026 IMO (MEDIUM-HIGH confidence):** Huawei Celia and RedNote dots-note 3.0 got certified perfect 42/42 scores; only 7 of 666 humans did. [Malay Mail](https://www.malaymail.com/news/tech-gadgets/2026/07/23/huawei-xiaohongshu-ai-storm-olympiad-join-maths-elite-with-perfect-100pc-score/228720)
+- **ICPC World Finals, Sept 2025 (HIGH confidence):** OpenAI solved 12/12 and Gemini 10/12, in a supervised side track rather than as official entrants. [DeepMind](https://deepmind.google/blog/gemini-achieves-gold-medal-level-at-the-international-collegiate-programming-contest-world-finals/)
+- **AtCoder World Tour Finals, July 2025 (HIGH confidence):** a human, Psyho (Przemysław Dębiak), beat OpenAI's model. Good "humans still win" beat. [Euronews](https://euronews.com/next/2025/07/22/humanity-has-won-so-far-meet-the-worlds-best-programmer-who-beat-ai-and-chatgpt)
+- **Skip GPT-4's "90th percentile bar exam" claim:** Martínez (MIT) estimated it at about the 48th percentile against people who passed. [paper](https://dl.acm.org/doi/abs/10.1007/s10506-024-09396-9)
+- **Alex / tethered cord (TODAY, Sept 2023; HIGH confidence, held for a later script):**
+  - What happened: after about 17 doctors over 3 years, his mother entered his symptoms and MRI notes into ChatGPT, which suggested tethered cord syndrome. Neurosurgeon Dr. Holly Gilmer confirmed it.
+  - Also covered on NEJM AI Grand Rounds.
+  - Framing: "it suggested; a surgeon confirmed." Never say "ChatGPT diagnosed", and add a "not medical advice" note.
+- **Weak, don't use:** Sassy the dog (a single anonymous post); insurance appeal (a specialized tool, not ChatGPT).
+
+## User's real inputs
+- **Phone "I'm going to" chain:** "I'm going to go get some lunch now so I'll call when I'm on the road I have a couple things I have…" Screenshot: `igotchu-test/v3/assets/user/phone-autocomplete-real.png`.
+- **Personal:** ChatGPT cleans up the grammar in his messages and spots wrong variables or broken data structures in his code.
+- **Opinion:** "at the basic level it is autocomplete." He chose not to take a side on the "understands vs parrot" debate.
