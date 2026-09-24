@@ -1,0 +1,75 @@
+Script 3 v2: It's autocomplete, but not the kind you think
+
+Title: ChatGPT Is Just Autocomplete. So How Does It Write Code? Thumbnail text: SAME TRICK? Length: about 700 words, around 4:40. Rewrite notes: built from the 4-reviewer panel and the de-AI checklist. This version explains how it works; the failures (judges, Air Canada, glue on pizza, fake citations) move to Script 4. Lines marked [FILL] need your real experience; please don't invent them.
+
+[SLIDE 1: A lock screen. Text from Mom: "Call me when you get a sec." No emoji.]
+
+Your mom texts you: "Call me when you get a sec." No emoji, no "love you", just that.
+
+And your brain has already written the next five minutes of your life. Somebody's sick, or you forgot a birthday. You didn't decide to think any of that. You've seen that exact text before, and your brain guessed what usually comes next. Hold on to that feeling, because it's pretty much how ChatGPT works.
+
+[SLIDE 2: The same text, now ending with a party emoji]
+
+Same text, but now she adds a party emoji. Whole different story, right? Nobody's sick. Somebody's engaged.
+
+One tiny detail at the very end flipped every guess you were about to make. That's the exact problem ChatGPT solves all day: given everything written so far, what probably comes next?
+
+[SLIDE 3: A chat reply building one chunk at a time, candidate words with bars above it]
+
+Most people assume it looks your question up somewhere. It doesn't. There's no answer sheet in there that it checks. It predicts the reply one small chunk at a time, sticks that chunk on the end, and predicts again. (Unless you see it searching the web and showing you links. That's a different trick, and we'll get to it.)
+
+The chunks are called tokens, which are bits of words, but "word" is close enough for us. For a normal answer it goes around that loop a few hundred times. When the text streams in on your screen, you're literally watching it happen.
+
+[SLIDE 4: Phone keyboard, middle suggestion tapped again and again. On screen: PAUSE AND TRY IT]
+
+You've got a tiny version of this in your pocket. Pause the video, open any chat, type "I'm going to" and keep tapping the middle suggestion.
+
+Mine gave me: "I'm going to go get some lunch now so I'll call when I'm on the road I have a couple things I have..." and then it just kept going. Yours will be different, because it learned from your texts. Tell me in the comments what yours said. I genuinely need to know.
+
+The model on your phone is small. Apple's is around 34 million settings. The ones behind ChatGPT are thousands of times bigger, and that's where it gets weird.
+
+[SLIDE 5: A barista already making your drink as you walk in]
+
+Picture a barista who's served ten million people. You walk in at 7am in a hoodie, and before you open your mouth they're already making an oat latte, because tired people in hoodies at 7am usually order that. Most days they're right. Some days you wanted tea.
+
+That's what scale does. ChatGPT learned from more writing than a person could read in thousands of lifetimes, so its guesses get really, really good. Good enough that it stops feeling like guessing.
+
+[SLIDE 6: "So how does autocomplete write working code?"]
+
+Which is where I got stuck the first time I learned this. If it's only guessing, how does it do real work?
+
+For me it started small. It would clean up the grammar in my messages. Then I started pasting in code, and it would spot the wrong variable or the broken data structure.
+
+Then it got big. In 2025, AI built on this same predict-the-next-word idea sat the International Math Olympiad, the one for the smartest teenagers on the planet. It wrote full proofs in plain English, under the same time limits, and scored right at the gold-medal line. Plenty of kids still beat it, but come on. Autocomplete did that.
+
+So is it just autocomplete? At the basic level, yes. It is autocomplete. It's just not the kind you think.
+
+[SLIDE 7: Group chat. "Someone ate my leftovers. Jay was the only one home, and Jay swears he hates pasta. So it was..."]
+
+Finish this one. "Someone ate my leftovers. Jay was the only one home, and Jay swears he hates pasta. So it was..."
+
+You said Jay. To get there you had to follow the clues and catch the lie. Nobody wrote detective rules into ChatGPT either. Getting really good at the next word forced it to pick that stuff up, because it helps with the guessing.
+
+[SLIDE 8: Inside the model, the rhyme word "rabbit" lights up before the line is written]
+
+And it goes deeper than you'd expect. In 2025, researchers at Anthropic looked inside one of these models while it wrote a rhyming poem. Before it wrote a single word of the second line, it had already picked the word it wanted to land on, "rabbit", and then built the line to get there.
+
+So yes, it writes one piece at a time. But inside, it can be planning where the sentence is going. Geoffrey Hinton, one of the godfathers of AI, put it this way: "to predict the next word, you have to understand the sentences." Plenty of researchers think that's way too generous and call it a very fancy parrot. Smart people are still fighting about this one, so pick your side in the comments.
+
+[SLIDE 9: A raw model rambling like a forum post, then a helpful reply]
+
+One more piece. Straight out of training, a model like this doesn't answer you. It just keeps writing. Ask "what's a good dinner tonight?" and it might carry on like a forum post: "...asking for my picky five-year-old. Edit: thanks everyone!"
+
+So the companies train it again, on examples of good answers that real people rated, until it acts like an assistant instead of an internet comment section.
+
+[SLIDE 10: A book cover, "Tidewater Dreams, Isabel Allende", with a question mark stamped on it]
+
+Which leaves one catch. It's predicting what a good answer sounds like, and most of the time that's also what's true. But in 2025, two real newspapers printed a summer reading list with a novel called Tidewater Dreams, by Isabel Allende. It sounds exactly like a book she'd write. It doesn't exist.
+
+Next video: why it makes things up with a straight face, and the lawyers, judges and airlines who trusted it anyway. I gotchu.
+
+> Sources for the description (verified by the research panel): tokens: OpenAI Help Center, "What are tokens" (https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them). Phone keyboard model about 34M parameters: Jack Cook, "A look at Apple's new Transformer-powered predictive text model" (https://jackcook.com/2023/09/08/predictive-text.html). Rhyme planning: Anthropic, "Tracing the thoughts of a large language model", March 2025 (https://www.anthropic.com/research/tracing-thoughts-language-model). Hinton quote: CBS 60 Minutes, October 2023 (https://www.cbsnews.com/news/geoffrey-hinton-ai-dangers-60-minutes-transcript/). "Stochastic parrots": Bender, Gebru et al., 2021 (https://dl.acm.org/doi/10.1145/3442188.3445922). Training with human ratings: OpenAI InstructGPT (https://arxiv.org/abs/2203.02155). Fake reading list: NPR, May 2025 (https://www.npr.org/2025/05/20/nx-s1-5405022/fake-summer-reading-list-ai).
+
+> More sources: Math Olympiad 2025: Google DeepMind, certified by the IMO (https://deepmind.google/blog/advanced-version-of-gemini-with-deep-think-officially-achieves-gold-medal-standard-at-the-international-mathematical-olympiad/); OpenAI's result was self-graded (TechCrunch, https://techcrunch.com/2025/07/21/openai-and-google-outdo-the-mathletes-but-not-each-other). Both scored 35/42, exactly the gold cutoff. Optional update: in 2026 two AI models got certified perfect scores (42/42). Held for another script: the Alex / tethered cord story (TODAY, Sept 2023). ChatGPT suggested the condition after about 17 doctors, and neurosurgeon Dr. Holly Gilmer confirmed it. Never say "ChatGPT diagnosed".
+
+> Script 4 gets the failure stories (research saved in the repo, igotchu-test/panel/research.md): lawyers in Mata v. Avianca ("Is Varghese a real case?" "Yes."), two federal judges in 2025 (Neals, Wingate) plus Senator Grassley's letter, Air Canada's chatbot refund ruling, Google's glue-on-pizza answer from an old Reddit joke, Deloitte's refund over fake references, and 1,600+ court cases tracked in Damien Charlotin's database.
