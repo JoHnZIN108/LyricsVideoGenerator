@@ -13,7 +13,13 @@ Inputs: timing.json, slides.json, segments.json (speech segments per slide, rela
 Output: video/index.html + video/assets/mix.mp3.
 """
 import json
+import os
 import re
+import shutil
+
+THEME = os.environ.get("THEME", "neon")  # neon (hybrid) | instrument | patent
+OUT = "video" if THEME == "neon" else f"video_{THEME}"
+KEYBG = {"neon": "#18265a", "instrument": "#ffffff", "patent": "#f7faf8"}[THEME]
 
 T = {i + 1: s for i, s in enumerate(json.load(open("timing.json")))}
 SL = {s["n"]: s for s in json.load(open("slides.json"))}
@@ -490,7 +496,7 @@ for i, c in enumerate(typed):
     SFX.append((t, "click"))
     kid = "#s4-kspace" if c == " " else (f"#s4-k{c.upper()}" if c.isalpha() else None)
     if kid:
-        raw(f'tl.fromTo("{kid}",{{backgroundColor:"#ff7a1a",scale:1.25}},{{backgroundColor:"#18265a",scale:1,duration:.25,ease:"power1.out",immediateRender:false}},{t});', t, 0.25)
+        raw(f'tl.fromTo("{kid}",{{backgroundColor:"#ff7a1a",scale:1.25}},{{backgroundColor:"{KEYBG}",scale:1,duration:.25,ease:"power1.out",immediateRender:false}},{t});', t, 0.25)
 t_mid = cue(4, "keep tapping")
 _seen.add("#s4-tap")
 _tw("#s4-tap", {"opacity": 0.9, "scale": 0.3}, {"opacity": 0, "scale": 1.6}, t_mid + 0.3, 0.5, "power2.out")
@@ -1151,22 +1157,38 @@ LOCAL = """
 .chap{position:absolute;left:128px;bottom:28px;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);opacity:0}
 """
 
+THEME_CSS, DECOR = "", ""
+EASES = ("0.16,1,0.3,1", "0.34,1.56,0.64,1", "0.7,0,0.84,0", "0.65,0,0.35,1")
+if THEME != "neon":
+    import themes
+    th = themes.THEMES[THEME]
+    THEME_CSS, DECOR, EASES = th["css"] + themes.V4_LIGHT, th["decor"](10), th["eases"]
+    for n in range(1, 11):
+        for pre in ("tag", "fig"):
+            if f'id="{pre}{n}"' in DECOR:
+                A.append(f'tl.set("#{pre}{n}",{{display:"block"}},{T[n]["start"]});')
+                A.append(f'tl.set("#{pre}{n}",{{display:"none"}},{round(T[n]["start"] + T[n]["dur"], 3)});')
+    if os.path.isdir(OUT):
+        shutil.rmtree(OUT)
+    shutil.copytree("video", OUT, ignore=shutil.ignore_patterns("index.html", ".hyperframes"))
+
 html = f"""<!doctype html>
 <html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=1920, height=1080"/>
 <script src="assets/gsap.min.js"></script><script src="assets/CustomEase.min.js"></script>
-<style>{FONTS}{tokens_css()}{bundle_css()}{LOCAL}</style></head>
+<style>{FONTS}{tokens_css()}{bundle_css()}{LOCAL}{THEME_CSS}</style></head>
 <body>
 <div id="root" class="ig-frame" data-composition-id="main" data-start="0" data-duration="{TOTAL}" data-width="1920" data-height="1080">
   <audio id="vo" src="assets/mix.mp3" data-start="0" data-duration="{TOTAL}" data-track-index="0" data-volume="1"></audio>
   {''.join(S)}
+  {DECOR}
   <div id="rail">{chap_html}<div id="pline"></div><div id="pfill"></div></div>
 </div>
 <script>
   gsap.registerPlugin(CustomEase);
-  CustomEase.create("igOut","0.16,1,0.3,1");
-  CustomEase.create("igPop","0.34,1.56,0.64,1");
-  CustomEase.create("igSlam","0.7,0,0.84,0");
-  CustomEase.create("igIO","0.65,0,0.35,1");
+  CustomEase.create("igOut","{EASES[0]}");
+  CustomEase.create("igPop","{EASES[1]}");
+  CustomEase.create("igSlam","{EASES[2]}");
+  CustomEase.create("igIO","{EASES[3]}");
   CustomEase.create("igIn","0.5,0,0.75,0");
   CustomEase.create("igSettle","0.22,1,0.36,1");
   window.__timelines = window.__timelines || {{}};
@@ -1177,8 +1199,8 @@ html = f"""<!doctype html>
 </script>
 </body></html>
 """
-open("video/index.html", "w").write(html)
-print(f"wrote video/index.html: {TOTAL}s, {len(A)} timeline entries")
+open(f"{OUT}/index.html", "w").write(html)
+print(f"wrote {OUT}/index.html: {TOTAL}s, {len(A)} timeline entries")
 gaps = frozen_report()
 print("frozen stretches > 3.2 s:", gaps if gaps else "none")
 
@@ -1186,7 +1208,12 @@ print("frozen stretches > 3.2 s:", gaps if gaps else "none")
 # ================================================================ AUDIO MIX: voice + SFX events, mastered to -14 LUFS
 import array
 import subprocess
+import sys
 import wave
+
+if THEME != "neon":  # same voice and sound for every skin: reuse the neon mix
+    print("reused video/assets/mix.mp3")
+    sys.exit(0)
 
 GAIN = {"pop": 0.2, "click": 0.18, "whoosh": 0.45, "thud": 0.25, "ding": 0.26, "buzz": 0.35, "tick": 0.22}
 SPACING = {"click": 0.07}

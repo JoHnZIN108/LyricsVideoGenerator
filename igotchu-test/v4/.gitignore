@@ -6,3 +6,5 @@ render.log
 concat.txt
 video/.hyperframes/
 assets/vo/voiceover.wav
+video_*/
+render_*.log
