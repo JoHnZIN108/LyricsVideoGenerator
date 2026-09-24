@@ -1,0 +1,289 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Orchestration Explainer</title>
+<style>
+  @font-face { font-family: Inter; src: url(inter.woff2) format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: Mono; src: url(mono.woff2) format("woff2"); }
+  html, body { margin: 0; background: #0d1117; }
+  canvas { display: block; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1080"></canvas>
+<script>
+// Deterministic, time-driven explainer. render(t) draws the frame at t seconds.
+const W = 1080, H = 1080, DURATION = 30;
+const C = {
+  bg: "#0d1117", panel: "#161b22", line: "#30363d", ink: "#e6edf3", dim: "#8b949e",
+  spawn: "#e8875f", spawnSoft: "rgba(232,135,95,0.14)",
+  team: "#4fc3b0", teamSoft: "rgba(79,195,176,0.13)", warn: "#f2c94c",
+};
+const cv = document.getElementById("c"), ctx = cv.getContext("2d");
+
+// ---------- helpers ----------
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const ease = k => (k = clamp(k), k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+const easeOut = k => 1 - Math.pow(1 - clamp(k), 3);
+const back = k => { k = clamp(k); const c1 = 1.6, c3 = c1 + 1; return 1 + c3 * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2); };
+const prog = (t, start, dur) => clamp((t - start) / dur);
+// in/out envelope for a scene or element
+const env = (t, a, b, fi = 0.4, fo = 0.4) => Math.min(easeOut((t - a) / fi), easeOut((b - t) / fo));
+
+function font(size, weight = 600, fam = "Inter") { ctx.font = `${weight} ${size}px ${fam}`; }
+function text(s, x, y, { size = 32, weight = 600, color = C.ink, align = "center", alpha = 1, fam = "Inter", base = "middle" } = {}) {
+  ctx.save(); ctx.globalAlpha *= alpha; font(size, weight, fam);
+  ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = base; ctx.fillText(s, x, y); ctx.restore();
+}
+function rrect(x, y, w, h, r) {
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+function box(x, y, w, h, { r = 22, fill = C.panel, stroke = C.line, lw = 2, dash = null, alpha = 1 } = {}) {
+  ctx.save(); ctx.globalAlpha *= alpha; rrect(x, y, w, h, r);
+  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; if (dash) ctx.setLineDash(dash); ctx.stroke(); }
+  ctx.restore();
+}
+function node(x, y, r, color, label, { alpha = 1, scale = 1, sub = null, labelSize = 22 } = {}) {
+  if (alpha <= 0 || scale <= 0) return;
+  ctx.save(); ctx.globalAlpha *= alpha; ctx.translate(x, y); ctx.scale(scale, scale);
+  ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fillStyle = C.bg; ctx.fill();
+  ctx.lineWidth = 4; ctx.strokeStyle = color; ctx.stroke();
+  ctx.beginPath(); ctx.arc(0, 0, r * 0.34, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
+  ctx.restore();
+  if (label) text(label, x, y + r * scale + 24, { size: labelSize, weight: 600, alpha: alpha * clamp(scale), color: C.ink });
+  if (sub) text(sub, x, y + r * scale + 50, { size: 17, weight: 500, alpha: alpha * clamp(scale), color: C.dim, fam: "Mono" });
+}
+function spinner(x, y, r, t, color, alpha) {
+  if (alpha <= 0) return;
+  ctx.save(); ctx.globalAlpha *= alpha; ctx.strokeStyle = color; ctx.lineWidth = 4; ctx.lineCap = "round";
+  const a = t * 5; ctx.beginPath(); ctx.arc(x, y, r, a, a + Math.PI * 1.2); ctx.stroke(); ctx.restore();
+}
+function line(x1, y1, x2, y2, { color = C.line, lw = 3, dash = null, alpha = 1, k = 1 } = {}) {
+  if (alpha <= 0 || k <= 0) return;
+  ctx.save(); ctx.globalAlpha *= alpha; ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.lineCap = "round";
+  if (dash) ctx.setLineDash(dash);
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(lerp(x1, x2, k), lerp(y1, y2, k)); ctx.stroke(); ctx.restore();
+}
+function dot(x, y, r, color, alpha = 1) {
+  if (alpha <= 0) return;
+  ctx.save(); ctx.globalAlpha *= alpha; ctx.shadowColor = color; ctx.shadowBlur = 18;
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill(); ctx.restore();
+}
+function pill(s, x, y, color, { alpha = 1, size = 18 } = {}) {
+  if (alpha <= 0) return;
+  font(size, 500, "Mono"); const w = ctx.measureText(s).width + 26, h = size + 16;
+  ctx.save(); ctx.globalAlpha *= alpha;
+  rrect(x - w / 2, y - h / 2, w, h, h / 2); ctx.fillStyle = C.bg; ctx.fill();
+  ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke(); ctx.restore();
+  text(s, x, y + 1, { size, weight: 500, fam: "Mono", color, alpha });
+}
+// Step header: numbered tag + title
+function header(num, title, sub, color, a) {
+  if (a <= 0) return;
+  const y = 92;
+  ctx.save(); ctx.globalAlpha *= a;
+  ctx.beginPath(); ctx.arc(94, y, 30, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill(); ctx.restore();
+  text(num, 94, y + 1, { size: 30, weight: 800, color: C.bg, alpha: a });
+  text(title, 144, y - 12, { size: 40, weight: 800, align: "left", alpha: a });
+  text(sub, 146, y + 30, { size: 21, weight: 500, align: "left", color: color, alpha: a, fam: "Mono" });
+}
+// Caption bullets at the bottom
+function captions(items, t, color, a) {
+  items.forEach(([s, at], i) => {
+    const k = easeOut(prog(t, at, 0.5)); if (k <= 0) return;
+    const y = 862 + i * 58, x = 110 - (1 - k) * 30;
+    ctx.save(); ctx.globalAlpha *= a * k; ctx.fillStyle = color; rrect(x - 26, y - 13, 26, 26, 7); ctx.fill(); ctx.restore();
+    text("✓", x - 13, y + 1, { size: 18, weight: 800, color: C.bg, alpha: a * k });
+    text(s, x + 18, y, { size: 30, weight: 600, align: "left", alpha: a * k });
+  });
+}
+
+// ---------- scenes ----------
+function sceneIntro(t) {
+  const a = env(t, 0, 3.6, 0.5, 0.5); if (a <= 0) return;
+  const k1 = easeOut(prog(t, 0.2, 0.7)), k2 = easeOut(prog(t, 0.9, 0.7)), k3 = easeOut(prog(t, 1.8, 0.6));
+  text("Not all “multi-agent”", W / 2, 440 - (1 - k1) * 30, { size: 64, weight: 800, alpha: a * k1 });
+  text("is the same thing.", W / 2, 520 - (1 - k2) * 30, { size: 64, weight: 800, alpha: a * k2 });
+  // two colored bars teasing the two sides
+  ctx.save(); ctx.globalAlpha *= a * k3;
+  ctx.fillStyle = C.spawn; rrect(W / 2 - 170, 610, 160 * k3, 10, 5); ctx.fill();
+  ctx.fillStyle = C.team; rrect(W / 2 + 10, 610, 160 * k3, 10, 5); ctx.fill(); ctx.restore();
+  text("in-session spawn", W / 2 - 90, 656, { size: 20, weight: 500, fam: "Mono", color: C.spawn, alpha: a * k3 });
+  text("cross-harness", W / 2 + 90, 656, { size: 20, weight: 500, fam: "Mono", color: C.team, alpha: a * k3 });
+}
+
+function sceneSpawn(t) {
+  const T0 = 3.6, T1 = 12.2; const a = env(t, T0, T1, 0.5, 0.5); if (a <= 0) return;
+  ctx.save(); ctx.globalAlpha = a;
+  header("1", "In-session orchestration", "spawn / Agent tool", C.spawn, 1);
+
+  // session box
+  const kb = ease(prog(t, T0 + 0.2, 0.7));
+  box(90, 200, 900, 580 * kb, { fill: C.spawnSoft, stroke: C.spawn, lw: 3, dash: [10, 8] });
+  text("ONE SESSION  ·  ONE HARNESS  ·  ONE PROCESS", 120, 232, { size: 18, weight: 500, fam: "Mono", color: C.spawn, align: "left", alpha: kb });
+
+  const P = { x: 540, y: 330 };
+  // parent context meter
+  const fill = 0.18 + 0.22 * easeOut(prog(t, 8.3, 0.4)) + 0.2 * easeOut(prog(t, 8.6, 0.4)) + 0.22 * easeOut(prog(t, 8.9, 0.4));
+  const mk = easeOut(prog(t, T0 + 0.9, 0.5));
+  if (mk > 0) {
+    ctx.save(); ctx.globalAlpha *= mk;
+    rrect(610, 340, 300, 16, 8); ctx.fillStyle = C.bg; ctx.fill(); ctx.strokeStyle = C.line; ctx.lineWidth = 2; ctx.stroke();
+    rrect(610, 340, 300 * fill, 16, 8); ctx.fillStyle = fill > 0.75 ? C.warn : C.spawn; ctx.fill(); ctx.restore();
+    text(`context window ${Math.round(fill * 100)}%`, 610, 378, { align: "left", size: 17, weight: 500, fam: "Mono", color: C.dim, alpha: mk });
+  }
+  node(P.x, P.y, 44, C.spawn, null, { scale: back(prog(t, T0 + 0.5, 0.6)) });
+  text("Main agent", P.x + 70, P.y - 22, { size: 26, weight: 700, align: "left", alpha: easeOut(prog(t, T0 + 0.7, 0.5)) });
+
+  const subs = [{ x: 260, y: 640 }, { x: 540, y: 640 }, { x: 820, y: 640 }];
+  const gone = ease(prog(t, 9.6, 0.8));
+  subs.forEach((s, i) => {
+    const st = 5.0 + i * 0.3, k = back(prog(t, st, 0.6)), kp = ease(prog(t, st, 0.6));
+    const x = lerp(P.x, s.x, kp), y = lerp(P.y, s.y, kp);
+    line(P.x, P.y + 46, x, y - 38, { color: C.spawn, lw: 2, alpha: 0.6 * (1 - gone), k: clamp(kp) });
+    node(x, y, 36, C.spawn, `subagent ${i + 1}`, { scale: k * (1 - gone * 0.6), alpha: 1 - gone, labelSize: 20 });
+    spinner(x, y, 50, t, C.spawn, (prog(t, st + 0.5, 0.2)) * (1 - prog(t, 7.9 + i * 0.3, 0.2)));
+    // result dot travels back to parent
+    const rk = ease(prog(t, 7.9 + i * 0.3, 0.55));
+    if (rk > 0 && rk < 1) dot(lerp(s.x, P.x, rk), lerp(s.y - 38, P.y + 46, rk), 9, C.ink);
+  });
+  if (gone > 0) text("done → subagents disappear", 540, 720, { size: 20, weight: 500, fam: "Mono", color: C.dim, alpha: gone });
+
+  captions([["Everything funnels back to one parent", 5.4], ["Results pile into one context window", 8.4], ["Lives and dies with the session", 10.0]], t, C.spawn, 1);
+  ctx.restore();
+}
+
+function sceneTeam(t) {
+  const T0 = 12.2, T1 = 22.4; const a = env(t, T0, T1, 0.5, 0.5); if (a <= 0) return;
+  ctx.save(); ctx.globalAlpha = a;
+  header("2", "Cross-harness orchestration", "independent agents, separate runtimes", C.team, 1);
+
+  // run clock (top-right)
+  const hrs = 6 * ease(prog(t, 13.5, 8));
+  const hh = Math.floor(hrs), mm = Math.floor((hrs - hh) * 60);
+  pill(`elapsed ${hh}h ${String(mm).padStart(2, "0")}m`, 900, 202, C.dim, { alpha: easeOut(prog(t, 13.3, 0.5)), size: 17 });
+
+  const B = [
+    { x: 70, y: 240, w: 440, h: 250, title: "Claude Code · laptop", name: "Agent A", role: "research", st: 12.6 },
+    { x: 570, y: 240, w: 440, h: 250, title: "Cloud session", name: "Agent B", role: "build", st: 12.9 },
+    { x: 320, y: 545, w: 440, h: 250, title: "CI runner / other harness", name: "Agent C", role: "review", st: 13.2 },
+  ];
+  const cx = b => b.x + b.w / 2, cy = b => b.y + b.h / 2;
+  // links between harnesses (drawn under boxes)
+  const edges = [[0, 1], [1, 2], [2, 0]];
+  edges.forEach(([i, j], n) => {
+    const k = ease(prog(t, 13.6 + n * 0.2, 0.6));
+    line(cx(B[i]), cy(B[i]), cx(B[j]), cy(B[j]), { color: C.team, lw: 3, dash: [6, 10], alpha: 0.7, k });
+  });
+
+  // restart flicker on B
+  const rs = 17.6, restarting = t > rs && t < rs + 1.3;
+  B.forEach((b, i) => {
+    const k = back(prog(t, b.st, 0.6)); if (k <= 0) return;
+    ctx.save(); ctx.translate(cx(b), cy(b)); ctx.scale(k, k); ctx.translate(-cx(b), -cy(b));
+    let stroke = C.team, alpha = 1;
+    if (i === 1 && restarting) { const f = Math.sin((t - rs) * 30) > 0; stroke = f ? C.warn : C.line; }
+    box(b.x, b.y, b.w, b.h, { fill: "#11181f", stroke, lw: 3 });
+    ctx.save(); rrect(b.x, b.y, b.w, 44, 22); ctx.clip(); ctx.fillStyle = C.teamSoft; ctx.fillRect(b.x, b.y, b.w, 44); ctx.restore();
+    text(b.title, b.x + 22, b.y + 23, { size: 18, weight: 500, fam: "Mono", color: C.team, align: "left" });
+    const nx = b.x + 90, ny = b.y + 128;
+    const down = i === 1 && restarting;
+    node(nx, ny, 34, down ? C.line : C.team, null, { alpha });
+    if (!down) spinner(nx, ny, 48, t + i, C.team, prog(t, 14.2, 0.4));
+    text(b.name, b.x + 150, b.y + 108, { size: 26, weight: 700, align: "left" });
+    text(down ? "restarting…" : (i === 1 && t > rs ? `${b.role} · resumed ✓` : b.role), b.x + 150, b.y + 142,
+      { size: 20, weight: 500, fam: "Mono", color: down ? C.warn : C.dim, align: "left" });
+    const ck = easeOut(prog(t, 14.4 + i * 0.15, 0.4));
+    pill("own context", b.x + 100, b.y + 212, C.dim, { alpha: ck, size: 15 });
+    pill("own tools", b.x + 237, b.y + 212, C.dim, { alpha: ck, size: 15 });
+    pill("own repo", b.x + 360, b.y + 212, C.dim, { alpha: ck, size: 15 });
+    ctx.restore();
+  });
+
+  // messages travelling between harnesses
+  const msgs = [
+    [0, 1, 15.2, "brief.md"], [1, 2, 16.2, "PR #42"], [2, 1, 19.1, "review"], [1, 0, 20.1, "trigger"], [0, 2, 20.6, "msg"],
+  ];
+  msgs.forEach(([i, j, st, label]) => {
+    const k = ease(prog(t, st, 1.0)); if (k <= 0 || k >= 1) return;
+    const x = lerp(cx(B[i]), cx(B[j]), k), y = lerp(cy(B[i]), cy(B[j]), k);
+    const fa = Math.min(1, k * 6, (1 - k) * 6);
+    pill(label, x, y, C.team, { alpha: fa, size: 18 });
+  });
+
+  captions([["Each agent has its own context & tools", 14.4], ["They talk via messages, PRs, triggers", 15.6], ["Runs for hours, survives restarts", 18.2]], t, C.team, 1);
+  ctx.restore();
+}
+
+function sceneCompare(t) {
+  const T0 = 22.4, T1 = 27.4; const a = env(t, T0, T1, 0.5, 0.5); if (a <= 0) return;
+  ctx.save(); ctx.globalAlpha = a;
+  text("Side by side", W / 2, 90, { size: 44, weight: 800 });
+  const kL = easeOut(prog(t, T0 + 0.2, 0.5)), kR = easeOut(prog(t, T0 + 0.4, 0.5));
+  // left: one box with helpers
+  box(70, 150, 450, 290, { fill: C.spawnSoft, stroke: C.spawn, lw: 3, dash: [10, 8], alpha: kL });
+  ctx.save(); ctx.globalAlpha *= kL;
+  node(295, 230, 30, C.spawn, null);
+  [[195, 350], [295, 350], [395, 350]].forEach(([x, y]) => { line(295, 260, x, y - 24, { color: C.spawn, lw: 2, alpha: 0.6 }); node(x, y, 22, C.spawn, null); });
+  ctx.restore();
+  text("SPAWN", 295, 475, { size: 30, weight: 800, color: C.spawn, alpha: kL });
+  text("helpers in one room", 295, 510, { size: 22, weight: 500, color: C.dim, alpha: kL });
+  // right: separate boxes linked
+  ctx.save(); ctx.globalAlpha *= kR;
+  const pts = [[650, 215], [880, 215], [765, 370]];
+  [[0, 1], [1, 2], [2, 0]].forEach(([i, j]) => line(pts[i][0], pts[i][1], pts[j][0], pts[j][1], { color: C.team, lw: 3, dash: [5, 8], alpha: 0.7 }));
+  pts.forEach(([x, y]) => { box(x - 70, y - 50, 140, 100, { r: 16, fill: "#11181f", stroke: C.team, lw: 3 }); node(x, y, 22, C.team, null); });
+  ctx.restore();
+  text("CROSS-HARNESS", 765, 475, { size: 30, weight: 800, color: C.team, alpha: kR });
+  text("a team across runtimes", 765, 510, { size: 22, weight: 500, color: C.dim, alpha: kR });
+
+  const rows = [
+    ["Coordination", "one parent decides", "peers hand off work"],
+    ["Talks via", "return value", "messages · PRs · triggers"],
+    ["Lifetime", "one session", "hours, survives restarts"],
+    ["Runtime", "same harness", "any harness, anywhere"],
+  ];
+  rows.forEach(([k, l, r], i) => {
+    const rk = easeOut(prog(t, T0 + 0.9 + i * 0.35, 0.4)); if (rk <= 0) return;
+    const y = 600 + i * 92;
+    line(70, y - 46, 1010, y - 46, { color: C.line, lw: 2, alpha: rk });
+    text(k.toUpperCase(), 540, y - 22, { size: 15, weight: 500, fam: "Mono", color: C.dim, alpha: rk });
+    text(l, 295, y + 10, { size: 26, weight: 600, color: C.spawn, alpha: rk });
+    text(r, 765, y + 10, { size: 26, weight: 600, color: C.team, alpha: rk });
+  });
+  ctx.restore();
+}
+
+function sceneOutro(t) {
+  const T0 = 27.4; const a = env(t, T0, DURATION + 1, 0.5, 0.5); if (a <= 0) return;
+  const k1 = easeOut(prog(t, T0 + 0.2, 0.6)), k2 = easeOut(prog(t, T0 + 0.8, 0.6)), k3 = easeOut(prog(t, T0 + 1.5, 0.6));
+  text("Spawn gives you helpers.", W / 2, 440 - (1 - k1) * 24, { size: 56, weight: 800, color: C.spawn, alpha: a * k1 });
+  text("Orchestration gives you a team.", W / 2, 520 - (1 - k2) * 24, { size: 56, weight: 800, color: C.team, alpha: a * k2 });
+  text("more in the post ↓", W / 2, 640, { size: 24, weight: 500, fam: "Mono", color: C.dim, alpha: a * k3 });
+}
+
+function render(t) {
+  ctx.globalAlpha = 1; ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H);
+  // subtle dot grid
+  ctx.fillStyle = "rgba(255,255,255,0.035)";
+  for (let x = 30; x < W; x += 40) for (let y = 30; y < H; y += 40) ctx.fillRect(x, y, 2, 2);
+  sceneIntro(t); sceneSpawn(t); sceneTeam(t); sceneCompare(t); sceneOutro(t);
+  // progress bar
+  ctx.globalAlpha = 1; ctx.fillStyle = C.line; ctx.fillRect(0, H - 6, W, 6);
+  ctx.fillStyle = t < 12.2 ? C.spawn : C.team; ctx.fillRect(0, H - 6, W * clamp(t / DURATION), 6);
+}
+window.render = render; window.DURATION = DURATION;
+window.ready = document.fonts.load("600 20px Inter").then(() => document.fonts.load("500 20px Mono")).then(() => { render(0); return true; });
+// Preview mode: open in a browser to see it play in real time.
+if (!/render=1/.test(location.search)) {
+  const t0 = performance.now();
+  const loop = () => { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); };
+  window.ready.then(loop);
+}
+</script>
+</body>
+</html>
