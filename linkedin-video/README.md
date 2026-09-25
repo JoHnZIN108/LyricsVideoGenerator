@@ -1,5 +1,8 @@
 # Orchestration explainer (LinkedIn video)
 
+**v2 (current):** `split.html` → `spawn-vs-board.mp4`: 40s, 1920×1080, split screen in the igotchu Instrument style (Bricolage Grotesque condensed, DM Sans, JetBrains Mono). Render with `node render.mjs --page split.html spawn-vs-board.mp4`.
+
+**v1:** 
 30s, 1080×1080, silent graphic explainer: in-session spawn vs. cross-harness multi-agent orchestration.
 
 - `scene.html`: the animation (open in a browser to preview it live). All timing lives in `render(t)`.

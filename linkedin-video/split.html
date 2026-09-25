@@ -1,0 +1,274 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Spawn vs Board</title>
+<style>
+@font-face{font-family:"Bricolage Grotesque";src:url(bricolage.woff2) format("woff2");font-weight:500 800;font-stretch:75% 100%}
+@font-face{font-family:"DM Sans";src:url(dmsans.woff2) format("woff2");font-weight:400 700}
+@font-face{font-family:"JetBrains Mono";src:url(jbmono.woff2) format("woff2");font-weight:500 700}
+:root{
+  --panel:#e3e8e4;--panel-hi:#f0f4f1;--panel-lo:#c3ccc6;--key:#f7faf8;--graphite:#131a17;--graphite-2:#262f2b;
+  --soft:#4a5751;--dim:#66736c;--blue:#2343e0;--blue-hi:#9db1ff;--pink:#ff3d7f;--yellow:#ffd21a;--red:#d8261c;--screen:#0c1310;
+  --f-d:"Bricolage Grotesque","Arial Narrow",sans-serif;--f-b:"DM Sans",Arial,sans-serif;--f-m:"JetBrains Mono",ui-monospace,monospace;
+}
+html,body{margin:0;background:var(--panel)}
+.frame{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--panel);color:var(--graphite);font-family:var(--f-b);font-weight:500}
+.frame::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 18% 0%,var(--panel-hi),transparent 70%),linear-gradient(180deg,transparent 60%,rgba(19,26,23,.05))}
+.frame *{box-sizing:border-box}
+.frame>*{position:absolute}
+.screw{width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fbfdfc,#b3beb7 70%);box-shadow:inset 0 0 0 2px #a3afa8,0 1px 0 #fff}
+.screw::after{content:"";position:absolute;left:5px;right:5px;top:11px;height:2px;background:#8b978f;transform:rotate(-35deg)}
+.silk{font-family:var(--f-m);font-weight:700;font-size:24px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);white-space:nowrap}
+.h{font-family:var(--f-d);font-weight:800;font-stretch:75%;font-variation-settings:"wdth" 75;letter-spacing:-.02em;line-height:.88;margin:0;white-space:nowrap}
+.led{display:inline-block;width:20px;height:20px;border-radius:50%;background:#b3bdb6;box-shadow:inset 0 2px 3px rgba(0,0,0,.25);vertical-align:middle;flex:none}
+.led.on{background:var(--pink);box-shadow:0 0 0 5px rgba(255,61,127,.16),0 0 22px var(--pink)}
+.led.on.b{background:#4f6bff;box-shadow:0 0 0 5px rgba(35,67,224,.15),0 0 22px #4f6bff}
+.led.on.y{background:var(--yellow);box-shadow:0 0 0 5px rgba(255,210,26,.2),0 0 22px var(--yellow)}
+.led.on.w{background:#fff;box-shadow:0 0 0 5px rgba(255,255,255,.15),0 0 18px #fff}
+.screen{background:var(--screen);border-radius:28px;box-shadow:inset 0 0 0 12px var(--graphite-2),inset 0 0 80px rgba(0,0,0,.7),0 2px 0 var(--panel-hi),0 -2px 0 var(--panel-lo);color:var(--blue-hi);font-family:var(--f-m);font-weight:500;text-shadow:0 0 18px rgba(157,177,255,.55)}
+.key{border-radius:28px;padding:18px 22px;background:var(--key);color:var(--graphite);box-shadow:inset 0 -5px 0 rgba(0,0,0,.07),0 10px 0 var(--panel-lo),0 24px 36px rgba(19,26,23,.16);display:flex;flex-direction:column;justify-content:space-between}
+.key--g{background:var(--graphite);color:#f7faf8;box-shadow:inset 0 -5px 0 rgba(255,255,255,.06),0 10px 0 #000,0 24px 36px rgba(19,26,23,.2)}
+.key--b{background:var(--blue);color:#fff;box-shadow:inset 0 -5px 0 rgba(0,0,0,.12),0 10px 0 #172e9e,0 24px 36px rgba(19,26,23,.2)}
+.key--p{background:var(--pink);box-shadow:inset 0 -5px 0 rgba(0,0,0,.1),0 10px 0 #b8194f,0 24px 36px rgba(19,26,23,.2)}
+.key--y{background:var(--yellow);box-shadow:inset 0 -5px 0 rgba(0,0,0,.08),0 10px 0 #b89400,0 24px 36px rgba(19,26,23,.2)}
+.key .num{font-family:var(--f-m);font-weight:700;font-size:20px;letter-spacing:.1em;display:flex;align-items:center;justify-content:space-between;text-transform:uppercase}
+.key .lab{font-family:var(--f-d);font-weight:800;font-stretch:75%;font-variation-settings:"wdth" 75;font-size:44px;line-height:.92;letter-spacing:-.01em}
+.groove{background:var(--panel-lo);box-shadow:2px 0 0 var(--panel-hi)}
+.board{background:var(--panel-hi);border-radius:28px;box-shadow:inset 0 0 0 3px var(--panel-lo)}
+.col-h{font-family:var(--f-m);font-weight:700;font-size:18px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);display:flex;align-items:center;gap:10px}
+.card{width:244px;height:56px;border-radius:14px;background:var(--key);box-shadow:0 4px 0 var(--panel-lo),0 10px 18px rgba(19,26,23,.1);display:flex;align-items:center;gap:10px;padding:0 14px;overflow:hidden}
+.card .t{font-weight:700;font-size:25px;white-space:nowrap;flex:1}
+.card .who{font-family:var(--f-m);font-weight:700;font-size:16px;letter-spacing:.06em;color:var(--soft)}
+.card .bar{position:absolute;left:0;bottom:0;height:6px;border-radius:0 3px 3px 0}
+.log{font-size:23px;line-height:34px;padding:16px 30px;overflow:hidden;white-space:nowrap}
+.tl{font-size:31px;line-height:48px;white-space:pre}
+.stamp{border:10px solid var(--red);border-radius:16px;padding:8px 36px 14px;color:var(--red);font-family:var(--f-d);font-weight:800;font-stretch:75%;font-variation-settings:"wdth" 75;font-size:96px;line-height:.9;background:rgba(247,250,248,.85);box-shadow:inset 0 0 0 4px var(--key),inset 0 0 0 8px var(--red);white-space:nowrap}
+.pc h4{margin:0 0 12px;display:flex;align-items:center;gap:14px}
+.pc ul{margin:0;padding:0;list-style:none}
+.pc li{font-size:33px;line-height:44px;font-weight:600;color:var(--graphite);white-space:nowrap}
+.pc li::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--dim);margin-right:14px;vertical-align:middle;transform:translateY(-3px)}
+.bubble{width:244px;height:56px;border-radius:14px;display:flex;align-items:center;gap:10px;padding:0 14px;font-family:var(--f-m);font-weight:700;font-size:20px;background:var(--graphite);color:#f7faf8;white-space:nowrap}
+.bubble::before{content:"";width:12px;height:12px;border-radius:3px;background:var(--pink);box-shadow:0 0 12px var(--pink)}
+</style>
+</head>
+<body>
+<div class="frame" id="f">
+  <i class="screw" style="left:36px;top:36px"></i><i class="screw" style="right:36px;top:36px"></i>
+  <i class="screw" style="left:36px;bottom:36px"></i><i class="screw" style="right:36px;bottom:36px"></i>
+  <div class="silk" id="silkL" style="left:96px;top:44px">igotchu / Multi-agent — two ways to orchestrate</div>
+  <div class="silk" id="silkR" style="right:96px;top:40px;display:flex;align-items:center;gap:16px"><i class="led" id="ledA"></i><i class="led" id="ledB"></i><i class="led" id="ledC"></i><span style="margin-left:10px">Live</span></div>
+
+  <div class="groove" id="groove" style="left:959px;top:110px;width:2px;height:900px"></div>
+
+  <!-- LEFT: in-session -->
+  <h2 class="h" id="hL" style="left:96px;top:104px;font-size:112px">In-session</h2>
+  <div class="silk" id="sL" style="left:100px;top:214px;color:var(--blue)">Spawn tool · one harness</div>
+  <div class="screen" id="clkL" style="left:660px;top:110px;width:240px;height:92px;display:flex;flex-direction:column;justify-content:center;padding:0 30px">
+    <span style="font-size:15px;letter-spacing:.14em;opacity:.7">ELAPSED</span><span id="clkLv" style="font-size:36px">0 min</span></div>
+
+  <div class="screen" id="scr" style="left:96px;top:270px;width:804px;height:470px;padding:36px 44px">
+    <div class="tl" id="l0"></div><div class="tl" id="l1"></div><div class="tl" id="l2"></div><div class="tl" id="l3"></div>
+    <div class="tl" id="l4"></div><div class="tl" id="l5"></div><div class="tl" id="l6"></div><div class="tl" id="l7"></div>
+  </div>
+  <i class="led" id="sp0" style="left:820px;top:0"></i><i class="led" id="sp1" style="left:820px;top:0"></i><i class="led" id="sp2" style="left:820px;top:0"></i>
+  <div class="stamp" id="stampL" style="left:250px;top:430px">Session closed</div>
+  <div class="silk" id="capL" style="left:96px;top:782px;font-size:21px">One parent · subagents report back, then vanish</div>
+
+  <!-- RIGHT: cross-harness -->
+  <h2 class="h" id="hR" style="left:1020px;top:104px;font-size:112px">Cross-harness</h2>
+  <div class="silk" id="sR" style="left:1024px;top:214px;color:#c8195a">Shared board · many harnesses</div>
+  <div class="screen" id="clkR" style="left:1584px;top:110px;width:240px;height:92px;display:flex;flex-direction:column;justify-content:center;padding:0 30px">
+    <span style="font-size:15px;letter-spacing:.14em;opacity:.7">ELAPSED</span><span id="clkRv" style="font-size:36px">0h 00m</span></div>
+
+  <div class="key key--g" id="lead" style="left:1020px;top:270px;width:280px;height:104px">
+    <span class="num">Lead agent<i class="led" id="leadLed"></i></span><span class="lab" id="leadLab" style="font-size:36px">posts stories</span></div>
+  <div class="key key--p" id="agA" style="left:1344px;top:270px;width:152px;height:104px"><span class="num">A<i class="led"></i></span><span class="lab" style="font-size:34px">cloud</span></div>
+  <div class="key key--y" id="agB" style="left:1508px;top:270px;width:152px;height:104px"><span class="num">B<i class="led"></i></span><span class="lab" id="agBlab" style="font-size:34px">laptop</span></div>
+  <div class="key key--b" id="agC" style="left:1672px;top:270px;width:152px;height:104px"><span class="num">C<i class="led"></i></span><span class="lab" style="font-size:34px">CI</span></div>
+  <div class="silk" id="spawnTag" style="right:96px;top:246px;font-size:16px;color:#c8195a">▼ spawned by the board</div>
+
+  <div class="board" id="board" style="left:1020px;top:398px;width:804px;height:246px"></div>
+  <div class="col-h" id="ch0" style="left:1044px;top:414px"><i class="led" id="wLed"></i>Waiting</div>
+  <div class="col-h" id="ch1" style="left:1308px;top:414px">In progress</div>
+  <div class="col-h" id="ch2" style="left:1572px;top:414px">Done</div>
+  <div class="card" id="c0"><span class="t">#1 Build API</span><span class="who"></span><i class="led"></i><i class="bar" style="background:var(--pink)"></i></div>
+  <div class="card" id="c1"><span class="t">#2 Build UI</span><span class="who"></span><i class="led"></i><i class="bar" style="background:var(--yellow)"></i></div>
+  <div class="card" id="c2"><span class="t">#3 Write tests</span><span class="who"></span><i class="led"></i><i class="bar" style="background:#4f6bff"></i></div>
+  <div class="bubble" id="b0">PR #12 ready</div>
+  <div class="bubble" id="b2">42 tests ✓</div>
+  <div class="bubble" id="b1">PR #13 ready</div>
+
+  <div class="screen log" id="log" style="left:1020px;top:660px;width:804px;height:100px"><div id="logIn"></div></div>
+  <div class="silk" id="capR" style="left:1020px;top:782px;font-size:21px">Board spawns · agents pick up · full audit trail</div>
+
+  <!-- pros / cons -->
+  <div class="pc" id="pcL1" style="left:96px;top:840px"><h4 class="silk"><i class="led on b"></i>Best for</h4><ul><li>Quick, bounded tasks</li><li>Zero setup</li><li>Lower cost</li></ul></div>
+  <div class="pc" id="pcL2" style="left:500px;top:840px"><h4 class="silk"><i class="led on"></i>Trade-offs</h4><ul><li>Ends with the session</li><li>One harness, one machine</li><li>Hard to audit later</li></ul></div>
+  <div class="pc" id="pcR1" style="left:1020px;top:840px"><h4 class="silk"><i class="led on b"></i>Best for</h4><ul><li>Long-running work</li><li>Humans can audit it</li><li>Survives restarts</li></ul></div>
+  <div class="pc" id="pcR2" style="left:1424px;top:840px"><h4 class="silk"><i class="led on"></i>Trade-offs</h4><ul><li>Needs a board layer</li><li>More tokens + infra</li><li>More moving parts</li></ul></div>
+</div>
+<script>
+// Deterministic timeline: render(t) sets every element's state for time t (seconds).
+const DURATION = 40;
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const p = (t, s, d) => clamp((t - s) / d);
+const out = k => 1 - Math.pow(1 - clamp(k), 3);
+const inout = k => (k = clamp(k), k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+const snapE = k => { k = clamp(k); const c1 = 1.45, c3 = c1 + 1; return 1 + c3 * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2); };
+
+// style primitives from the Instrument kit
+function focus(el, t, s, dur = .7) { const k = p(t, s, dur), e = out(k);
+  el.style.opacity = clamp(k * 2); el.style.filter = k >= 1 ? "none" : `blur(${(1 - e) * 14}px)`; el.style.transform = `scale(${1.03 - .03 * e})`; }
+function snap(el, t, s, dur = .45) { const k = p(t, s, dur), e = snapE(k);
+  el.style.opacity = clamp(k * 2.5); el.style.transform = `translateY(${(1 - e) * 34}px) scale(${.96 + .04 * e})`; }
+function flickOn(t, s) { const k = (t - s) / .5; if (k < 0) return 0; if (k < .2) return 1; if (k < .35) return .25; return 1; }
+function press(el, t, at, base = "") { const k = p(t, at, .3); const y = k > 0 && k < 1 ? Math.sin(k * Math.PI) * 10 : 0; el.style.translate = `0 ${y}px`; }
+const setLed = (el, cls) => { el.className = "led" + (cls ? " on " + cls : ""); };
+
+// ---- left transcript ----
+const L = [
+  { at: 3.0, text: "> ship the login feature", type: 1.1 },
+  { at: 4.6, text: "main   planning · spawning 3 subagents" },
+  { at: 5.4, text: "├─ sub-1   build API" , sp: 0, done: 9.2 },
+  { at: 5.9, text: "├─ sub-2   build UI", sp: 1, done: 10.0 },
+  { at: 6.4, text: "└─ sub-3   write tests", sp: 2, done: 10.8 },
+  { at: 11.6, text: "main   ← 3 summaries returned" },
+  { at: 12.8, text: "main   merged everything · done ✓" },
+  { at: 14.4, text: "[ session closed · subagents gone ]" },
+];
+// ---- right log ----
+const LOG = [
+  [3.4, "09:00  lead   posted #1 #2 #3"],
+  [5.6, "09:01  board  3 waiting → spawned A · B · C"],
+  [7.6, "09:02  A,B,C  picked up #1 #2 #3"],
+  [14.2, "11:25  B      restarted → resumed from board"],
+  [17.4, "12:40  A      commented on #1: PR #12 ready"],
+  [20.4, "13:55  C      commented on #3: 42 tests ✓"],
+  [23.4, "15:10  B      commented on #2: PR #13 ready"],
+  [25.4, "15:30  lead   reviewed #1–3 · closed"],
+];
+const COLX = [1034, 1298, 1562], ROWY = [454, 518, 582];
+const CARDS = [
+  { id: "c0", post: 3.3, pick: 7.5, who: "A", led: "", work: [[8.2, 17.0, 0, 1]], done: 17.2, bub: "b0" },
+  { id: "c1", post: 3.9, pick: 8.1, who: "B", led: "y", work: [[8.8, 14.0, 0, .45], [16.0, 23.0, .45, 1]], done: 23.2, bub: "b1" },
+  { id: "c2", post: 4.5, pick: 8.7, who: "C", led: "b", work: [[9.4, 20.0, 0, 1]], done: 20.2, bub: "b2" },
+];
+// order cards land in each column
+const doneOrder = ["c0", "c2", "c1"];
+
+function render(t) {
+  // chrome
+  focus($("silkL"), t, .1); $("silkR").style.opacity = flickOn(t, .2);
+  setLed($("ledA"), t > .3 ? "" : null); $("ledA").className = "led" + (t > .3 ? " on" : "");
+  setLed($("ledB"), Math.floor(t * 2) % 2 && t > 3 && t < 27 ? "b" : null);
+  setLed($("ledC"), t > 27 ? "y" : null);
+  $("groove").style.transform = `scaleY(${inout(p(t, .2, 1))})`; $("groove").style.transformOrigin = "top";
+
+  // ---------------- LEFT ----------------
+  focus($("hL"), t, .3); focus($("sL"), t, .6); snap($("clkL"), t, .9);
+  const mins = Math.round(lerp(0, 12, inout(p(t, 3, 11.4))));
+  $("clkLv").textContent = `${mins} min`;
+  snap($("scr"), t, 1.0, .6);
+  const closed = inout(p(t, 15.2, .9));
+  L.forEach((ln, i) => {
+    const el = $("l" + i); let s = "";
+    if (t >= ln.at) {
+      if (ln.type) { const n = Math.floor(ln.text.length * p(t, ln.at, ln.type)); s = ln.text.slice(0, n) + (t < ln.at + ln.type + .6 && Math.floor(t * 2) % 2 === 0 ? "▌" : ""); }
+      else s = ln.text;
+    }
+    el.textContent = s;
+    el.style.opacity = (t >= ln.at ? flickOn(t, ln.at) : 0) * (1 - closed * (i === 7 ? 0 : .8));
+    if (ln.sp !== undefined) {
+      const led = $("sp" + ln.sp); led.style.top = (270 + 36 + i * 48 + 14) + "px";
+      const working = t > ln.at + .3 && t < ln.done;
+      led.style.opacity = t > ln.at + .3 ? (1 - closed * .8) : 0;
+      if (working) setLed(led, Math.floor(t * 3 + i) % 2 ? "" : null);
+      else if (t >= ln.done) setLed(led, "b"); else setLed(led, null);
+      // subagents vanish once summaries are back
+      if (t > 11.6) led.style.opacity = (1 - p(t, 11.6, .6)) * (1 - closed * .8);
+    }
+  });
+  $("l7").style.color = t > 14.4 ? "#ffd21a" : ""; $("l7").style.textShadow = t > 14.4 ? "0 0 18px rgba(255,210,26,.5)" : "";
+  const st = p(t, 15.6, .28);
+  $("stampL").style.opacity = st > 0 ? 1 : 0;
+  $("stampL").style.transform = `rotate(${lerp(-12, -7, st)}deg) scale(${lerp(1.8, 1, st)})`;
+  focus($("capL"), t, 5.6);
+
+  // ---------------- RIGHT ----------------
+  focus($("hR"), t, .45); focus($("sR"), t, .75); snap($("clkR"), t, 1.05);
+  const mR = Math.round(lerp(0, 390, inout(p(t, 3, 22.6))));
+  $("clkRv").textContent = `${Math.floor(mR / 60)}h ${String(mR % 60).padStart(2, "0")}m`;
+  snap($("lead"), t, 1.2); press($("lead"), t, 3.1); press($("lead"), t, 25.2);
+  setLed($("leadLed"), (t > 3.1 && t < 4.8) || (t > 25.2 && t < 26.4) ? "w" : null);
+  $("leadLab").textContent = t > 25.2 ? "reviews ✓" : t > 5 ? "watching" : "posts stories";
+  snap($("board"), t, 1.4, .6);
+  ["ch0", "ch1", "ch2"].forEach((id, i) => focus($(id), t, 1.6 + i * .12));
+  setLed($("wLed"), t > 5.2 && t < 7.6 && Math.floor(t * 4) % 2 ? "" : null);
+
+  // agents spawned by the board
+  [["agA", 5.8], ["agB", 6.2], ["agC", 6.6]].forEach(([id, s], i) => {
+    const el = $(id); snap(el, t, s);
+    const led = el.querySelector(".led");
+    const busy = t > 8 && t < [17, 23, 20][i];
+    setLed(led, busy ? (Math.floor(t * 3 + i) % 2 ? "w" : null) : t >= [17, 23, 20][i] ? "w" : null);
+  });
+  focus($("spawnTag"), t, 5.7); $("spawnTag").style.opacity = Math.min(+$("spawnTag").style.opacity, 1 - p(t, 10, .6));
+  // agent B restart
+  const agB = $("agB"), restarting = t > 14.0 && t < 16.0;
+  agB.style.filter = restarting ? (Math.floor(t * 8) % 2 ? "grayscale(1) brightness(1.1)" : "none") : "none";
+  if (restarting && t > 14.8) agB.style.filter = "grayscale(1) brightness(1.15)";
+  $("agBlab").textContent = restarting ? "restart…" : t > 16 && t < 18.5 ? "resumed" : "laptop";
+
+  // cards
+  CARDS.forEach((c, i) => {
+    const el = $(c.id);
+    const inWait = i, inProg = i, inDone = doneOrder.indexOf(c.id);
+    const k1 = inout(p(t, c.pick, .7)), k2 = inout(p(t, c.done, .7));
+    let x = COLX[0], y = ROWY[inWait];
+    x = lerp(x, COLX[1], k1); y = lerp(y, ROWY[inProg], k1);
+    x = lerp(x, COLX[2], k2); y = lerp(y, ROWY[inDone], k2);
+    el.style.left = x + "px"; el.style.top = y + "px";
+    const e = snapE(p(t, c.post, .45));
+    el.style.opacity = clamp(p(t, c.post, .45) * 2.5);
+    el.style.transform = `translateY(${(1 - e) * 24}px)`;
+    el.querySelector(".who").textContent = t > c.pick ? c.who : "";
+    const led = el.querySelector(".led");
+    setLed(led, t > c.done ? "b" : t > c.pick ? (c.led || "") : null);
+    let prog = 0; c.work.forEach(([a, b, f0, f1]) => { if (t > a) prog = lerp(f0, f1, inout(p(t, a, b - a))); });
+    const bar = el.querySelector(".bar"); bar.style.width = (244 * prog) + "px"; bar.style.opacity = t > c.done + .5 ? 1 - p(t, c.done + .5, .5) : 1;
+    // the card flips to show the agent's comment, then moves to Done
+    const b = $(c.bub), bs = c.done - 1.3;
+    b.style.left = x + "px"; b.style.top = y + "px";
+    b.style.opacity = clamp(p(t, bs, .25)) * (1 - p(t, c.done + 1.0, .3));
+    b.style.transform = `scale(${lerp(.9, 1, snapE(p(t, bs, .35)))})`;
+  });
+
+  // audit log: newest two lines, scrolling up
+  snap($("log"), t, 1.7);
+  const shown = LOG.filter(([a]) => t >= a);
+  const lastAt = shown.length ? shown[shown.length - 1][0] : 0;
+  const lines = shown.slice(-2), k = p(t, lastAt, .35);
+  $("logIn").innerHTML = lines.map(([, str], j) => `<div style="opacity:${j === lines.length - 1 ? clamp(k * 2) : 1}">${str}</div>`).join("");
+  focus($("capR"), t, 7.8);
+
+  // ---------------- pros / cons ----------------
+  [["pcL1", 28.0], ["pcL2", 28.5], ["pcR1", 29.4], ["pcR2", 29.9]].forEach(([id, s]) => {
+    const el = $(id); snap(el, t, s, .5);
+    el.querySelectorAll("li").forEach((li, j) => { li.style.opacity = clamp(p(t, s + .35 + j * .35, .4) * 2); });
+  });
+}
+window.render = render; window.DURATION = DURATION; window.SIZE = [1920, 1080];
+window.ready = document.fonts.ready.then(() => Promise.all([
+  document.fonts.load('800 100px "Bricolage Grotesque"'), document.fonts.load('500 20px "DM Sans"'), document.fonts.load('700 20px "JetBrains Mono"'),
+])).then(() => { render(0); return true; });
+if (!/render=1/.test(location.search)) {
+  const t0 = performance.now();
+  const loop = () => { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); };
+  window.ready.then(loop);
+}
+</script>
+</body>
+</html>

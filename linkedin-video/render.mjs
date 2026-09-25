@@ -1,5 +1,5 @@
 // Renders scene.html frame-by-frame with headless Chromium and pipes PNGs into ffmpeg.
-// Usage: node render.mjs [out.mp4] [--stills t1,t2,...]
+// Usage: node render.mjs [--page split.html] [out.mp4] [--stills t1,t2,...]
 import { chromium } from "playwright";
 import { spawn, execSync } from "node:child_process";
 import { pathToFileURL, fileURLToPath } from "node:url";
@@ -9,20 +9,25 @@ const dir = path.dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
 const stillsIdx = args.indexOf("--stills");
 const stills = stillsIdx >= 0 ? args[stillsIdx + 1].split(",").map(Number) : null;
-const out = path.resolve(args.find(a => a.endsWith(".mp4")) || path.join(dir, "orchestration-explainer.mp4"));
+const pageIdx = args.indexOf("--page");
+const pageFile = pageIdx >= 0 ? args[pageIdx + 1] : "scene.html";
+const base = path.basename(pageFile, ".html");
+const out = path.resolve(args.find(a => a.endsWith(".mp4")) || path.join(dir, base === "scene" ? "orchestration-explainer.mp4" : `${base}.mp4`));
 const FPS = 30;
 const ffmpeg = process.env.FFMPEG ||
   execSync(`python3 -c "import imageio_ffmpeg as i; print(i.get_ffmpeg_exe())"`).toString().trim();
 
 const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 1080, height: 1080 } });
-await page.goto(pathToFileURL(path.join(dir, "scene.html")).href + "?render=1");
+const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+await page.goto(pathToFileURL(path.join(dir, pageFile)).href + "?render=1");
 await page.evaluate(() => window.ready);
-const shot = async t => { await page.evaluate(t => window.render(t), t); return page.locator("#c").screenshot({ type: "png" }); };
+const [w, h] = await page.evaluate(() => window.SIZE || [1080, 1080]);
+await page.setViewportSize({ width: w, height: h });
+const shot = async t => { await page.evaluate(t => window.render(t), t); return page.screenshot({ type: "png", clip: { x: 0, y: 0, width: w, height: h } }); };
 
 if (stills) {
   const fs = await import("node:fs");
-  for (const t of stills) fs.writeFileSync(path.join(dir, `still-${t}.png`), await shot(t));
+  for (const t of stills) fs.writeFileSync(path.join(dir, `still-${base}-${t}.png`), await shot(t));
 } else {
   const duration = await page.evaluate(() => window.DURATION);
   const enc = spawn(ffmpeg, ["-y", "-f", "image2pipe", "-framerate", String(FPS), "-i", "-",
