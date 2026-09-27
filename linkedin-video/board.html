@@ -70,7 +70,7 @@ html,body{margin:0;background:var(--panel)}
   <!-- RIGHT: cross-session -->
   <h2 class="h" id="hR" style="left:760px;top:104px;font-size:96px">Cross-session</h2>
   <div class="silk" id="sR" style="left:764px;top:200px;font-size:20px;color:var(--pink-text)">Shared board · many sessions</div>
-  <div class="key key--g" id="leadR" style="left:760px;top:250px;width:300px;height:96px"><span class="num">Lead<i class="led" id="leadRled"></i></span><span class="lab" id="leadRlab" style="font-size:36px">coordinates</span></div>
+  <div class="key key--g" id="leadR" style="left:760px;top:250px;width:300px;height:96px"><span class="num">Lead<i class="led" id="leadRled"></i></span><span class="lab" id="leadRlab" style="font-size:36px">plans + reviews</span></div>
   <div class="key" id="runner" style="left:1084px;top:250px;width:250px;height:96px"><span class="num">Runner<i class="led" id="runLed"></i></span><span class="lab" style="font-size:36px">starts agents</span></div>
   <div class="legend" id="legend" style="left:1380px;top:246px;gap:8px">
     <span><i style="background:var(--graphite)"></i>Lead · Fable</span>
@@ -222,7 +222,6 @@ function renderRight(t) {
   // the lead is busy while posting tasks and whenever a card sits in Lead review
   const reviewing = TASKS.some(k => { const c = stepAt(k.chips, t); return c && c[0] === "lead"; });
   led($("leadRled"), (t > 2.6 && t < 4.2) || reviewing ? "w" : null);
-  $("leadRlab").textContent = reviewing ? "reviewing" : "coordinates";
   $("leadR").style.translate = t > 2.8 && t < 3.1 ? "0 8px" : "0 0";
   led($("runLed"), RUNNER.some(([a, b]) => t > a && t < b) && blink(t, 6) ? "" : null);
 
