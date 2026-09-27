@@ -1,6 +1,6 @@
 # Orchestration explainer (LinkedIn video)
 
-**v3 (current):** `board.html` → `session-vs-board.mp4`: 31s, 1920×1080. In-session spawn vs the cross-session Kanban board from the LinkedIn post (runner, builders, reviewers on another model, lead review loop, human review). Render with `node render.mjs --page board.html session-vs-board.mp4`.
+**v3 (current):** `board.html` → `session-vs-board.mp4`: 28s, 1920×1080. In-session spawn vs the cross-session Kanban board from the LinkedIn post (runner, builders, reviewers on another model, lead review loop, human review). Render with `node render.mjs --page board.html session-vs-board.mp4`.
 
 **v2:** `split.html` → `spawn-vs-board.mp4`: 40s, 1920×1080, split screen in the igotchu Instrument style (Bricolage Grotesque condensed, DM Sans, JetBrains Mono). Render with `node render.mjs --page split.html spawn-vs-board.mp4`.
 
