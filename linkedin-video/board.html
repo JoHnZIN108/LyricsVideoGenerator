@@ -1,0 +1,285 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Session vs Board</title>
+<style>
+@font-face{font-family:"Bricolage Grotesque";src:url(bricolage.woff2) format("woff2");font-weight:500 800;font-stretch:75% 100%}
+@font-face{font-family:"DM Sans";src:url(dmsans.woff2) format("woff2");font-weight:400 700}
+@font-face{font-family:"JetBrains Mono";src:url(jbmono.woff2) format("woff2");font-weight:500 700}
+:root{
+  --panel:#e3e8e4;--panel-hi:#f0f4f1;--panel-lo:#c3ccc6;--key:#f7faf8;--graphite:#131a17;--graphite-2:#262f2b;
+  --soft:#4a5751;--dim:#66736c;--blue:#2343e0;--blue-hi:#9db1ff;--pink:#ff3d7f;--pink-text:#c8195a;--yellow:#ffd21a;--red:#d8261c;--screen:#0c1310;
+  --f-d:"Bricolage Grotesque","Arial Narrow",sans-serif;--f-b:"DM Sans",Arial,sans-serif;--f-m:"JetBrains Mono",ui-monospace,monospace;
+}
+html,body{margin:0;background:var(--panel)}
+.frame{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--panel);color:var(--graphite);font-family:var(--f-b);font-weight:500}
+.frame::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 60% at 18% 0%,var(--panel-hi),transparent 70%),linear-gradient(180deg,transparent 60%,rgba(19,26,23,.05))}
+.frame *{box-sizing:border-box}
+.frame>*{position:absolute}
+.screw{width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fbfdfc,#b3beb7 70%);box-shadow:inset 0 0 0 2px #a3afa8,0 1px 0 #fff}
+.screw::after{content:"";position:absolute;left:5px;right:5px;top:11px;height:2px;background:#8b978f;transform:rotate(-35deg)}
+.silk{font-family:var(--f-m);font-weight:700;font-size:24px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);white-space:nowrap}
+.h{font-family:var(--f-d);font-weight:800;font-stretch:75%;font-variation-settings:"wdth" 75;letter-spacing:-.02em;line-height:.88;margin:0;white-space:nowrap}
+.led{display:inline-block;width:20px;height:20px;border-radius:50%;background:#b3bdb6;box-shadow:inset 0 2px 3px rgba(0,0,0,.25);vertical-align:middle;flex:none}
+.led.on{background:var(--pink);box-shadow:0 0 0 5px rgba(255,61,127,.16),0 0 22px var(--pink)}
+.led.on.b{background:#4f6bff;box-shadow:0 0 0 5px rgba(35,67,224,.15),0 0 22px #4f6bff}
+.led.on.y{background:var(--yellow);box-shadow:0 0 0 5px rgba(255,210,26,.2),0 0 22px var(--yellow)}
+.led.on.w{background:#fff;box-shadow:0 0 0 5px rgba(255,255,255,.15),0 0 18px #fff}
+.screen{background:var(--screen);border-radius:32px;box-shadow:inset 0 0 0 12px var(--graphite-2),inset 0 0 80px rgba(0,0,0,.7),0 2px 0 var(--panel-hi),0 -2px 0 var(--panel-lo)}
+.key{border-radius:26px;padding:16px 22px;background:var(--key);color:var(--graphite);box-shadow:inset 0 -5px 0 rgba(0,0,0,.07),0 10px 0 var(--panel-lo),0 24px 36px rgba(19,26,23,.16);display:flex;flex-direction:column;justify-content:space-between}
+.key--g{background:var(--graphite);color:#f7faf8;box-shadow:inset 0 -5px 0 rgba(255,255,255,.06),0 10px 0 #000,0 24px 36px rgba(19,26,23,.2)}
+.key--b{background:var(--blue);color:#fff;box-shadow:inset 0 -5px 0 rgba(0,0,0,.12),0 8px 0 #172e9e,0 18px 28px rgba(0,0,0,.35)}
+.key .num{font-family:var(--f-m);font-weight:700;font-size:18px;letter-spacing:.12em;display:flex;align-items:center;justify-content:space-between;text-transform:uppercase}
+.key .lab{font-family:var(--f-d);font-weight:800;font-stretch:75%;font-variation-settings:"wdth" 75;font-size:44px;line-height:.92;letter-spacing:-.01em;white-space:nowrap}
+.groove{background:var(--panel-lo);box-shadow:2px 0 0 var(--panel-hi)}
+.board{background:var(--panel-hi);border-radius:28px;box-shadow:inset 0 0 0 3px var(--panel-lo)}
+.lane{border-radius:16px;background:rgba(195,204,198,.28)}
+.col-h{font-family:var(--f-m);font-weight:700;font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);white-space:nowrap;width:176px;text-align:center}
+.card{width:160px;height:48px;border-radius:12px;background:var(--key);box-shadow:0 4px 0 var(--panel-lo),0 10px 18px rgba(19,26,23,.1);display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 14px;overflow:hidden}
+.card .t{font-weight:700;font-size:23px;white-space:nowrap}
+.chip{height:32px;min-width:32px;padding:0 8px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:var(--f-m);font-weight:700;font-size:15px;color:#fff;white-space:nowrap}
+.card .bar{position:absolute;left:0;bottom:0;height:5px}
+.tag{font-family:var(--f-m);font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:8px;color:#fff;white-space:nowrap}
+.cap{font-size:32px;line-height:1.25;font-weight:600;color:var(--graphite)}
+.legend{display:flex;flex-direction:column;gap:12px;font-family:var(--f-m);font-weight:700;font-size:17px;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.legend span{display:flex;align-items:center;gap:12px}
+.legend i{width:16px;height:16px;border-radius:50%}
+</style>
+</head>
+<body>
+<div class="frame" id="f">
+  <i class="screw" style="left:36px;top:36px"></i><i class="screw" style="right:36px;top:36px"></i>
+  <i class="screw" style="left:36px;bottom:36px"></i><i class="screw" style="right:36px;bottom:36px"></i>
+  <div class="silk" id="silkL" style="left:96px;top:44px">igotchu / Two ways to run agents in parallel</div>
+  <div class="silk" id="silkR" style="right:96px;top:40px;display:flex;align-items:center;gap:16px"><i class="led" id="ledA"></i><i class="led" id="ledB"></i><i class="led" id="ledC"></i><span style="margin-left:10px">Live</span></div>
+  <div class="groove" id="groove" style="left:663px;top:110px;width:2px;height:780px"></div>
+
+  <!-- LEFT: in-session -->
+  <h2 class="h" id="hL" style="left:96px;top:104px;font-size:96px">In-session</h2>
+  <div class="silk" id="sL" style="left:100px;top:200px;font-size:20px;color:var(--blue)">Spawn tool · one session</div>
+  <div class="screen" id="sess" style="left:96px;top:250px;width:528px;height:500px"></div>
+  <div class="silk" id="sessLab" style="left:128px;top:276px;font-size:15px;color:var(--blue-hi)">Lead's session</div>
+  <svg id="wires" style="left:96px;top:250px;width:528px;height:500px;overflow:visible" viewBox="0 0 528 500"></svg>
+  <div class="key" id="leadL" style="left:250px;top:320px;width:220px;height:96px"><span class="num">Lead<i class="led"></i></span><span class="lab" style="font-size:36px">delegates</span></div>
+  <div class="key key--b" id="s0" style="width:132px;height:84px"><span class="num">Sub<i class="led"></i></span><span class="lab" style="font-size:32px" id="s0l">1</span></div>
+  <div class="key key--b" id="s1" style="width:132px;height:84px"><span class="num">Sub<i class="led"></i></span><span class="lab" style="font-size:32px" id="s1l">2</span></div>
+  <div class="key key--b" id="s2" style="width:132px;height:84px"><span class="num">Sub<i class="led"></i></span><span class="lab" style="font-size:32px" id="s2l">3</span></div>
+  <div id="ended" style="left:96px;top:600px;width:528px;text-align:center;font-family:var(--f-m);font-weight:700;letter-spacing:.12em;color:#ff5a4f;text-shadow:0 0 18px rgba(255,90,79,.6)">
+    <div style="font-size:30px">SESSION ENDED</div><div style="font-size:18px;margin-top:10px;opacity:.85">ALL 3 SUBAGENTS GONE</div></div>
+  <div class="cap" id="capL" style="left:96px;top:782px;width:528px"></div>
+
+  <!-- RIGHT: cross-session -->
+  <h2 class="h" id="hR" style="left:704px;top:104px;font-size:96px">Cross-session</h2>
+  <div class="silk" id="sR" style="left:708px;top:200px;font-size:20px;color:var(--pink-text)">Shared board · many sessions</div>
+  <div class="key key--g" id="leadR" style="left:704px;top:250px;width:300px;height:96px"><span class="num">Lead<i class="led" id="leadRled"></i></span><span class="lab" style="font-size:36px">coordinates</span></div>
+  <div class="key" id="runner" style="left:1030px;top:250px;width:260px;height:96px"><span class="num">Runner<i class="led" id="runLed"></i></span><span class="lab" style="font-size:36px">starts agents</span></div>
+  <div class="legend" id="legend" style="left:1350px;top:250px">
+    <span><i style="background:var(--pink)"></i>Builders · model A</span>
+    <span><i style="background:#4f6bff"></i>Reviewers · model B</span>
+    <span><i style="background:var(--yellow)"></i>You</span>
+  </div>
+  <div class="board" id="board" style="left:704px;top:372px;width:1120px;height:378px"></div>
+  <div id="lanes" style="left:0;top:0"></div>
+  <div id="cards" style="left:0;top:0"></div>
+  <div class="cap" id="capR" style="left:704px;top:782px;width:1120px"></div>
+
+  <div class="h" id="final" style="left:0;width:1920px;top:900px;text-align:center;font-size:84px">Different tools for different jobs<span id="dot" style="display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--pink);box-shadow:0 0 0 .05em rgba(255,61,127,.16),0 0 .25em var(--pink);margin-left:.04em"></span></div>
+</div>
+<script>
+// Deterministic timeline. render(t) sets every element's state for time t (seconds).
+const DURATION = 31;
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const p = (t, s, d) => clamp((t - s) / d);
+const out = k => 1 - Math.pow(1 - clamp(k), 3);
+const inout = k => (k = clamp(k), k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+const snapE = k => { k = clamp(k); const c1 = 1.45, c3 = c1 + 1; return 1 + c3 * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2); };
+function focus(el, t, s, dur = .7) { const k = p(t, s, dur), e = out(k);
+  el.style.opacity = clamp(k * 2); el.style.filter = k >= 1 ? "none" : `blur(${(1 - e) * 14}px)`; el.style.transform = `scale(${1.03 - .03 * e})`; }
+function snap(el, t, s, dur = .45) { const k = p(t, s, dur), e = snapE(k);
+  el.style.opacity = clamp(k * 2.5); el.style.transform = `translateY(${(1 - e) * 30}px) scale(${.96 + .04 * e})`; }
+function flick(t, s) { const k = (t - s) / .5; if (k < 0) return 0; if (k < .2) return 1; if (k < .35) return .25; return 1; }
+const led = (el, cls) => { el.className = "led" + (cls === null ? "" : " on" + (cls ? " " + cls : "")); };
+const blink = (t, rate = 3, ph = 0) => Math.floor(t * rate + ph) % 2 === 0;
+// value of a step timeline [[t, v], ...] at time t
+const stepAt = (list, t, init = null) => { let v = init; for (const [a, x] of list) if (t >= a) v = x; return v; };
+
+// ---------- captions ----------
+function caption(el, list, t) {
+  let cur = null, at = 0;
+  for (const [a, s] of list) if (t >= a) { cur = s; at = a; }
+  el.textContent = cur || "";
+  const k = p(t, at, .45); el.style.opacity = cur ? out(k) : 0; el.style.transform = `translateY(${(1 - out(k)) * 14}px)`;
+}
+const CAP_L = [
+  [2.6, "The lead spawns subagents inside its own session."],
+  [7.2, "Each one reports back to the lead, then ends."],
+  [11.0, "The lead's session ends. Every subagent goes with it."],
+  [24.0, "Short bursts. One point of failure."],
+];
+const CAP_R = [
+  [2.6, "The lead breaks the work into tasks."],
+  [4.9, "A runner starts a builder for each task."],
+  [8.9, "Reviewers on a different model check the work."],
+  [11.0, "A builder dies. The runner starts a new one. Nothing else stops."],
+  [13.4, "The lead reads each review and sends weak work back."],
+  [15.2, "You check the finished work and move it to Done."],
+  [24.0, "Long-running work. The state lives on the board."],
+];
+
+// ---------- left: in-session ----------
+const SUBX = [112, 264, 416].map(x => 96 + x - 66), SUBY = 250 + 350;   // sub key top-left
+const LEAD = { x: 360, y: 320 + 96 };                                     // lead bottom-center
+const BURSTS = [
+  { spawn: 3.2, done: [7.0, 7.5, 8.0], labels: ["1", "2", "3"] },
+  { spawn: 8.8, done: [99, 99, 99], labels: ["4", "5", "6"] },
+];
+const CRASH = 11.0;
+function renderLeft(t) {
+  focus($("hL"), t, .3); focus($("sL"), t, .6);
+  snap($("sess"), t, .9, .6); focus($("sessLab"), t, 1.3);
+  const lead = $("leadL"); snap(lead, t, 1.5);
+  const crashed = t >= CRASH, ck = p(t, CRASH, .6);
+  led(lead.querySelector(".led"), crashed ? null : (t > 3 && t < 10.9 && blink(t, 2) ? "b" : null));
+  lead.style.filter = crashed ? "grayscale(1) brightness(.8)" : "none";
+  // session border flashes red on crash
+  const sess = $("sess");
+  const flash = crashed && t < CRASH + .9 ? (blink(t, 8) ? 1 : 0) : crashed ? 1 : 0;
+  sess.style.boxShadow = flash ? "inset 0 0 0 12px #5a1a16,inset 0 0 80px rgba(0,0,0,.7),0 0 0 4px rgba(216,38,28,.55)" : "";
+  $("sessLab").style.color = crashed ? "#ff5a4f" : "";
+  $("ended").style.opacity = crashed ? flick(t, CRASH + .5) : 0;
+
+  let wires = "";
+  const b = t < BURSTS[1].spawn - .1 ? BURSTS[0] : BURSTS[1];
+  [0, 1, 2].forEach(i => {
+    const el = $("s" + i), st = b.spawn + i * .25;
+    $("s" + i + "l").textContent = b.labels[i];
+    const k = inout(p(t, st, .6)), e = snapE(p(t, st, .6));
+    const x = lerp(LEAD.x + 96 - 66, SUBX[i], k), y = lerp(320, SUBY, k);
+    const done = b.done[i];
+    let op = t >= st ? clamp(p(t, st, .3) * 2) : 0;
+    if (t > done + .5) op *= 1 - p(t, done + .5, .5);           // ends after reporting
+    if (crashed) op *= 1 - p(t, CRASH + .15, .25);                // all vanish together
+    el.style.left = x + "px"; el.style.top = y + "px"; el.style.opacity = op;
+    el.style.transform = `scale(${.6 + .4 * e})`;
+    const working = t > st + .6 && t < done && !crashed;
+    led(el.querySelector(".led"), working ? (blink(t, 3, i) ? "w" : null) : null);
+    // wire from lead to sub (in svg coords)
+    const cx = x - 96 + 66, cy = y - 250;
+    if (op > .02) wires += `<line x1="264" y1="166" x2="${cx}" y2="${cy}" stroke="#9db1ff" stroke-width="3" stroke-dasharray="6 8" opacity="${.55 * op}"/>`;
+    // report dot travels up to the lead
+    const rk = inout(p(t, done - .1, .6));
+    if (rk > 0 && rk < 1 && !crashed) {
+      const dx = lerp(cx, 264, rk), dy = lerp(cy, 166, rk);
+      wires += `<circle cx="${dx}" cy="${dy}" r="9" fill="#fff" style="filter:drop-shadow(0 0 8px #9db1ff)"/>`;
+    }
+  });
+  $("wires").innerHTML = wires;
+  caption($("capL"), CAP_L, t);
+}
+
+// ---------- right: board ----------
+const COLS = ["Input", "In progress", "Code review", "Lead review", "Human review", "Done"];
+const COLX = COLS.map((_, i) => 716 + i * 184);            // lane left edge (lane width 176)
+const ROWY = [0, 1, 2, 3].map(r => 436 + r * 74);
+const CHIP = { b: "var(--pink)", r: "#4f6bff", you: "var(--yellow)", dead: "#8a968f" };
+const TASKS = [
+  { at: 3.0, moves: [[5.2, 1], [9.0, 2], [11.7, 3], [12.9, 4], [15.6, 5]],
+    chips: [[5.0, ["b", "B1"]], [9.0, null], [9.3, ["r", "R1"]], [11.7, null], [12.9, ["you", "You"]], [16.0, ["done"]]],
+    bars: [[5.4, 8.8, 0, 1, "b"], [9.5, 11.4, 0, 1, "r"]], lead: [12.4] },
+  { at: 3.3, moves: [[5.6, 1], [10.0, 2], [12.7, 3], [14.0, 1], [17.8, 2], [19.8, 3], [20.9, 4], [22.8, 5]],
+    chips: [[5.4, ["b", "B2"]], [10.0, null], [10.3, ["r", "R2"]], [12.7, null], [14.4, ["b", "B5"]], [17.8, null], [18.1, ["r", "R1"]], [19.8, null], [20.9, ["you", "You"]], [23.2, ["done"]]],
+    bars: [[5.8, 9.8, 0, 1, "b"], [10.5, 12.4, 0, 1, "r"], [14.6, 17.6, 0, 1, "b"], [18.3, 19.6, 0, 1, "r"]],
+    tags: [[13.4, 15.6, "Rework", "var(--pink)"]], lead: [13.4, 20.4] },
+  { at: 3.6, moves: [[6.0, 1], [10.8, 2], [13.6, 3], [14.6, 4], [17.4, 5]],
+    chips: [[5.8, ["b", "B3"]], [10.8, null], [11.1, ["r", "R3"]], [13.6, null], [14.6, ["you", "You"]], [17.8, ["done"]]],
+    bars: [[6.2, 10.6, 0, 1, "b"], [11.3, 13.4, 0, 1, "r"]], lead: [14.2] },
+  { at: 3.9, moves: [[6.4, 1], [16.2, 2], [18.4, 3], [19.2, 4], [21.8, 5]],
+    chips: [[6.2, ["b", "B4"]], [11.0, ["dead", "✕"]], [12.3, ["b", "B6"]], [16.2, null], [16.5, ["r", "R2"]], [18.4, null], [19.2, ["you", "You"]], [22.2, ["done"]]],
+    bars: [[6.6, 11.0, 0, .45, "b"], [12.5, 16.0, .45, 1, "b"], [16.7, 18.2, 0, 1, "r"]],
+    tags: [[11.0, 12.3, "Builder died", "var(--red)"], [12.3, 13.9, "New builder", "var(--graphite)"]], lead: [19.0] },
+];
+const RUNNER = [[5.0, 6.6], [12.0, 12.6], [14.2, 14.6]];
+
+function buildBoard() {
+  $("lanes").innerHTML = COLS.map((c, i) =>
+    `<div class="lane" id="lane${i}" style="position:absolute;left:${COLX[i]}px;top:424px;width:176px;height:310px"></div>
+     <div class="col-h" id="colh${i}" style="position:absolute;left:${COLX[i]}px;top:392px">${c}</div>`).join("");
+  $("cards").innerHTML = TASKS.map((_, i) =>
+    `<div class="card" id="card${i}" style="position:absolute"><span class="t">Task ${i + 1}</span><span class="chip" id="chip${i}"></span><i class="bar" id="bar${i}"></i>
+     <span class="tag" id="tag${i}" style="position:absolute;display:none"></span></div>`).join("");
+  // tags live outside the card so they can sit above it
+  TASKS.forEach((_, i) => { const tg = $("tag" + i); $("f").appendChild(tg); });
+}
+
+function renderRight(t) {
+  focus($("hR"), t, .45); focus($("sR"), t, .75);
+  snap($("leadR"), t, 1.2); snap($("runner"), t, 1.4); focus($("legend"), t, 1.8);
+  snap($("board"), t, 1.6, .6);
+  COLS.forEach((_, i) => { focus($("colh" + i), t, 1.9 + i * .08); $("lane" + i).style.opacity = clamp(p(t, 1.9 + i * .08, .5)); });
+
+  const leadAct = TASKS.some(k => (k.lead || []).some(a => t > a && t < a + .9)) || (t > 2.6 && t < 4.2);
+  led($("leadRled"), leadAct ? "w" : null);
+  $("leadR").style.translate = t > 2.8 && t < 3.1 ? "0 8px" : "0 0";
+  const runAct = RUNNER.some(([a, b]) => t > a && t < b);
+  led($("runLed"), runAct && blink(t, 6) ? "" : null);
+
+  TASKS.forEach((k, i) => {
+    const el = $("card" + i);
+    // column position: step through moves with an eased slide
+    let col = 0, x = COLX[0] + 8;
+    for (const [a, c] of k.moves) {
+      if (t >= a) { const e = inout(p(t, a, .6)); x = lerp(COLX[col] + 8, COLX[c] + 8, e); col = c; if (e < 1) break; }
+    }
+    const back = k.moves.some(([a, c], j) => j > 0 && c < k.moves[j - 1][1] && t > a && t < a + .6);
+    el.style.left = x + "px"; el.style.top = ROWY[i] + "px";
+    const e = snapE(p(t, k.at, .45));
+    el.style.opacity = clamp(p(t, k.at, .45) * 2.5);
+    el.style.transform = `translateY(${(1 - e) * 20 - (back ? 10 * Math.sin(p(t, 14.0, .6) * Math.PI) : 0)}px)`;
+    el.style.boxShadow = back ? "0 0 0 3px var(--pink),0 10px 18px rgba(19,26,23,.1)" : "";
+
+    const ch = $("chip" + i), c = stepAt(k.chips, t);
+    if (!c) { ch.style.opacity = 0; }
+    else if (c[0] === "done") { ch.style.opacity = 1; ch.textContent = "✓"; ch.style.background = "var(--graphite)"; ch.style.color = "#fff"; }
+    else { ch.style.opacity = 1; ch.textContent = c[1]; ch.style.background = CHIP[c[0]]; ch.style.color = c[0] === "you" ? "var(--graphite)" : "#fff"; }
+
+    let prog = 0, kind = "b", show = false;
+    for (const [a, b, f0, f1, kd] of k.bars) if (t >= a) { prog = lerp(f0, f1, inout(p(t, a, b - a))); kind = kd; show = t < b + .3 || (kd === "b" && f1 < 1); }
+    const bar = $("bar" + i);
+    bar.style.width = (160 * prog) + "px"; bar.style.background = kind === "r" ? "#4f6bff" : "var(--pink)";
+    bar.style.opacity = show ? 1 : 0;
+    if (c && c[0] === "dead") bar.style.background = "#8a968f";
+
+    const tg = $("tag" + i), tag = (k.tags || []).find(([a, b]) => t >= a && t < b);
+    if (tag) {
+      tg.style.display = "block"; tg.textContent = tag[2]; tg.style.background = tag[3];
+      tg.style.left = (x + 4) + "px"; tg.style.top = (ROWY[i] - 22) + "px";
+      tg.style.opacity = out(p(t, tag[0], .25));
+    } else tg.style.display = "none";
+  });
+  caption($("capR"), CAP_R, t);
+}
+
+function render(t) {
+  focus($("silkL"), t, .1); $("silkR").style.opacity = flick(t, .2);
+  led($("ledA"), t > .3 ? "" : null); led($("ledB"), t > 3 && t < 23 && blink(t, 2) ? "b" : null); led($("ledC"), t > 24 ? "y" : null);
+  $("groove").style.transformOrigin = "top"; $("groove").style.transform = `scaleY(${inout(p(t, .2, 1))})`;
+  renderLeft(t); renderRight(t);
+  focus($("final"), t, 25.4, .9);
+  $("dot").style.opacity = flick(t, 26.3);
+}
+buildBoard();
+window.render = render; window.DURATION = DURATION; window.SIZE = [1920, 1080];
+window.ready = document.fonts.ready.then(() => Promise.all([
+  document.fonts.load('800 100px "Bricolage Grotesque"'), document.fonts.load('600 20px "DM Sans"'), document.fonts.load('700 20px "JetBrains Mono"'),
+])).then(() => { render(0); return true; });
+if (!/render=1/.test(location.search)) {
+  const t0 = performance.now();
+  const loop = () => { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); };
+  window.ready.then(loop);
+}
+</script>
+</body>
+</html>
