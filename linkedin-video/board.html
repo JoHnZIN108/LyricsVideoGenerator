@@ -112,8 +112,9 @@ function caption(el, list, t) {
 }
 const CAP_L = [
   [2.6, "The lead spawns subagents\ninside its own session."],
-  [7.0, "Each one reports back\nto the lead, then ends."],
-  [11.0, "The lead's session ends.\nAll 6 subagents go with it."],
+  [8.4, "Each one reports back\nto the lead, then ends."],
+  [12.6, "The lead spawns\nthe next batch."],
+  [20.0, "The lead's session ends.\nAll 6 subagents go with it."],
   [23.5, "Short bursts of work.\nOne point of failure."],
 ];
 const CAP_R = [
@@ -130,10 +131,10 @@ const CAP_R = [
 const SUBCX = [112, 292, 472], SUBROW = [490, 670];     // sub key centers (x, svg) and tops (y, page)
 const SUBW = 150, SUBH = 84;
 const LEAD = { cx: 292, by: 146 };                        // lead bottom-center, svg coords
-const CRASH = 11.0;
+const CRASH = 20.0;
 const BURSTS = [
-  { spawn: 3.0, done: [6.6, 6.9, 7.2, 7.5, 7.8, 8.1] },
-  { spawn: 8.7, done: [99, 99, 99, 99, 99, 99] },
+  { spawn: 3.0, done: [8.6, 9.2, 9.8, 10.4, 11.0, 11.6] },
+  { spawn: 12.8, done: [99, 99, 99, 99, 99, 99] },
 ];
 function buildSubs() {
   $("subs").innerHTML = [0, 1, 2, 3, 4, 5].map(i =>
@@ -144,7 +145,7 @@ function renderLeft(t) {
   snap($("sess"), t, .9, .6); focus($("sessLab"), t, 1.3);
   const lead = $("leadL"); snap(lead, t, 1.5);
   const crashed = t >= CRASH;
-  led(lead.querySelector(".led"), crashed ? null : (t > 3 && t < 10.9 && blink(t, 2) ? "b" : null));
+  led(lead.querySelector(".led"), crashed ? null : (t > 3 && t < CRASH - .1 && blink(t, 2) ? "b" : null));
   lead.style.filter = crashed ? "grayscale(1) brightness(.8)" : "none";
   const sess = $("sess");
   const flash = crashed && t < CRASH + .9 ? (blink(t, 8) ? 1 : 0) : crashed ? 1 : 0;
@@ -155,7 +156,7 @@ function renderLeft(t) {
   let wires = "";
   const bi = t < BURSTS[1].spawn - .1 ? 0 : 1, b = BURSTS[bi];
   for (let i = 0; i < 6; i++) {
-    const el = $("s" + i), st = b.spawn + i * .15;
+    const el = $("s" + i), st = b.spawn + i * .3;
     $("s" + i + "l").textContent = String(bi * 6 + i + 1);
     const k = inout(p(t, st, .6)), e = snapE(p(t, st, .6));
     const tx = SUBCX[i % 3], ty = SUBROW[Math.floor(i / 3)];
