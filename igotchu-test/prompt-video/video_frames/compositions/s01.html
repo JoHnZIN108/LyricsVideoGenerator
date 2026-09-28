@@ -1,5 +1,5 @@
 <template id="s01-template">
-  <div data-composition-id="s01" data-start="0" data-duration="20.091" data-width="1920" data-height="1080" data-anchor="The difference between a useless AI answ">
+  <div data-composition-id="s01" data-start="0" data-duration="19.785" data-width="1920" data-height="1080" data-anchor="The difference between a useless AI answ">
     <div class="sc"><div class="pn" id="s1a" style="background:#111614;color:#E7ECE8"><div class="m tl" id="s1a-tl">Ep 07 — Anatomy of a prompt</div><div class="wm">igotchu<i>.</i></div><div class="prog"><i id="s1a-pb0" class=""></i><i id="s1a-pb1" class=""></i><i id="s1a-pb2" class=""></i><i id="s1a-pb3" class=""></i></div>
 <h1 class="d" style="left:112px;top:150px;font-size:230px"><span class="ln"><span id="s1-h0">Anatomy</span></span><span class="ln"><span id="s1-h1">of a</span></span><span class="ln"><span id="s1-h2"><span style="color:var(--pink)">prompt.</span></span></span></h1>
 <div class="stack1"><div class="layer1" id="s1-L0" style="background:#E7ECE8;color:#111614"><span class="m" style="letter-spacing:.12em">01</span><span class="d blur">The task</span></div><div class="layer1" id="s1-L1" style="background:#FF3D7F;color:#111614"><span class="m" style="letter-spacing:.12em">02</span><span class="d blur">The context</span></div><div class="layer1" id="s1-L2" style="background:#FFD21A;color:#111614"><span class="m" style="letter-spacing:.12em">03</span><span class="d blur">The rules</span></div><div class="layer1" id="s1-L3" style="background:#2343E0;color:#fff"><span class="m" style="letter-spacing:.12em">04</span><span class="d blur">What good looks like</span></div></div>
@@ -15,37 +15,37 @@
     </style>
     <script>
       (() => {
-        const SLOT = 20.091;
+        const SLOT = 19.785;
         const tl = gsap.timeline({ paused: true });
         tl.fromTo("#s1-h0",{"yPercent": 125},{"yPercent": 0, "duration": 0.9, "ease": "igOut"},0.1);
         tl.fromTo("#s1-h1",{"yPercent": 125},{"yPercent": 0, "duration": 0.9, "ease": "igOut"},0.19);
         tl.fromTo("#s1-h2",{"yPercent": 125},{"yPercent": 0, "duration": 0.9, "ease": "igOut"},0.28);
-        tl.fromTo("#s1-use",{"opacity": 0, "scale": 0.7, "rotation": -9},{"opacity": 1, "scale": 1, "rotation": -3, "duration": 0.55, "ease": "igPop"},1.812);
-        tl.fromTo("#s1-bri",{"opacity": 0, "scale": 0.7, "rotation": -4},{"opacity": 1, "scale": 1, "rotation": 2, "duration": 0.55, "ease": "igPop"},3.221);
-        tl.fromTo("#s1-use",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.3, "ease": "igIn", "immediateRender": false},4.717);
-        tl.fromTo("#s1-bri",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.3, "ease": "igIn", "immediateRender": false},4.717);
-        tl.fromTo("#s1-L0",{scale:1},{keyframes:[{scale:1.04,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},10.106);
+        tl.fromTo("#s1-use",{"opacity": 0, "scale": 0.7, "rotation": -9},{"opacity": 1, "scale": 1, "rotation": -3, "duration": 0.55, "ease": "igPop"},1.714);
+        tl.fromTo("#s1-bri",{"opacity": 0, "scale": 0.7, "rotation": -4},{"opacity": 1, "scale": 1, "rotation": 2, "duration": 0.55, "ease": "igPop"},3.016);
+        tl.fromTo("#s1-use",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.3, "ease": "igIn", "immediateRender": false},4.394);
+        tl.fromTo("#s1-bri",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.3, "ease": "igIn", "immediateRender": false},4.394);
+        tl.fromTo("#s1-L0",{scale:1},{keyframes:[{scale:1.04,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},9.509);
         tl.fromTo("#s1a-tl",{"opacity": 0},{"opacity": 1, "duration": 0.5, "ease": "none"},0.2);
         tl.fromTo("#s1-sub",{"opacity": 0},{"opacity": 1, "duration": 0.6, "ease": "none"},1.1);
-        tl.fromTo("#s1-L0",{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.8, "ease": "igWipe"},4.917);
-        tl.fromTo("#s1-L1",{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.8, "ease": "igWipe"},5.057);
-        tl.fromTo("#s1-L2",{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.8, "ease": "igWipe"},5.197);
-        tl.fromTo("#s1-L3",{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.8, "ease": "igWipe"},5.337);
-        tl.fromTo("#s1-one",{"opacity": 0},{"opacity": 1, "duration": 0.4, "ease": "none"},7.054);
-        tl.to("#s1-L1",{"opacity": 0.22, "duration": 0.4, "ease": "none"},7.154);
-        tl.to("#s1-L2",{"opacity": 0.22, "duration": 0.4, "ease": "none"},7.154);
-        tl.to("#s1-L3",{"opacity": 0.22, "duration": 0.4, "ease": "none"},7.154);
-        tl.fromTo("#s1-L0",{scale:1},{keyframes:[{scale:1.04,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},7.254);
-        tl.fromTo("#s1-one",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.3, "ease": "igIn", "immediateRender": false},11.467);
-        tl.to("#s1-L1",{"opacity": 1, "duration": 0.3, "ease": "none"},11.917);
-        tl.to("#s1-L2",{"opacity": 1, "duration": 0.3, "ease": "none"},12.167);
-        tl.to("#s1-L3",{"opacity": 1, "duration": 0.3, "ease": "none"},12.417);
-        tl.fromTo("#s1-q",{"opacity": 0},{"opacity": 1, "duration": 0.4, "ease": "none"},13.454);
-        tl.fromTo("#s1-qb0",{"scaleX": 0},{"scaleX": 1, "duration": 0.4, "ease": "igOut"},13.754);
-        tl.fromTo("#s1-qb1",{"scaleX": 0},{"scaleX": 1, "duration": 0.4, "ease": "igOut"},14.104);
-        tl.fromTo("#s1-qb2",{"scaleX": 0},{"scaleX": 1, "duration": 0.4, "ease": "igOut"},14.454);
-        tl.fromTo("#s1-qb3",{"scaleX": 0},{"scaleX": 1, "duration": 0.4, "ease": "igOut"},14.804);
-        tl.fromTo("#s1-cheat",{"opacity": 0, "scale": 0.7, "rotation": -10},{"opacity": 1, "scale": 1, "rotation": -4, "duration": 0.55, "ease": "igPop"},17.721);
+        tl.fromTo("#s1-L0",{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.8, "ease": "igWipe"},4.594);
+        tl.fromTo("#s1-L1",{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.8, "ease": "igWipe"},4.734);
+        tl.fromTo("#s1-L2",{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.8, "ease": "igWipe"},4.874);
+        tl.fromTo("#s1-L3",{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.8, "ease": "igWipe"},5.014);
+        tl.fromTo("#s1-one",{"opacity": 0},{"opacity": 1, "duration": 0.4, "ease": "none"},6.581);
+        tl.to("#s1-L1",{"opacity": 0.22, "duration": 0.4, "ease": "none"},6.681);
+        tl.to("#s1-L2",{"opacity": 0.22, "duration": 0.4, "ease": "none"},6.681);
+        tl.to("#s1-L3",{"opacity": 0.22, "duration": 0.4, "ease": "none"},6.681);
+        tl.fromTo("#s1-L0",{scale:1},{keyframes:[{scale:1.04,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},6.781);
+        tl.fromTo("#s1-one",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.3, "ease": "igIn", "immediateRender": false},10.786);
+        tl.to("#s1-L1",{"opacity": 1, "duration": 0.3, "ease": "none"},11.236);
+        tl.to("#s1-L2",{"opacity": 1, "duration": 0.3, "ease": "none"},11.486);
+        tl.to("#s1-L3",{"opacity": 1, "duration": 0.3, "ease": "none"},11.736);
+        tl.fromTo("#s1-q",{"opacity": 0},{"opacity": 1, "duration": 0.4, "ease": "none"},12.648);
+        tl.fromTo("#s1-qb0",{"scaleX": 0},{"scaleX": 1, "duration": 0.4, "ease": "igOut"},12.948);
+        tl.fromTo("#s1-qb1",{"scaleX": 0},{"scaleX": 1, "duration": 0.4, "ease": "igOut"},13.298);
+        tl.fromTo("#s1-qb2",{"scaleX": 0},{"scaleX": 1, "duration": 0.4, "ease": "igOut"},13.648);
+        tl.fromTo("#s1-qb3",{"scaleX": 0},{"scaleX": 1, "duration": 0.4, "ease": "igOut"},13.998);
+        tl.fromTo("#s1-cheat",{"opacity": 0, "scale": 0.7, "rotation": -10},{"opacity": 1, "scale": 1, "rotation": -4, "duration": 0.55, "ease": "igPop"},16.88);
         tl.set({}, {}, SLOT);
         window.__timelines = window.__timelines || {};
         window.__timelines["s01"] = tl;

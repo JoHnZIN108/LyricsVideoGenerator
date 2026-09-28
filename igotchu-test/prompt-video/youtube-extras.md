@@ -10,15 +10,15 @@
 > Most people give AI one block and wonder why the answer is generic. Here are all four, built live on one real prompt: a birthday message for my mum.
 >
 > 0:00 Useless answer vs brilliant answer
-> 0:20 The one-block prompt
-> 0:42 Block 1: The task
-> 0:53 Block 2: The context
-> 1:25 Block 3: The rules
-> 1:51 Block 4: What good looks like
-> 2:25 Before and after
-> 2:53 The cheat code: ask me questions first
-> 3:21 Recap
-> 3:39 Next: why AI rolls the dice
+> 0:19 The one-block prompt
+> 0:41 Block 1: The task
+> 0:52 Block 2: The context
+> 1:24 Block 3: The rules
+> 1:48 Block 4: What good looks like
+> 2:20 Before and after
+> 2:47 The cheat code: ask me questions first
+> 3:16 Recap
+> 3:34 Next: why AI rolls the dice
 >
 > Copy-paste cheat code: "Before you answer, ask me any questions you need."
 >
@@ -31,6 +31,6 @@
 **Pinned comment:**
 > Try it: take a prompt you used this week, add ONE missing block, and paste the before and after below 👇 Which block made the biggest difference for you? I gotchu.
 
-**Short to cut:** Slide 8, the "ask me questions first" cheat code (2:53 to 3:21, about 28 s). It stands alone: hook line "If you don't know what context to give, make the AI figure it out."
+**Short to cut:** Slide 8, the "ask me questions first" cheat code (2:47 to 3:16, about 28 s). It stands alone: hook line "If you don't know what context to give, make the AI figure it out."
 
 **Disclosure:** tick "altered or synthetic content" when uploading. The narration is an AI clone of the creator's own voice (ElevenLabs). The birthday messages shown are real Claude replies.
