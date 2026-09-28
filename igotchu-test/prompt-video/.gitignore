@@ -8,3 +8,9 @@ video*/.hyperframes/
 __pycache__/
 render*.log
 work-*/
+assets/vo/takes/
+assets/vo/old/
+compare-*.mp3
+voice-compare.mp3
+fsnap/
+sfx_events_frames.json.bak

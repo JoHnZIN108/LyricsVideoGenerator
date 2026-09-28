@@ -1,7 +1,8 @@
 """Voice + synthesized SFX (events from build.py), two-pass loudnorm to -14 LUFS / -1 dBTP (YouTube)."""
-import array, json, subprocess, wave
+import array, json, os, subprocess, wave
 T = json.load(open("timing.json")); TOTAL = T[-1]["start"] + T[-1]["dur"]
-SFX = json.load(open("sfx_events.json"))
+SFX = json.load(open(os.environ.get("MIX_EVENTS", "sfx_events.json")))
+OUT = os.environ.get("MIX_OUT", "video/assets/mix.mp3")
 GAIN = {"pop": 0.18, "click": 0.16, "whoosh": 0.4, "whoosh_s": 0.18, "thud": 0.25, "ding": 0.24, "buzz": 0.35, "tick": 0.2}
 SRC = {"whoosh_s": "whoosh"}
 SPACING = {"click": 0.07}
@@ -36,5 +37,5 @@ m = subprocess.run(["ffmpeg", "-hide_banner", "-i", "sfx/_mix.wav", "-af", PRE +
 js = json.loads(m[m.rindex("{"):m.rindex("}") + 1])
 af = (f"{PRE},loudnorm=I=-14:TP=-1:LRA=11:measured_I={js['input_i']}:measured_TP={js['input_tp']}:measured_LRA={js['input_lra']}"
       f":measured_thresh={js['input_thresh']}:offset={js['target_offset']}:linear=true")
-subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", "sfx/_mix.wav", "-af", af, "-ar", "48000", "-ac", "2", "-b:a", "192k", "video/assets/mix.mp3"], check=True)
+subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", "sfx/_mix.wav", "-af", af, "-ar", "48000", "-ac", "2", "-b:a", "192k", OUT], check=True)
 print(f"mixed {used} of {len(SFX)} sound events")

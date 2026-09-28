@@ -1,0 +1,44 @@
+<template id="s10-template">
+  <div data-composition-id="s10" data-start="0" data-duration="17.239" data-width="1920" data-height="1080" data-anchor="Quick thing you might notice now">
+    <div class="sc"><div class="pn" id="s10a" style="background:#111614;color:#E7ECE8"><div class="m tl" id="s10a-tl">Ep 07 — Anatomy of a prompt</div><div class="wm">igotchu<i>.</i></div><div class="prog"><i id="s10a-pb0" class="on"></i><i id="s10a-pb1" class="on"></i><i id="s10a-pb2" class="on"></i><i id="s10a-pb3" class="on"></i></div>
+<h2 class="d" style="left:112px;top:170px;font-size:150px"><span class="ln"><span id="s10-h0">Same prompt. Twice.</span></span></h2>
+<div class="rc small" id="s10-a" style="left:120px;top:420px;width:780px;opacity:0"><div class="hd"><span class="ai">AI</span><span class="m sm">Answer A</span></div><i class="sk" style="width:94%"></i><i class="sk" style="width:71%"></i><i class="sk" style="width:88%"></i><i class="sk" style="width:52%"></i></div>
+<div class="rc small" id="s10-b" style="left:1000px;top:420px;width:780px;opacity:0"><div class="hd"><span class="ai">AI</span><span class="m sm">Answer B</span></div><i class="sk" style="width:66%"></i><i class="sk" style="width:90%"></i><i class="sk" style="width:58%"></i><i class="sk" style="width:80%"></i><i class="sk" style="width:35%"></i></div>
+<div class="stk" id="s10-bug" style="left:760px;top:820px;background:var(--yellow);color:var(--ink);font-size:44px">A bug?
+<svg class="xout" viewBox="0 0 100 10" preserveAspectRatio="none"><path id="s10-x" pathLength="1" d="M0 6 L100 4"/></svg></div></div>
+<div class="pn" id="s10b" style="background:#111614;color:#E7ECE8">
+<div class="m tl" style="opacity:.72">Ep 07 — Anatomy of a prompt</div>
+<h1 class="d" style="left:104px;top:120px;font-size:330px"><span class="ln"><span id="s10-g0">I gotchu<span id="s10-dot" style="display:inline-block;color:var(--pink)">.</span></span></span></h1>
+<div class="m" id="s10-next" style="left:120px;top:500px;color:var(--pink);opacity:0">Next ▸ Why AI gives a different answer every time</div>
+<div class="slot" id="s10-s1" style="left:120px"><span class="m" style="font-size:26px;opacity:.7">Next video</span></div>
+<div class="slot" id="s10-s2" style="left:790px"><span class="m" style="font-size:26px;opacity:.7">Best for you</span></div>
+<div class="sub" id="s10-sub"><span class="m" style="color:#fff;font-size:26px">Subscribe</span></div></div></div>
+    <style>
+      [data-composition-id="s10"]{position:absolute;inset:0;overflow:hidden}
+      
+    </style>
+    <script>
+      (() => {
+        const SLOT = 17.239;
+        const tl = gsap.timeline({ paused: true });
+        tl.fromTo('[data-composition-id="s10"] .sc',{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.45, "ease": "igWipe"},0.0);
+        tl.fromTo("#s10a-tl",{"opacity": 0},{"opacity": 1, "duration": 0.5, "ease": "none"},0.2);
+        tl.fromTo("#s10-h0",{"yPercent": 125},{"yPercent": 0, "duration": 0.9, "ease": "igOut"},2.62);
+        tl.fromTo("#s10-a",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.6, "ease": "igOut"},4.637);
+        tl.fromTo("#s10-b",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.6, "ease": "igOut"},4.987);
+        tl.fromTo("#s10-bug",{"opacity": 0, "scale": 0.7, "rotation": -10},{"opacity": 1, "scale": 1, "rotation": -4, "duration": 0.55, "ease": "igPop"},5.858);
+        tl.fromTo("#s10-x",{"strokeDashoffset": 1},{"strokeDashoffset": 0, "duration": 0.35, "ease": "igOut"},7.038);
+        tl.fromTo("#s10b",{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.5, "ease": "igWipe"},7.527);
+        tl.fromTo("#s10-g0",{"yPercent": 125},{"yPercent": 0, "duration": 0.9, "ease": "igOut"},7.827);
+        tl.fromTo("#s10-next",{"opacity": 0},{"opacity": 1, "duration": 0.4, "ease": "none"},8.427);
+        tl.fromTo("#s10-s1",{"opacity": 0},{"opacity": 1, "duration": 0.4, "ease": "none"},8.727);
+        tl.fromTo("#s10-s2",{"opacity": 0},{"opacity": 1, "duration": 0.4, "ease": "none"},8.877);
+        tl.fromTo("#s10-sub",{"opacity": 0, "scale": 0.7, "rotation": -6},{"opacity": 1, "scale": 1, "rotation": 0, "duration": 0.55, "ease": "igPop"},9.027);
+        tl.fromTo("#s10-dot",{"opacity": 0, "scale": 0.7, "rotation": -6},{"opacity": 1, "scale": 1, "rotation": 0, "duration": 0.55, "ease": "igPop"},11.195);
+        tl.set({}, {}, SLOT);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["s10"] = tl;
+      })();
+    </script>
+  </div>
+</template>

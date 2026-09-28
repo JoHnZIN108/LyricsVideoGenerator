@@ -9,11 +9,29 @@ def bounds(f):
     a = e[0] if s and s[0] < 0.01 and e else 0.0
     b = s[-1] if s and (len(e) < len(s) or e[-1] >= d - 0.01) else d
     return max(0, a - 0.03), min(d, b + 0.08)
+SLTXT = {s["n"]: s["text"] for s in json.load(open("slides.json"))}
+# slides recorded in two chunks (shorter chunks read livelier): characters per chunk
+_c = lambda n, cut: (len(SLTXT[n][:SLTXT[n].index(cut)]), len(SLTXT[n][SLTXT[n].index(cut):]))
+PCH = dict(zip(["s05h1", "s05h2"], _c(5, "The rules stop"))) | dict(zip(["s07h1", "s07h2"], _c(7, "If it could be")))
+def cps(k):
+    """Characters per second of speech (pauses over 0.3 s left out), so every slide can match slide 1's pace."""
+    f = f"{V}/{k}.mp3"
+    err = subprocess.run(["ffmpeg","-hide_banner","-i",f,"-af","silencedetect=n=-35dB:d=0.3","-f","null","-"],capture_output=True,text=True).stderr
+    sil = sum(float(x) for x in re.findall(r"silence_duration: ([\d.]+)", err))
+    return PCH.get(k, len(SLTXT[int(k[1:3])])) / (dur(f) - sil)
+REF_CPS = None
 def trim(k):
+    global REF_CPS
+    if REF_CPS is None:
+        REF_CPS = cps("s01")
+    tempo = min(1.17, max(1.0, 1.08 * REF_CPS / cps(k)))  # capped: bigger stretches sound processed
+    print(k, "tempo", round(tempo, 3))
     a, b = bounds(f"{V}/{k}.mp3")
-    subprocess.run(["ffmpeg","-y","-v","error","-i",f"{V}/{k}.mp3","-af",f"atrim={a}:{b},asetpts=N/SR/TB,atempo=1.08,loudnorm=I=-20:TP=-2:LRA=11:linear=true",
+    subprocess.run(["ffmpeg","-y","-v","error","-i",f"{V}/{k}.mp3","-af",f"atrim={a}:{b},asetpts=N/SR/TB,atempo={tempo:.4f},loudnorm=I=-20:TP=-2:LRA=11:linear=true",
                     "-ar","44100","-ac","1",f"{V}/w/{k}.wav"],check=True, timeout=120)
 parts = {n: [f"s{n:02d}"] for n in range(1, 11)}
+parts[5] = ["s05h1", "P0.3", "s05h2"]
+parts[7] = ["s07h1", "P0.3", "s07h2"]
 import sys
 if "--skip-trim" not in sys.argv:
     for k in [p for v in parts.values() for p in v if not p.startswith("P")]:
