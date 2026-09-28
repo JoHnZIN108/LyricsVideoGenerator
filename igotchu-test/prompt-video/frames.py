@@ -121,6 +121,40 @@ def reply_html(pid, text, extra=""):
             f'<div class="tx">{words_html(pid + "w", text)}</div>{extra}</div>')
 
 
+FULL = {
+    "01": ["Here\u2019s a warm, general birthday message you can use as it is or adapt:", "<b>Happy Birthday, Mum!</b>",
+           "Thank you for the love, the patience, and all the times you believed in me before I believed in myself. So much of who I am comes from you: your kindness, your strength, and the way you always make home feel like home.",
+           "I hope today brings you as much joy as you\u2019ve given everyone around you. You deserve every bit of celebration, and so much more.",
+           "I love you more than words can say.", "With all my love,<br>Johnson",
+           "If you\u2019d like a different version, tell me the tone (funny, sentimental, short for a card or text) or share a memory or inside joke, and I\u2019ll make it more personal to her."],
+    "02": ["Happy 60th, Mum!",
+           "Thirty years of nursing, and you\u2019ve finally retired. The NHS will have to find someone else to give that look to patients who say \u201cit\u2019s probably nothing.\u201d",
+           "Sixty suits you. You\u2019ve spent three decades telling people to rest, drink more water and stop googling their symptoms, so now it\u2019s your turn. Try following your own advice for once. (I know you won\u2019t.)",
+           "Thanks for being the funniest person in any room, including the waiting room. I promise not to make this soppy, so I\u2019ll just say you\u2019re alright, really.",
+           "Love you (there, I said it, don\u2019t make it weird),<br>[Your name]"],
+    "03": ["Happy 60th, Mum! Thirty years of bossing doctors around, and now you\u2019re free to boss us full-time. Lucky us. Enjoy retirement. You\u2019ve earned the lie-ins, the gossip and the right to diagnose everyone at dinner. Here\u2019s to the next thirty. Love you (don\u2019t make it weird)."],
+    "04": ["Happy 60th Mum! Thirty years of keeping strangers alive, and now you\u2019re stuck at home with Dad full time. Toughest shift yet. Retirement looks good on you, though. Love you (yes, I\u2019m allowed to say it once a year, stop rolling your eyes).",
+           "That\u2019s 43 words."]}
+
+
+def reply_full_html(pid, shot, quote, k, extra="", style=""):
+    """Claude's whole reply, exactly as in the user's screenshot; the quoted line is wrapped for a highlight sweep."""
+    ps = []
+    for i, p in enumerate(FULL[shot]):
+        if quote in p:
+            a, b = p.split(quote, 1)
+            p = a + hl_html(pid + "-q", quote, k) + b
+        ps.append(f'<p class="rp" id="{pid}-p{i}">{p}</p>')
+    return (f'<div class="rc full" id="{pid}" style="{style}"><div class="hd"><span class="ai">AI</span><span class="m sm">Reply</span></div>'
+            f'{"".join(ps)}{extra}</div>')
+
+
+def reply_in(c, pid, shot, t):
+    c.rise(f"#{pid}", t, 40, 0.6)
+    for i in range(len(FULL[shot])):
+        c.tw(f"#{pid}-p{i}", {"opacity": 0, "y": 14}, {"opacity": 1, "y": 0}, t + 0.25 + i * 0.12, 0.4, "igOut")
+
+
 def ring_svg(rid):
     return (f'<svg class="ring" viewBox="0 0 200 100" preserveAspectRatio="none"><path id="{rid}" pathLength="1" '
             'd="M22 58 C14 22 112 6 170 20 C206 32 198 80 128 90 C62 98 6 86 12 54 C16 34 50 22 92 18"/></svg>')
@@ -157,7 +191,7 @@ def evidence_html(pid, k, on, reply_text=None, reply_extra="", extra=""):
             f'<div class="pcol">' + (f'<p class="old" id="{pid}-old">{old}</p>' if old else "")
             + f'<p class="new" id="{pid}-new" style="font-size:{fs}px">{tag(k)}{hl_html(pid + "-h", PROMPT[k], k)}</p></div>')
     if reply_text:
-        body += f'<div style="left:1130px;top:250px">{reply_html(pid + "-r", reply_text, reply_extra)}</div>'
+        body += reply_text
     return body + extra + "</div>"
 
 
@@ -221,9 +255,9 @@ p0 = T[2]["start"] - XO
 chrome_in(c, "s2a", p0)
 c.fade("#s2-lab", p0 + 0.3)
 rise_lines(c, "s2-q", 3, cue(2, '"Write a birthday'), 0.12)
-c.rise("#s2-r", cue(2, "And you get back"), 40, 0.7)
+reply_in(c, "s2-r", "01", cue(2, "And you get back"))
 r2 = "Thank you for the love, the patience, and all the times you believed in me before I believed in myself."
-type_words(c, "s2-rw", r2, cue(2, '"Thank you'), cue(2, "It's fine") - 0.3)
+sweep(c, "s2-r-q", r2, cue(2, '"Thank you'), cue(2, "It's fine") - 0.3)
 pop(c, "#s2-fine", cue(2, "It's fine"), 3)
 pop(c, "#s2-pet", cue(2, "petrol station"), -3)
 pop(c, "#s2-any", cue(2, "anyone's mum"), -5)
@@ -232,12 +266,12 @@ c.pulse("#s2a-pb0", t_ob, 1.4)
 c.fade("#s2-1of4", t_ob + 0.1)
 HTML[2] = f"""<div class="pn" id="s2a" style="background:{PAPER};color:{INK}">{chrome("s2a", 1)}
 <div class="m" id="s2-lab" style="left:120px;top:190px;color:var(--pink);opacity:0">What most people type</div>
-<h2 class="d" style="left:112px;top:250px;font-size:140px;white-space:nowrap">{lines_html("s2-q", ["“Write a", "birthday message", "for my mum.”"])}</h2>
-<div style="left:1130px;top:250px">{reply_html("s2-r", r2)}</div>
-<div class="stk" id="s2-fine" style="left:1500px;top:190px;background:var(--ink);color:var(--paper)">It’s fine.</div>
+<h2 class="d" style="left:112px;top:250px;font-size:124px;white-space:nowrap">{lines_html("s2-q", ["“Write a", "birthday message", "for my mum.”"])}</h2>
+{reply_full_html("s2-r", "01", r2, 1, style="left:1040px;top:150px;width:760px")}
+<div class="stk" id="s2-fine" style="left:120px;top:620px;background:var(--ink);color:var(--paper)">It’s fine.</div>
 <div class="stk" id="s2-pet" style="left:130px;top:720px;background:#fff;color:var(--ink)">Petrol station card</div>
 <div class="stk" id="s2-any" style="left:520px;top:800px;background:var(--yellow);color:var(--ink)">Could be anyone’s mum</div>
-<div class="m" id="s2-1of4" style="right:120px;top:930px;opacity:0">1 block of 4</div></div>"""
+<div class="m" id="s2-1of4" style="right:440px;top:985px;opacity:0">1 block of 4</div></div>"""
 # the reply card's own id was renamed above; animate the card, type the words
 
 # ================================================================ 3. Block 1: the task (dark card)
@@ -271,12 +305,12 @@ c.fade("#s4b-old", t_ev + 0.2)
 c.rise("#s4b-new", t_ev + 0.3)
 sweep(c, "s4b-h", PROMPT[2], cue(4, '"My mum'), cue(4, "Now look at the answer") - 0.2)
 r4 = "The NHS will have to find someone else to give that look to patients who say “it’s probably nothing.”"
-c.rise("#s4b-r", cue(4, "Now look at the answer"), 40, 0.7)
-type_words(c, "s4b-rw", r4, cue(4, '"The NHS'), cue(4, "Suddenly") - 0.2)
+reply_in(c, "s4b-r", "02", cue(4, "Now look at the answer"))
+sweep(c, "s4b-r-q", r4, cue(4, '"The NHS'), cue(4, "Suddenly") - 0.2)
 for i, ph in enumerate(["The nursing", "the retirement", "the sense of humor"]):
     pop(c, f"#s4-t{i}", cue(4, ph), [-4, 3, -2][i])
 c.rise("#s4-same", cue(4, "Same AI"))
-HTML[4] = card_html("s4a", 2, ["The context."], "The stuff in your head that the AI can’t see.") + evidence_html("s4b", 2, 2, r4, extra="".join(
+HTML[4] = card_html("s4a", 2, ["The context."], "The stuff in your head that the AI can’t see.") + evidence_html("s4b", 2, 2, reply_full_html("s4b-r", "02", r4, 2, style="left:1110px;top:170px;width:700px"), extra="".join(
     f'<div class="stk" id="s4-t{i}" style="left:{x}px;top:760px;background:var(--pink);color:#fff">{w}</div>'
     for i, (x, w) in enumerate([(120, "Nursing"), (410, "Retirement"), (770, "Humour")])) + \
     '<p class="b" id="s4-same" style="left:120px;top:880px;font-size:44px;opacity:0">Same AI. You just let it into your head.</p>')
@@ -300,9 +334,9 @@ pop(c, "#s5-stop", cue(5, "The rules stop"), -3)
 t_ns = cue(5, "Now it's short")
 c.out("#s5-stamp", t_ns - 0.3)
 r5 = "Thirty years of bossing doctors around, and now you’re free to boss us full-time."
-c.rise("#s5b-r", t_ns, 40, 0.7)
-type_words(c, "s5b-rw", r5, cue(5, '"Thirty years'), at(5, SEG[5][-1][1]) - 0.2)
-HTML[5] = card_html("s5a", 3, ["The rules."], "") + evidence_html("s5b", 3, 3, r5, extra=(
+reply_in(c, "s5b-r", "03", t_ns)
+sweep(c, "s5b-r-q", r5, cue(5, '"Thirty years'), at(5, SEG[5][-1][1]) - 0.2)
+HTML[5] = card_html("s5a", 3, ["The rules."], "") + evidence_html("s5b", 3, 3, reply_full_html("s5b-r", "03", r5, 3, style="left:1110px;top:170px;width:700px"), extra=(
     '<div class="stamp" id="s5-stamp" style="left:1180px;top:380px">NO<br>QUEENS.</div>'
     '<div class="stk" id="s5-stop" style="left:120px;top:800px;background:var(--ink);color:var(--paper)">Stops what you’d delete anyway</div>'))
 HTML[5] = HTML[5].replace('<p class="b cs" id="s5a-s"></p>', '<p class="b cs" id="s5a-s">' + "".join(
@@ -335,9 +369,9 @@ for j, ln in enumerate(lens_b):
     c.tw(f"#s6b-h{_ids_b + j}", {"scaleX": 0}, {"scaleX": 1}, tt, max(0.08, d * 0.95), "none")
     tt += d
 SFX.append((tb0, "tick"))
-r6 = "Now you’re stuck at home with Dad full time. Toughest shift yet."
-c.rise("#s6b-r", cue(6, "Look what came back"), 40, 0.7)
-type_words(c, "s6b-rw", r6, cue(6, '"Now you'), cue(6, "It picked up") - 0.2)
+r6 = "now you’re stuck at home with Dad full time. Toughest shift yet."
+reply_in(c, "s6b-r", "04", cue(6, "Look what came back"))
+sweep(c, "s6b-r-q", r6, cue(6, '"Now you'), cue(6, "It picked up") - 0.2)
 t_pd = cue(6, "It picked up Dad")
 draw(c, "#s6-ring1", t_pd + 0.2)
 draw(c, "#s6-ring2", t_pd + 0.5)
@@ -353,14 +387,13 @@ c.fade("#s6-bl", cue(6, "that's a blueprint"))
 c.pulse("#s6-show", cue(6, "that's a blueprint"), 1.04)
 HTML[6] = card_html("s6a", 4, ["What good", "looks like."], "Show it. Don’t describe it.", "The one almost nobody uses.")
 HTML[6] = HTML[6][:-6] + '<div class="stk" id="s6-pow" style="left:1380px;top:780px;background:var(--yellow);color:var(--ink)">The most powerful</div></div>'
-ev6 = evidence_html("s6b", 4, 4, r6, '<div class="m" id="s6-from" style="margin-top:22px;color:var(--pink);font-size:26px;opacity:0;position:relative">'
-                    '↑ From my texts. I never asked.</div>')
+ev6 = evidence_html("s6b", 4, 4, reply_full_html("s6b-r", "04", r6, 4, style="left:1110px;top:170px;width:700px", extra='<div class="m" id="s6-from" style="margin-top:22px;color:var(--pink);font-size:26px;opacity:0;position:relative">'
+                    '↑ From my texts. I never asked.</div>'))
 # rings around both "Dad"s: in the prompt ("Tell Dad") and in the reply ("with Dad")
 i_dad_p = _ids_b + 1
 ev6 = ev6.replace(f'<i class="hb" id="s6b-h{i_dad_p}"', f'{ring_svg("s6-ring2")}<i class="hb" id="s6b-h{i_dad_p}"', 1)
 i_dad_r = r6.split().index("Dad")
-ev6 = ev6.replace(f'<span class="w" id="s6b-rw{i_dad_r}">Dad</span>',
-                  f'<span class="w ringw" id="s6b-rw{i_dad_r}">Dad{ring_svg("s6-ring1")}</span>')
+ev6 = ev6.replace(f'<i class="hb" id="s6b-r-q{i_dad_r}"', f'{ring_svg("s6-ring1")}<i class="hb" id="s6b-r-q{i_dad_r}"', 1)
 HTML[6] += ev6
 HTML[6] += f"""<div class="pn" id="s6c" style="background:{PAPER2};color:{INK}">{chrome("s6c", 4)}
 <h2 class="d" style="left:112px;top:190px;font-size:150px">{lines_html("s6-eb", ["An example beats", "a description."])}</h2>
@@ -620,6 +653,11 @@ html,body{{margin:0;width:1920px;height:1080px;overflow:hidden;background:var(--
 .rc .ai{{width:48px;height:48px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font:700 20px/1 var(--f-m);letter-spacing:.04em}}
 .rc .sm{{font-size:26px;color:var(--muted)}}
 .rc .tx{{font-size:50px;line-height:1.28;font-weight:500;letter-spacing:-.005em}}
+.rc.full{{position:absolute;padding:34px 42px 38px}}
+.rc.full .hd{{margin-bottom:16px}}
+.rp{{margin:0 0 14px;font-size:27px;line-height:1.42;font-weight:500;opacity:0}}
+#s2-r .rp{{font-size:25px}}
+.rp .hb{{top:.08em;bottom:-.02em}}
 .rc.small{{position:absolute;width:670px}}
 .rc .sk{{display:block;height:30px;border-radius:10px;background:#DCE3DE;margin-top:22px}}
 .w{{display:inline-block;opacity:0}}
