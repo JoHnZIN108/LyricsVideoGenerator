@@ -1,0 +1,77 @@
+Script 7: Anatomy of a good prompt
+
+Title: Anatomy of a Good Prompt: The 4 Parts Most People Skip Thumbnail text: YOU'RE USING 1 OF 4 Short to cut: Slide 8, the "ask me questions first" trick (about 35 seconds) Length: about 690 words, around 5 minutes
+
+[SLIDE 1: "ANATOMY OF A PROMPT" in your series style, four empty colored blocks]
+
+The difference between a useless AI answer and a brilliant one is usually four small parts in your message. Most people only use one of them.
+
+We're going to build a prompt from scratch, one block at a time, and watch the answer get better with every block. And at the end there's a trick that basically writes the prompt for you.
+
+[SLIDE 2: The bad prompt: "Write a birthday message for my mum."]
+
+Here's where most people start. "Write a birthday message for my mum."
+
+And you get back something like, "Thank you for the love, the patience, and all the times you believed in me before I believed in myself."
+
+It's fine. It's also a greeting card from a petrol station. It could be for anyone's mum. That's because you only gave it one block.
+
+[SLIDE 3: Block 1 lights up: "THE TASK"]
+
+Block one. The task. What you want it to do.
+
+"Write a birthday message" is a task. Everybody gets this block. It's the other three that make the magic.
+
+[SLIDE 4: Block 2 lights up: "THE CONTEXT"]
+
+Block two. The context. The stuff that's in your head that the AI can't see.
+
+"My mum's turning sixty. She just retired after thirty years as a nurse. She's funny, a bit sarcastic, and she'd cringe at anything too soppy."
+
+Now look at the answer. "The NHS will have to find someone else to give that look to patients who say 'it's probably nothing.'" Suddenly it's about her. The nursing, the retirement, the sense of humor. Same AI. You just let it into your head.
+
+[SLIDE 5: Block 3 lights up: "THE RULES"]
+
+Block three. The rules. Length, tone, what to avoid.
+
+"Keep it under fifty words. It's going in a card, so no emojis. Don't say 'queen.'"
+
+You'd be surprised how much the AI wants to call your mum a queen. The rules stop the stuff you'd delete anyway. Now it's short and card-ready: "Thirty years of bossing doctors around, and now you're free to boss us full-time."
+
+[SLIDE 6: Block 4 lights up: "WHAT GOOD LOOKS LIKE"]
+
+Block four. Show it what good looks like.
+
+This is the one almost nobody uses, and it's probably the most powerful. Paste in a few texts you've actually sent her, like "Tell Dad the fence he fixed has fallen over again." Look what came back: "Now you're stuck at home with Dad full time. Toughest shift yet." It picked up Dad from my texts. I never asked it to mention him.
+
+An example beats a description every time. Telling it "be casual" is vague. Showing it how you actually talk... that's a blueprint.
+
+[SLIDE 7: Before and after side by side, all four blocks lit]
+
+Put them together, and compare. The first message could be for anyone. The new one could only be for your mum.
+
+That's the real test of a good prompt, by the way. Could the answer only be for you? If it could be for anyone, you're missing a block. Usually context.
+
+And as someone who works with AI every day as a software engineer, I'll be honest. I still catch myself writing lazy one-block prompts. Then I wonder why the answer is lazy.
+
+[SLIDE 8: "The cheat code: Ask me questions first"]
+
+Okay, the trick I promised. If you don't know what context to give, make the AI figure it out.
+
+Add this line to any prompt. "Before you answer, ask me any questions you need."
+
+Instead of guessing, it came back with, "What tone? How long? Is it a milestone birthday? Card, text or speech? How do you usually sign off?" You answer, and boom. All four blocks, filled in, and you barely had to think.
+
+[SLIDE 9: Four blocks recap, quick]
+
+So. The task. The context. The rules. And an example of what good looks like.
+
+You don't need all four every time. Asking what time it is in Tokyo doesn't need your life story. But anything personal, anything you'd actually send to a real person, give it the blocks.
+
+[SLIDE 10: "Next: Why AI gives a different answer every time"]
+
+Quick thing you might notice now. Ask the same prompt twice and you get two different answers. Is that a bug? Nope. Next video, I'll show you why AI rolls the dice on purpose.
+
+I gotchu.
+
+> Language note: "Mum" and "petrol station" are British. If your audience is mostly American, swap to "mom" and "gas station."
