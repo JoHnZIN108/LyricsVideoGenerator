@@ -1,0 +1,44 @@
+<template id="s03-template">
+  <div data-composition-id="s03" data-start="0" data-duration="12.526" data-width="1920" data-height="1080" data-anchor="Block one">
+    <div class="sc"><div class="sc-cam">
+<div class="bh" id="s3-bh"><span class="num-b">Block 01</span><h2 class="in-h bt">The task</h2><p class="in-body bs">What you want it to do.</p></div>
+<div class="in-screen scr3" id="s3-scr"><span class="ln3">&gt;&nbsp;<span class="task-hl" id="s3-t">Write a birthday message</span><span class="rest">&nbsp;for my mum.</span></span></div>
+<div class="chip3" id="s3-ev"><i class="in-led on"></i>Everybody gets this block</div>
+<div class="ghosts3" id="s3-gh"><div class="gk b">02</div><div class="gk y">03</div><div class="gk p">04</div><div class="in-silk ghl">the other three make the magic</div></div></div></div>
+    <style>
+      [data-composition-id="s03"]{position:absolute;inset:0;overflow:hidden}
+      [data-composition-id="s03"] .scr3{left:384px;top:470px;width:1440px;height:170px;display:flex;align-items:center;padding:0 56px;font-size:60px;opacity:0}
+[data-composition-id="s03"] .ln3{white-space:nowrap}
+[data-composition-id="s03"] .task-hl{background:linear-gradient(90deg,rgba(157,177,255,.3),rgba(157,177,255,.3)) no-repeat 0 0/0% 100%;border-radius:8px;color:#fff}
+[data-composition-id="s03"] .scr3 .rest{color:#5a6c9c;text-shadow:none}
+[data-composition-id="s03"] .bh{opacity:0}
+[data-composition-id="s03"] .chip3{left:384px;top:720px}
+[data-composition-id="s03"] .ghosts3{position:absolute;left:1020px;top:700px;display:flex;gap:30px;align-items:center;opacity:0}
+[data-composition-id="s03"] .gk{width:130px;height:130px;border-radius:26px;border:5px dashed var(--dim);display:grid;place-items:center;font-family:var(--f-m);font-weight:700;font-size:34px;color:var(--dim)}
+[data-composition-id="s03"] .gk.b{border-color:var(--blue);color:var(--blue)}
+[data-composition-id="s03"] .gk.y{border-color:#c9a400;color:#9a7d00}
+[data-composition-id="s03"] .gk.p{border-color:var(--pink);color:var(--pink-text)}
+[data-composition-id="s03"] .ghl{position:absolute;left:0;top:160px;white-space:nowrap}
+    </style>
+    <script>
+      (() => {
+        const SLOT = 12.526;
+        const tl = gsap.timeline({ paused: true });
+        tl.fromTo('[data-composition-id="s03"] .sc',{"opacity": 0, "x": 90},{"opacity": 1, "x": 0, "duration": 0.5, "ease": "igOut"},0.0);
+        tl.to('[data-composition-id="s03"] .sc',{"opacity": 0, "x": -70, "duration": 0.3, "ease": "igIn"},12.227);
+        tl.fromTo('[data-composition-id="s03"] .sc-cam',{scale:1},{scale:1.03,duration:12.53,ease:"sine.inOut"},0);
+        tl.fromTo("#s3-bh",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},0.45);
+        tl.fromTo("#s3-scr",{"opacity": 0, "y": 34, "scale": 0.96},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "igSnap"},3.076);
+        tl.fromTo("#s3-t",{"backgroundSize": "0% 100%"},{"backgroundSize": "100% 100%", "duration": 0.9, "ease": "igOut"},4.969);
+        tl.fromTo("#s3-ev",{"opacity": 0, "y": 34, "scale": 0.96},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "igSnap"},7.919);
+        tl.fromTo("#s3-gh",{"opacity": 0, "scale": 0.94, "y": 14},{"opacity": 1, "scale": 1, "y": 0, "duration": 0.5, "ease": "igSettle"},10.203);
+        tl.fromTo("#s3-gh .gk.b",{scale:1},{keyframes:[{scale:1.15,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},11.418);
+        tl.fromTo("#s3-gh .gk.y",{scale:1},{keyframes:[{scale:1.15,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},11.598);
+        tl.fromTo("#s3-gh .gk.p",{scale:1},{keyframes:[{scale:1.15,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},11.778);
+        tl.set({}, {}, SLOT);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["s03"] = tl;
+      })();
+    </script>
+  </div>
+</template>

@@ -1,0 +1,35 @@
+<template id="s09-template">
+  <div data-composition-id="s09" data-start="0" data-duration="21.649" data-width="1920" data-height="1080" data-anchor="So">
+    <div class="sc"><div class="sc-cam">
+<h2 class="in-h hd9" id="s9-h">So.</h2>
+<div class="in-screen scr9" id="s9-a">&gt;&nbsp;What time is it in Tokyo?<span class="lab9">task only &middot; fine</span></div>
+<div class="in-screen scr9" id="s9-b">&gt;&nbsp;Birthday message for my mum&hellip;<span class="lab9 p">anything personal &middot; all four</span></div></div></div>
+    <style>
+      [data-composition-id="s09"]{position:absolute;inset:0;overflow:hidden}
+      [data-composition-id="s09"] .hd9{position:absolute;left:128px;top:140px;font-size:200px;opacity:0}
+[data-composition-id="s09"] .scr9{left:128px;top:850px;width:1664px;height:130px;display:flex;align-items:center;padding:0 48px;font-size:48px;opacity:0}
+[data-composition-id="s09"] .lab9{display:inline-block;margin-left:auto;font-family:var(--f-m);font-weight:700;font-size:28px;letter-spacing:.1em;text-transform:uppercase;color:#7c8c86;text-shadow:none}
+[data-composition-id="s09"] .lab9.p{color:var(--pink)}
+    </style>
+    <script>
+      (() => {
+        const SLOT = 21.649;
+        const tl = gsap.timeline({ paused: true });
+        tl.fromTo('[data-composition-id="s09"] .sc',{"opacity": 0, "x": 90},{"opacity": 1, "x": 0, "duration": 0.5, "ease": "igOut"},0.0);
+        tl.to('[data-composition-id="s09"] .sc',{"opacity": 0, "x": -70, "duration": 0.3, "ease": "igIn"},21.35);
+        tl.fromTo('[data-composition-id="s09"] .sc-cam',{scale:1},{scale:1.03,duration:21.65,ease:"sine.inOut"},0);
+        tl.fromTo("#s9-h",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},0.45);
+        tl.fromTo("#s9-h",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.3, "ease": "igIn", "immediateRender": false},8.602);
+        tl.fromTo("#s9-a",{"opacity": 0, "y": 34, "scale": 0.96},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "igSnap"},11.541);
+        tl.fromTo("#s9-a .lab9",{scale:1},{keyframes:[{scale:1.12,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},13.703);
+        tl.fromTo("#s9-a",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.3, "ease": "igIn", "immediateRender": false},15.529);
+        tl.fromTo("#s9-b",{"opacity": 0, "y": 34, "scale": 0.96},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "igSnap"},15.729);
+        tl.fromTo("#s9-b",{scale:1},{keyframes:[{scale:1.03,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},17.245);
+        tl.fromTo("#s9-b .lab9",{scale:1},{keyframes:[{scale:1.12,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},20.359);
+        tl.set({}, {}, SLOT);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["s09"] = tl;
+      })();
+    </script>
+  </div>
+</template>

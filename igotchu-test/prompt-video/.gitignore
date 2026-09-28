@@ -7,3 +7,4 @@ sfx/_*.wav
 video*/.hyperframes/
 __pycache__/
 render*.log
+work-*/

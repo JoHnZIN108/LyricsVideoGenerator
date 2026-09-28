@@ -1,0 +1,325 @@
+1
+00:00:00,167 --> 00:00:03,846
+The difference between a useless
+AI answer and a brilliant
+
+2
+00:00:03,846 --> 00:00:06,954
+one is usually four small
+parts in your message.
+
+3
+00:00:06,954 --> 00:00:09,298
+Most people only use one of them.
+
+4
+00:00:09,298 --> 00:00:13,310
+We're going to build a prompt from
+scratch, one block at a time,
+
+5
+00:00:13,310 --> 00:00:16,356
+and watch the answer get
+better with every block.
+
+6
+00:00:16,356 --> 00:00:19,691
+And at the end there's a trick that
+basically writes the prompt for you.
+
+7
+00:00:20,300 --> 00:00:24,157
+Here's where most people start. "Write
+a birthday message for my mum."
+
+8
+00:00:24,157 --> 00:00:27,011
+And you get back something
+like, "Thank you for the love,
+
+9
+00:00:27,011 --> 00:00:28,014
+the patience,
+
+10
+00:00:28,014 --> 00:00:31,538
+and all the times you believed in
+me before I believed in myself."
+
+11
+00:00:31,538 --> 00:00:35,191
+It's fine. It's also a greeting
+card from a petrol station.
+
+12
+00:00:35,191 --> 00:00:37,068
+It could be for anyone's mum.
+
+13
+00:00:37,068 --> 00:00:38,760
+That's because you only gave it one block.
+
+14
+00:00:39,797 --> 00:00:44,211
+Block one. The task.
+What you want it to do.
+
+15
+00:00:44,211 --> 00:00:49,445
+"Write a birthday message" is a
+task. Everybody gets this block.
+
+16
+00:00:49,445 --> 00:00:51,361
+It's the other three that make the magic.
+
+17
+00:00:51,953 --> 00:00:54,457
+Block two. The context.
+
+18
+00:00:54,457 --> 00:00:57,627
+The stuff that's in your
+head that the AI can't see.
+
+19
+00:00:57,627 --> 00:00:59,540
+"My mum's turning sixty.
+
+20
+00:00:59,540 --> 00:01:03,262
+She just retired after thirty
+years as a nurse. She's funny,
+
+21
+00:01:03,262 --> 00:01:07,552
+a bit sarcastic, and she'd
+cringe at anything too soppy."
+
+22
+00:01:07,552 --> 00:01:09,174
+Now look at the answer.
+
+23
+00:01:09,174 --> 00:01:11,840
+"The NHS will have to find
+someone else to give that
+
+24
+00:01:11,840 --> 00:01:14,455
+look to patients who say
+'it's probably nothing.'"
+
+25
+00:01:14,455 --> 00:01:15,737
+Suddenly it's about her.
+
+26
+00:01:15,737 --> 00:01:21,698
+The nursing, the retirement,
+the sense of humor. Same AI.
+
+27
+00:01:21,698 --> 00:01:22,951
+You just let it into your head.
+
+28
+00:01:23,548 --> 00:01:29,062
+Block three. The rules.
+Length, tone, what to avoid.
+
+29
+00:01:29,062 --> 00:01:33,365
+"Keep it under fifty words. It's
+going in a card, so no emojis.
+
+30
+00:01:33,365 --> 00:01:34,478
+Don't say 'queen.'"
+
+31
+00:01:34,478 --> 00:01:38,404
+You'd be surprised how much the AI
+wants to call your mum a queen.
+
+32
+00:01:38,404 --> 00:01:41,048
+The rules stop the stuff
+you'd delete anyway.
+
+33
+00:01:41,048 --> 00:01:43,071
+Now it's short and card-ready:
+
+34
+00:01:43,071 --> 00:01:45,648
+"Thirty years of bossing doctors around,
+
+35
+00:01:45,648 --> 00:01:47,564
+and now you're free to boss us full-time."
+
+36
+00:01:48,132 --> 00:01:51,099
+Block four. Show it what good looks like.
+
+37
+00:01:51,099 --> 00:01:53,629
+This is the one almost nobody uses,
+
+38
+00:01:53,629 --> 00:01:55,893
+and it's probably the most powerful.
+
+39
+00:01:55,893 --> 00:01:58,201
+Paste in a few texts
+you've actually sent her,
+
+40
+00:01:58,201 --> 00:02:01,720
+like "Tell Dad the fence he
+fixed has fallen over again."
+
+41
+00:02:01,720 --> 00:02:05,518
+Look what came back: "Now you're
+stuck at home with Dad full time.
+
+42
+00:02:05,518 --> 00:02:09,057
+Toughest shift yet." It
+picked up Dad from my texts.
+
+43
+00:02:09,057 --> 00:02:11,039
+I never asked it to mention him.
+
+44
+00:02:11,039 --> 00:02:13,861
+An example beats a description every time.
+
+45
+00:02:13,861 --> 00:02:17,894
+Telling it "be casual" is vague.
+Showing it how you actually talk...
+
+46
+00:02:17,894 --> 00:02:18,813
+that's a blueprint.
+
+47
+00:02:19,490 --> 00:02:24,439
+Put them together, and compare. The
+first message could be for anyone.
+
+48
+00:02:24,439 --> 00:02:27,238
+The new one could only be for your mum.
+
+49
+00:02:27,238 --> 00:02:30,182
+That's the real test of a
+good prompt, by the way.
+
+50
+00:02:30,182 --> 00:02:34,342
+Could the answer only be for
+you? If it could be for anyone,
+
+51
+00:02:34,342 --> 00:02:38,268
+you're missing a block. Usually context.
+
+52
+00:02:38,268 --> 00:02:41,933
+And as someone who works with AI
+every day as a software engineer,
+
+53
+00:02:41,933 --> 00:02:46,906
+I'll be honest. I still catch myself
+writing lazy one-block prompts.
+
+54
+00:02:46,906 --> 00:02:48,704
+Then I wonder why the answer is lazy.
+
+55
+00:02:49,381 --> 00:02:53,221
+Okay, the trick I promised. If you
+don't know what context to give,
+
+56
+00:02:53,221 --> 00:02:57,628
+make the AI figure it out.
+Add this line to any prompt.
+
+57
+00:02:57,628 --> 00:03:01,633
+"Before you answer, ask me
+any questions you need."
+
+58
+00:03:01,633 --> 00:03:06,688
+Instead of guessing, it came
+back with, "What tone? How long?
+
+59
+00:03:06,688 --> 00:03:10,930
+Is it a milestone birthday?
+Card, text or speech?
+
+60
+00:03:10,930 --> 00:03:16,721
+How do you usually sign off?" You
+answer, and boom. All four blocks,
+
+61
+00:03:16,721 --> 00:03:18,966
+filled in, and you barely had to think.
+
+62
+00:03:19,606 --> 00:03:24,488
+So. The task. The context. The rules.
+
+63
+00:03:24,488 --> 00:03:27,788
+And an example of what good looks like.
+
+64
+00:03:27,788 --> 00:03:30,627
+You don't need all four every time.
+
+65
+00:03:30,627 --> 00:03:34,815
+Asking what time it is in Tokyo
+doesn't need your life story.
+
+66
+00:03:34,815 --> 00:03:39,445
+But anything personal, anything you'd
+actually send to a real person,
+
+67
+00:03:39,445 --> 00:03:40,335
+give it the blocks.
+
+68
+00:03:40,905 --> 00:03:42,972
+Quick thing you might notice now.
+
+69
+00:03:42,972 --> 00:03:46,336
+Ask the same prompt twice and
+you get two different answers.
+
+70
+00:03:46,336 --> 00:03:49,212
+Is that a bug? Nope. Next video,
+
+71
+00:03:49,212 --> 00:03:52,763
+I'll show you why AI rolls the
+dice on purpose. I gotchu.
+

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=1920, height=1080"/>
+<title>igotchu Ep 07: Anatomy of a prompt</title>
+<script src="assets/gsap.min.js"></script><script src="assets/CustomEase.min.js"></script>
+<script>
+  gsap.registerPlugin(CustomEase);
+  CustomEase.create("igOut","0.2,0.8,0.2,1");
+  CustomEase.create("igSnap","0.3,1.45,0.5,1");
+  CustomEase.create("igSlam","0.7,0,0.84,0");
+  CustomEase.create("igIO","0.65,0,0.35,1");
+  CustomEase.create("igIn","0.5,0,0.75,0");
+  CustomEase.create("igSettle","0.22,1,0.36,1");
+</script>
+<style>@font-face{font-family:"Bricolage Grotesque";font-weight:200 800;font-stretch:75% 100%;src:url(assets/fonts/bricolage-grotesque-latin-wdth-normal.woff2) format("woff2")}@font-face{font-family:"DM Sans";font-weight:500;src:url(assets/fonts/dm-sans-latin-500-normal.woff2) format("woff2")}@font-face{font-family:"DM Sans";font-weight:600;src:url(assets/fonts/dm-sans-latin-600-normal.woff2) format("woff2")}@font-face{font-family:"DM Sans";font-weight:700;src:url(assets/fonts/dm-sans-latin-700-normal.woff2) format("woff2")}@font-face{font-family:"JetBrains Mono";font-weight:500;src:url(assets/fonts/jetbrains-mono-latin-500-normal.woff2) format("woff2")}@font-face{font-family:"JetBrains Mono";font-weight:700;src:url(assets/fonts/jetbrains-mono-latin-700-normal.woff2) format("woff2")}
+*{box-sizing:border-box}
+:root{--panel:#e3e8e4;--panel-hi:#f0f4f1;--panel-lo:#c3ccc6;--key:#f7faf8;--graphite:#131a17;--graphite-2:#262f2b;--soft:#4a5751;--dim:#66736c;
+ --blue:#2343e0;--blue-hi:#9db1ff;--pink:#ff3d7f;--pink-text:#c8195a;--yellow:#ffd21a;--red:#d8261c;--screen:#0c1310;
+ --f-d:"Bricolage Grotesque","Arial Narrow",sans-serif;--f-b:"DM Sans",Arial,sans-serif;--f-m:"JetBrains Mono",ui-monospace,monospace}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:var(--panel)}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--panel);color:var(--graphite);font-family:var(--f-b);font-weight:500}
+.layer{position:absolute;left:0;top:0;width:1920px;height:1080px}
+/* shared Instrument components (igotchu Type Lab) */
+.in-screw{position:absolute;width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fbfdfc,#b3beb7 70%);box-shadow:inset 0 0 0 2px #a3afa8,0 1px 0 #fff;z-index:3}
+.in-screw::after{content:"";position:absolute;left:5px;right:5px;top:11px;height:2px;background:#8b978f;transform:rotate(-35deg)}
+.in-silk{position:absolute;font-family:var(--f-m);font-weight:700;font-size:28px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+.in-h{font-family:var(--f-d);font-weight:800;font-stretch:75%;font-variation-settings:"wdth" 75;letter-spacing:-.02em;line-height:.88;margin:0}
+.in-body{font-size:52px;line-height:1.25;font-weight:500;color:var(--soft);margin:0}
+.in-led{display:inline-block;width:22px;height:22px;border-radius:50%;background:#b3bdb6;box-shadow:inset 0 2px 3px rgba(0,0,0,.25);vertical-align:middle}
+.in-led.on{background:var(--pink);box-shadow:0 0 0 5px rgba(255,61,127,.16),0 0 22px var(--pink)}
+.in-led.on.b{background:#4f6bff;box-shadow:0 0 0 5px rgba(35,67,224,.15),0 0 22px #4f6bff}
+.in-led.on.y{background:var(--yellow);box-shadow:0 0 0 5px rgba(255,210,26,.2),0 0 22px var(--yellow)}
+.in-dot{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--pink);box-shadow:0 0 0 .05em rgba(255,61,127,.16),0 0 .25em var(--pink);margin-left:.04em}
+.in-key{position:absolute;display:flex;flex-direction:column;justify-content:space-between;border-radius:36px;padding:32px 34px;background:var(--key);color:var(--graphite);
+ box-shadow:inset 0 -5px 0 rgba(0,0,0,.07),0 12px 0 var(--panel-lo),0 30px 44px rgba(19,26,23,.16)}
+.in-key--g{background:var(--graphite);color:#f7faf8;box-shadow:inset 0 -5px 0 rgba(255,255,255,.06),0 12px 0 #000,0 30px 44px rgba(19,26,23,.2)}
+.in-key--b{background:var(--blue);color:#fff;box-shadow:inset 0 -5px 0 rgba(0,0,0,.12),0 12px 0 #172e9e,0 30px 44px rgba(19,26,23,.2)}
+.in-key--p{background:var(--pink);color:var(--graphite);box-shadow:inset 0 -5px 0 rgba(0,0,0,.1),0 12px 0 #b8194f,0 30px 44px rgba(19,26,23,.2)}
+.in-key--y{background:var(--yellow);color:var(--graphite);box-shadow:inset 0 -5px 0 rgba(0,0,0,.08),0 12px 0 #b89400,0 30px 44px rgba(19,26,23,.2)}
+.in-key .num{font-family:var(--f-m);font-weight:700;font-size:30px;letter-spacing:.1em;display:flex;align-items:center;justify-content:space-between}
+.in-key .lab{font-family:var(--f-d);font-weight:800;font-stretch:75%;font-variation-settings:"wdth" 75;font-size:72px;line-height:.92;letter-spacing:-.01em}
+.in-screen{position:absolute;background:var(--screen);border-radius:28px;box-shadow:inset 0 0 0 12px var(--graphite-2),inset 0 0 80px rgba(0,0,0,.7),0 2px 0 var(--panel-hi),0 -2px 0 var(--panel-lo);
+ color:var(--blue-hi);font-family:var(--f-m);font-weight:500;text-shadow:0 0 18px rgba(157,177,255,.55)}
+.in-cursor{display:inline-block;width:.55em;height:.9em;background:var(--blue-hi);vertical-align:-.1em;box-shadow:0 0 16px rgba(157,177,255,.8)}
+.in-stamp{position:absolute;border:12px solid var(--red);border-radius:18px;padding:14px 42px 22px;color:var(--red);font-family:var(--f-d);font-weight:800;font-stretch:75%;font-variation-settings:"wdth" 75;
+ font-size:130px;line-height:.9;letter-spacing:.01em;transform:rotate(-7deg);background:rgba(247,250,248,.8);box-shadow:inset 0 0 0 5px var(--key),inset 0 0 0 10px var(--red);opacity:0;z-index:6}
+.ch{display:none}
+/* screenshot viewer: a device screen; the camera moves inside it */
+.vwrap{position:absolute}
+.viewer{position:relative;overflow:hidden;border-radius:30px;background:#1f1f1e;box-shadow:inset 0 0 0 12px var(--graphite-2),0 2px 0 var(--panel-hi),0 30px 50px rgba(19,26,23,.22)}
+.viewer.light{background:#f8f9fb}
+.viewer::after{content:"";position:absolute;inset:0;border-radius:30px;box-shadow:inset 0 0 0 12px var(--graphite-2);pointer-events:none;z-index:3}
+.vdrift{position:absolute;inset:0;transform-origin:50% 50%}
+.vcam{position:absolute;left:0;top:0;transform-origin:0 0}
+.vcam img{position:absolute;left:0;top:0;display:block}
+.hl{position:absolute;display:block;transform-origin:0 50%;border-radius:6px;opacity:0}
+.viewer.dark .hl{mix-blend-mode:screen}.viewer.light .hl{mix-blend-mode:multiply}
+.viewer.dark .hl.c{background:rgba(92,120,255,.55)}.viewer.dark .hl.b{background:rgba(70,100,255,.6)}.viewer.dark .hl.y{background:rgba(255,200,0,.55)}.viewer.dark .hl.p{background:rgba(255,61,127,.55)}
+.viewer.light .hl.y{background:rgba(255,210,26,.85)}.viewer.light .hl.p{background:rgba(255,61,127,.5)}
+.link{position:absolute;left:0;top:0;overflow:visible}
+.link ellipse,.link path{fill:none;stroke:var(--pink);stroke-width:6;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(255,61,127,.9));opacity:0}
+/* scene furniture */
+.sc{position:absolute;inset:0}.sc-cam{position:absolute;inset:0;transform-origin:60% 50%}
+.bh{position:absolute;left:384px;top:118px;right:128px;display:flex;align-items:baseline;gap:30px;flex-wrap:wrap}
+.num-b{font-family:var(--f-m);font-weight:700;font-size:30px;letter-spacing:.1em;text-transform:uppercase;padding:10px 18px;border-radius:14px;background:var(--graphite);color:#f7faf8;align-self:center}
+.num-b.b{background:var(--blue);color:#fff}.num-b.y{background:var(--yellow);color:var(--graphite)}.num-b.p{background:var(--pink);color:var(--graphite)}
+.bt{font-size:130px}.bs{font-size:44px;width:100%;margin-top:6px}
+.chip3{position:absolute;display:flex;align-items:center;gap:18px;padding:22px 32px;border-radius:26px;background:var(--key);font-size:40px;font-weight:700;color:var(--graphite);
+ box-shadow:inset 0 -4px 0 rgba(0,0,0,.07),0 10px 0 var(--panel-lo),0 24px 36px rgba(19,26,23,.14);opacity:0;z-index:5}
+.tg{display:inline-block;padding:16px 28px;border-radius:22px;font-family:var(--f-m);font-weight:700;font-size:34px;letter-spacing:.08em;text-transform:uppercase;opacity:0;
+ box-shadow:inset 0 -4px 0 rgba(0,0,0,.1),0 10px 0 var(--panel-lo),0 22px 30px rgba(19,26,23,.14)}
+.tg.b{background:var(--blue);color:#fff}.tg.y{background:var(--yellow);color:var(--graphite)}
+/* world */
+.rack{position:absolute;inset:0}
+.key{position:absolute;width:370px;height:380px;transform-origin:0 0}.key .kb{position:absolute;inset:0}
+.tag{right:96px;top:40px;display:none;align-items:center;gap:16px;z-index:3}.tag span{margin-left:10px}
+.chap{position:absolute;left:96px;bottom:34px;font-family:var(--f-m);font-weight:700;font-size:28px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);opacity:0}
+#pline{position:absolute;left:0;right:0;bottom:0;height:8px;background:var(--panel-lo)}
+#pfill{position:absolute;left:0;bottom:0;width:1920px;height:8px;background:var(--blue);transform-origin:0 50%}
+</style></head>
+<body>
+<div id="root" data-composition-id="anatomy" data-start="0" data-duration="238.37" data-width="1920" data-height="1080">
+  <audio id="vo" src="assets/mix.mp3" data-start="0" data-duration="238.37" data-track-index="9" data-volume="1"></audio>
+    <div class="layer" id="world" data-composition-id="world" data-composition-src="compositions/world.html" data-start="0" data-duration="238.37" data-track-index="0" data-width="1920" data-height="1080"></div>
+  <div class="layer" id="s01" data-composition-id="s01" data-composition-src="compositions/s01.html" data-start="0" data-duration="20.091" data-track-index="2" data-width="1920" data-height="1080" data-anchor="The difference between a useless AI answ"></div>
+  <div class="layer" id="s02" data-composition-id="s02" data-composition-src="compositions/s02.html" data-start="19.741" data-duration="19.851" data-track-index="1" data-width="1920" data-height="1080" data-anchor="where most people start"></div>
+  <div class="layer" id="s03" data-composition-id="s03" data-composition-src="compositions/s03.html" data-start="39.242" data-duration="12.526" data-track-index="2" data-width="1920" data-height="1080" data-anchor="Block one"></div>
+  <div class="layer" id="s04" data-composition-id="s04" data-composition-src="compositions/s04.html" data-start="51.419" data-duration="31.948" data-track-index="1" data-width="1920" data-height="1080" data-anchor="Block two"></div>
+  <div class="layer" id="s05" data-composition-id="s05" data-composition-src="compositions/s05.html" data-start="83.016" data-duration="24.948" data-track-index="2" data-width="1920" data-height="1080" data-anchor="Block three"></div>
+  <div class="layer" id="s06" data-composition-id="s06" data-composition-src="compositions/s06.html" data-start="107.614" data-duration="31.67" data-track-index="1" data-width="1920" data-height="1080" data-anchor="Block four"></div>
+  <div class="layer" id="s07" data-composition-id="s07" data-composition-src="compositions/s07.html" data-start="138.934" data-duration="30.246" data-track-index="2" data-width="1920" data-height="1080" data-anchor="Put them together"></div>
+  <div class="layer" id="s08" data-composition-id="s08" data-composition-src="compositions/s08.html" data-start="168.83" data-duration="30.607" data-track-index="1" data-width="1920" data-height="1080" data-anchor="Okay"></div>
+  <div class="layer" id="s09" data-composition-id="s09" data-composition-src="compositions/s09.html" data-start="199.086" data-duration="21.649" data-track-index="2" data-width="1920" data-height="1080" data-anchor="So"></div>
+  <div class="layer" id="s10" data-composition-id="s10" data-composition-src="compositions/s10.html" data-start="220.386" data-duration="17.984" data-track-index="1" data-width="1920" data-height="1080" data-anchor="Quick thing you might notice now"></div>
+</div>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  tl.set({}, {}, 238.37);
+  window.__timelines["anatomy"] = tl;
+</script>
+</body></html>

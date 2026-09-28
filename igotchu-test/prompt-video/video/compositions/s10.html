@@ -1,0 +1,52 @@
+<template id="s10-template">
+  <div data-composition-id="s10" data-start="0" data-duration="17.984" data-width="1920" data-height="1080" data-anchor="Quick thing you might notice now">
+    <div class="sc"><div class="sc-cam">
+<div class="tz" id="s10-tz">
+  <div class="in-silk">Same prompt. Twice.</div>
+  <div class="two10"><div class="in-screen a10" id="s10-a">Happy 60th, Mum! Thirty years of nursing&hellip;</div>
+    <div class="in-screen a10" id="s10-b">Happy 60th, Mum! Thirty years of bossing doctors&hellip;</div></div>
+  <div class="in-key in-key--y die" id="s10-die"><span class="num">NEXT<i class="in-led on y"></i></span><span class="lab">Why AI rolls the dice</span></div>
+</div>
+<div class="end10" id="s10-end">
+  <h1 class="in-h sign" id="s10-sign">I gotchu<span class="in-dot"></span></h1>
+  <div class="in-screen slot10" id="s10-s1" style="left:128px">NEXT VIDEO</div>
+  <div class="in-screen slot10" id="s10-s2" style="left:800px">BEST FOR YOU</div>
+  <div class="in-key in-key--p sub10" id="s10-s3"><span class="in-silk" style="color:var(--graphite)">Subscribe</span></div>
+</div></div></div>
+    <style>
+      [data-composition-id="s10"]{position:absolute;inset:0;overflow:hidden}
+      [data-composition-id="s10"] .tz{position:absolute;inset:0}
+[data-composition-id="s10"] .tz .in-silk{left:128px;top:150px;opacity:0}
+[data-composition-id="s10"] .two10{position:absolute;left:128px;top:220px;right:128px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+[data-composition-id="s10"] .a10{position:relative;height:300px;padding:44px 48px;font-size:44px;line-height:1.35;opacity:0}
+[data-composition-id="s10"] .die{left:128px;top:620px;width:760px;height:300px;opacity:0}
+[data-composition-id="s10"] .die .lab{font-size:96px}
+[data-composition-id="s10"] .end10{position:absolute;inset:0}
+[data-composition-id="s10"] .sign{position:absolute;left:128px;top:110px;font-size:290px;opacity:0}
+[data-composition-id="s10"] .slot10{top:560px;width:620px;height:349px;display:flex;align-items:flex-end;padding:30px 40px;font-size:30px;opacity:0}
+[data-composition-id="s10"] .sub10{left:1480px;top:570px;width:320px;height:320px;border-radius:50%;align-items:center;justify-content:center;opacity:0}
+    </style>
+    <script>
+      (() => {
+        const SLOT = 17.984;
+        const tl = gsap.timeline({ paused: true });
+        tl.fromTo('[data-composition-id="s10"] .sc',{"opacity": 0, "x": 90},{"opacity": 1, "x": 0, "duration": 0.5, "ease": "igOut"},0.0);
+        tl.fromTo('[data-composition-id="s10"] .sc-cam',{scale:1},{scale:1.03,duration:17.98,ease:"sine.inOut"},0);
+        tl.fromTo("#s10-tz .in-silk",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},0.45);
+        tl.fromTo("#s10-a",{"opacity": 0, "y": 34, "scale": 0.96},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "igSnap"},2.586);
+        tl.fromTo("#s10-b",{"opacity": 0, "y": 34, "scale": 0.96},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "igSnap"},4.24);
+        tl.fromTo("#s10-a",{scale:1},{keyframes:[{scale:1.04,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},5.95);
+        tl.fromTo("#s10-die",{"opacity": 0, "y": 34, "scale": 0.96},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "igSnap"},8.198);
+        tl.fromTo("#s10-die",{y:0},{keyframes:[{y:10,duration:.09},{y:0,duration:.22}],ease:"sine.out",immediateRender:false},10.138);
+        tl.fromTo("#s10-tz",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.3, "ease": "igIn"},11.476);
+        tl.fromTo("#s10-sign",{"opacity": 0, "filter": "blur(12px)", "scale": 1.03},{"opacity": 1, "filter": "blur(0px)", "scale": 1, "duration": 0.7, "ease": "igOut"},11.626);
+        tl.fromTo("#s10-s1",{"opacity": 0, "y": 34, "scale": 0.96},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "igSnap"},12.626);
+        tl.fromTo("#s10-s2",{"opacity": 0, "y": 34, "scale": 0.96},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "igSnap"},12.776);
+        tl.fromTo("#s10-s3",{"opacity": 0, "y": 34, "scale": 0.96},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "igSnap"},12.926);
+        tl.set({}, {}, SLOT);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["s10"] = tl;
+      })();
+    </script>
+  </div>
+</template>
