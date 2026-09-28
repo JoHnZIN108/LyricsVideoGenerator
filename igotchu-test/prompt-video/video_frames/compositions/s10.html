@@ -1,6 +1,7 @@
 <template id="s10-template">
   <div data-composition-id="s10" data-start="0" data-duration="17.239" data-width="1920" data-height="1080" data-anchor="Quick thing you might notice now">
     <div class="sc"><div class="pn" id="s10a" style="background:#111614;color:#E7ECE8"><div class="m tl" id="s10a-tl">Ep 07 — Anatomy of a prompt</div><div class="wm">igotchu<i>.</i></div><div class="prog"><i id="s10a-pb0" class="on"></i><i id="s10a-pb1" class="on"></i><i id="s10a-pb2" class="on"></i><i id="s10a-pb3" class="on"></i></div>
+<h2 class="d" style="left:112px;top:170px;font-size:150px"><span class="ln"><span id="s10-q0">Quick thing…</span></span></h2>
 <h2 class="d" style="left:112px;top:170px;font-size:150px"><span class="ln"><span id="s10-h0">Same prompt. Twice.</span></span></h2>
 <div class="rc small" id="s10-a" style="left:120px;top:420px;width:780px;opacity:0"><div class="hd"><span class="ai">AI</span><span class="m sm">Answer A</span></div><i class="sk" style="width:94%"></i><i class="sk" style="width:71%"></i><i class="sk" style="width:88%"></i><i class="sk" style="width:52%"></i></div>
 <div class="rc small" id="s10-b" style="left:1000px;top:420px;width:780px;opacity:0"><div class="hd"><span class="ai">AI</span><span class="m sm">Answer B</span></div><i class="sk" style="width:66%"></i><i class="sk" style="width:90%"></i><i class="sk" style="width:58%"></i><i class="sk" style="width:80%"></i><i class="sk" style="width:35%"></i></div>
@@ -23,6 +24,8 @@
         const tl = gsap.timeline({ paused: true });
         tl.fromTo('[data-composition-id="s10"] .sc',{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.45, "ease": "igWipe"},0.0);
         tl.fromTo("#s10a-tl",{"opacity": 0},{"opacity": 1, "duration": 0.5, "ease": "none"},0.2);
+        tl.fromTo("#s10-q0",{"yPercent": 125},{"yPercent": 0, "duration": 0.9, "ease": "igOut"},0.3);
+        tl.fromTo("#s10-q0",{"yPercent": 0},{"yPercent": -125, "duration": 0.45, "ease": "igIn", "immediateRender": false},2.37);
         tl.fromTo("#s10-h0",{"yPercent": 125},{"yPercent": 0, "duration": 0.9, "ease": "igOut"},2.62);
         tl.fromTo("#s10-a",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.6, "ease": "igOut"},4.637);
         tl.fromTo("#s10-b",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.6, "ease": "igOut"},4.987);

@@ -374,10 +374,12 @@ c = scene(7)
 p0 = T[7]["start"] - XO
 c.tw("#s7-dark", {"clipPath": "inset(0% 100% 0% 0%)"}, {"clipPath": "inset(0% 0% 0% 0%)"}, p0 + 0.1, 0.8, "igWipe")
 chrome_in(c, "s7a", p0)
-c.fade("#s7-bl", cue(7, "The first message") - 0.3)
+c.fade("#s7-bl", p0 + 0.5)
 c.rise("#s7-bt", cue(7, "The first message"))
 pop(c, "#s7-any", cue(7, "could be for anyone") + 0.3, -4)
-c.fade("#s7-al", cue(7, "The new one") - 0.3)
+c.fade("#s7-al", p0 + 0.8)
+rise_lines(c, "s7-pt", 1, p0 + 0.3)
+c.to("#s7-ptw", {"opacity": 0}, cue(7, "The first message") - 0.3, 0.3, "none")
 c.rise("#s7-at", cue(7, "The new one"))
 pop(c, "#s7-only", cue(7, "could only be for your mum") + 0.4, 3)
 c.fade("#s7-rt", cue(7, "That's the real test"))
@@ -407,6 +409,7 @@ c.rise("#s7-rc", cue(7, "Then I wonder"), 40, 0.6)
 c.slam("#s7-lazy", cue(7, "the answer is lazy"))
 HTML[7] = f"""<div class="pn" id="s7a" style="background:{PAPER};color:{INK}">
 <div id="s7-dark" style="left:0;top:0;width:960px;height:1080px;background:var(--ink)"></div>{chrome("s7a", 4, False)}
+<h2 class="d" id="s7-ptw" style="left:112px;top:520px;font-size:110px;color:var(--paper);z-index:3;white-space:nowrap">{lines_html("s7-pt", ["Put them together."])}</h2>
 <div class="m" id="s7-bl" style="left:120px;top:190px;color:#9FB0A7;opacity:0">Before · 1 block</div>
 <p id="s7-bt" style="left:120px;top:250px;width:720px;margin:0;font-size:56px;line-height:1.3;color:#9FB0A7;opacity:0">“Thank you for the love, the patience, and all the times you believed in me before I believed in myself.”</p>
 <div class="stk" id="s7-any" style="left:120px;top:720px;background:var(--yellow);color:var(--ink)">Could be anyone’s mum</div>
@@ -524,6 +527,8 @@ HTML[9] = f"""<div class="pn" id="s9a" style="background:{INK};color:{PAPER}">{c
 c = scene(10)
 p0 = T[10]["start"] - XO
 chrome_in(c, "s10a", p0)
+rise_lines(c, "s10-q", 1, p0 + 0.3)
+drop_lines(c, "s10-q", 1, cue(10, "Ask the same prompt twice") - 0.25)
 t_sp = cue(10, "Ask the same prompt twice")
 rise_lines(c, "s10-h", 1, t_sp)
 t_2a = cue(10, "two different answers")
@@ -541,6 +546,7 @@ pop(c, "#s10-sub", t_nv + 1.2, 0)
 pop(c, "#s10-dot", cue(10, "I gotchu"), 0, "ding")
 sk = lambda ws: "".join(f'<i class="sk" style="width:{w}%"></i>' for w in ws)
 HTML[10] = f"""<div class="pn" id="s10a" style="background:{INK};color:{PAPER}">{chrome("s10a", 4)}
+<h2 class="d" style="left:112px;top:170px;font-size:150px">{lines_html("s10-q", ["Quick thing…"])}</h2>
 <h2 class="d" style="left:112px;top:170px;font-size:150px">{lines_html("s10-h", ["Same prompt. Twice."])}</h2>
 <div class="rc small" id="s10-a" style="left:120px;top:420px;width:780px;opacity:0"><div class="hd"><span class="ai">AI</span><span class="m sm">Answer A</span></div>{sk([94, 71, 88, 52])}</div>
 <div class="rc small" id="s10-b" style="left:1000px;top:420px;width:780px;opacity:0"><div class="hd"><span class="ai">AI</span><span class="m sm">Answer B</span></div>{sk([66, 90, 58, 80, 35])}</div>
