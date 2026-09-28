@@ -1,0 +1,9 @@
+assets/vo/w/
+assets/vo/voiceover.wav
+concat.txt
+snaps*/
+*.mp4
+sfx/_*.wav
+video*/.hyperframes/
+__pycache__/
+render*.log
