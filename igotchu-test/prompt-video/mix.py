@@ -29,9 +29,12 @@ peak = max(abs(x) for x in mix) or 1
 sc = min(1.0, 32000 / peak)
 with wave.open("sfx/_mix.wav", "w") as w:
     w.setnchannels(1); w.setsampwidth(2); w.setframerate(44100); w.writeframes(array.array("h", (int(x * sc) for x in mix)).tobytes())
-m = subprocess.run(["ffmpeg", "-hide_banner", "-i", "sfx/_mix.wav", "-af", "loudnorm=I=-14:TP=-1:LRA=11:print_format=json", "-f", "null", "-"], capture_output=True, text=True).stderr
+# The raw mix sits near -20 LUFS with -2 dBTP peaks, so loudnorm can't reach -14 linearly (it fell back to
+# dynamic mode and landed at -15.2). Lift it 7 dB into a fast peak limiter first, then normalize linearly.
+PRE = "volume=7dB,alimiter=limit=0.6:attack=4:release=60:level=false"
+m = subprocess.run(["ffmpeg", "-hide_banner", "-i", "sfx/_mix.wav", "-af", PRE + ",loudnorm=I=-14:TP=-1:LRA=11:print_format=json", "-f", "null", "-"], capture_output=True, text=True).stderr
 js = json.loads(m[m.rindex("{"):m.rindex("}") + 1])
-af = (f"loudnorm=I=-14:TP=-1:LRA=11:measured_I={js['input_i']}:measured_TP={js['input_tp']}:measured_LRA={js['input_lra']}"
+af = (f"{PRE},loudnorm=I=-14:TP=-1:LRA=11:measured_I={js['input_i']}:measured_TP={js['input_tp']}:measured_LRA={js['input_lra']}"
       f":measured_thresh={js['input_thresh']}:offset={js['target_offset']}:linear=true")
 subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", "sfx/_mix.wav", "-af", af, "-ar", "48000", "-ac", "2", "-b:a", "192k", "video/assets/mix.mp3"], check=True)
 print(f"mixed {used} of {len(SFX)} sound events")

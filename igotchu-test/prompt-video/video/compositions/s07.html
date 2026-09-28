@@ -7,6 +7,7 @@
 </div>
 <div class="in-stamp stamp7" id="s7-st">ANYONE&rsquo;S MUM</div>
 <div class="chip3 only7" id="s7-only"><i class="in-led on"></i>Only for <b>your</b> mum</div>
+<div class="chip3 k7" id="s7-k"><i class="in-led on"></i>The real test of a good prompt</div>
 <div class="q7" id="s7-q"><h2 class="in-h">Could the answer<br/>only be for <span class="you" style="color:var(--blue);display:inline-block">you?</span></h2></div>
 <p class="in-body miss7" id="s7-miss">If not, you&rsquo;re missing a block. Usually <b style="color:var(--blue)">context</b>.</p>
 <div class="in-screen scr7" id="s7-scr">&gt;&nbsp;<span class="ch" id="s7-c0">f</span><span class="ch" id="s7-c1">i</span><span class="ch" id="s7-c2">x</span><span class="ch" id="s7-c3">&nbsp;</span><span class="ch" id="s7-c4">t</span><span class="ch" id="s7-c5">h</span><span class="ch" id="s7-c6">i</span><span class="ch" id="s7-c7">s</span><span class="in-cursor"></span></div>
@@ -20,6 +21,7 @@
 [data-composition-id="s07"] .lab7{position:relative}
 [data-composition-id="s07"] .stamp7{left:520px;top:420px;font-size:96px}
 [data-composition-id="s07"] .only7{left:1150px;top:800px}
+[data-composition-id="s07"] .k7{left:384px;top:130px;opacity:0}
 [data-composition-id="s07"] .q7{position:absolute;left:384px;top:260px;opacity:0}
 [data-composition-id="s07"] .q7 .in-h{font-size:170px}
 [data-composition-id="s07"] .miss7{position:absolute;left:384px;top:680px;opacity:0}
@@ -49,9 +51,11 @@
         tl.fromTo("#s7-cmp",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.35, "ease": "igIn", "immediateRender": false},8.104);
         tl.fromTo("#s7-st",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.35, "ease": "igIn", "immediateRender": false},8.104);
         tl.fromTo("#s7-only",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.35, "ease": "igIn", "immediateRender": false},8.104);
+        tl.fromTo("#s7-k",{"opacity": 0, "y": 34, "scale": 0.96},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "igSnap"},8.504);
         tl.fromTo("#s7-q",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},11.248);
         tl.fromTo("#s7-q .you",{scale:1},{keyframes:[{scale:1.12,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},12.848);
-        tl.fromTo("#s7-miss",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},15.408);
+        tl.fromTo("#s7-miss",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},14.061);
+        tl.fromTo("#s7-k",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.3, "ease": "igIn", "immediateRender": false},19.134);
         tl.fromTo("#s7-q",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.3, "ease": "igIn", "immediateRender": false},19.134);
         tl.fromTo("#s7-miss",{"opacity": 1, "y": 0},{"opacity": 0, "y": -18, "duration": 0.3, "ease": "igIn", "immediateRender": false},19.134);
         tl.fromTo("#s7-scr",{"opacity": 0, "y": 34, "scale": 0.96},{"opacity": 1, "y": 0, "scale": 1, "duration": 0.45, "ease": "igSnap"},19.534);

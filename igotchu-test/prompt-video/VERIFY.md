@@ -27,7 +27,12 @@ Every read-along highlight is placed from Tesseract word boxes (`ocr/words.json`
 - Known and accepted: the NO QUEENS stamp on slide 5 covers the end of the highlighted rules line after it has been read; the hand-drawn circles around "Dad" touch the neighbouring letters.
 
 ## Rendered file
-RENDER_RESULTS
+- `igotchu-ep07-anatomy-full.mp4`: 1920x1080, 30 fps, 238.4 s (standard quality, 4 workers, about 6.5 min).
+- `igotchu-ep07-anatomy.mp4` (sent to the user): x264 CRF 26 with the re-mastered mix, 20.8 MB, **-14.2 LUFS integrated, -3.9 dBTP** (the first render measured -15.2 LUFS; `mix.py` now limits before loudnorm).
+- Transitions: 12-frame strips at 0.1 s across all 9 slide changes (`verify/trans-02.jpg` .. `trans-10.jpg`). Each old scene fades out and the new one slides in, with at most about 0.2 s where only the world layer (key rack, header, progress line) is on screen. That's never a blank frame.
+- A 1-fps scan of the whole render found one real problem: slide 7 had an empty stage from 2:27 to 2:30 ("That's the real test of a good prompt"). A "The real test of a good prompt" chip now arrives on that phrase, and the question follows on "Could the answer…". Re-rendered and re-checked at 148.5 s and 151 s.
+- Hero frames (`verify/hero.jpg`) are readable after compression.
+- Still sparse but on-script: the first 5 s of slide 8 (heading only while "the trick I promised…" plays) and the first 2 s of slide 10.
 
 ## Not checked
 - No human listen yet: the voice is the user's clone (sample G) at 1.08×; pacing was only checked by the timing data.

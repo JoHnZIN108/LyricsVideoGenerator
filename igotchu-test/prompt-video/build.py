@@ -625,10 +625,12 @@ t_rt = cue(7, "That's the real test")
 c.out("#s7-cmp", t_rt - 0.2, 0.35)
 c.out("#s7-st", t_rt - 0.2, 0.35)
 c.out("#s7-only", t_rt - 0.2, 0.35)
+c.snap("#s7-k", t_rt + 0.2)
 c.rise("#s7-q", cue(7, "Could the answer only"), 40)
 c.pulse("#s7-q .you", cue(7, "Could the answer only") + 1.6, 1.12)
-c.rise("#s7-miss", cue(7, "you're missing a block"))
+c.rise("#s7-miss", cue(7, "If it could be for anyone"))
 t_lz = cue(7, "And as someone who works")
+c.out("#s7-k", t_lz - 0.2)
 c.out("#s7-q", t_lz - 0.2)
 c.out("#s7-miss", t_lz - 0.2)
 lazy = "fix this"
@@ -646,6 +648,7 @@ HTML[7] = f"""
 </div>
 <div class="in-stamp stamp7" id="s7-st">ANYONE&rsquo;S MUM</div>
 <div class="chip3 only7" id="s7-only"><i class="in-led on"></i>Only for <b>your</b> mum</div>
+<div class="chip3 k7" id="s7-k"><i class="in-led on"></i>The real test of a good prompt</div>
 <div class="q7" id="s7-q"><h2 class="in-h">Could the answer<br/>only be for <span class="you" style="color:var(--blue);display:inline-block">you?</span></h2></div>
 <p class="in-body miss7" id="s7-miss">If not, you&rsquo;re missing a block. Usually <b style="color:var(--blue)">context</b>.</p>
 <div class="in-screen scr7" id="s7-scr">&gt;&nbsp;{chars("s7-c", lazy)}<span class="in-cursor"></span></div>
@@ -840,6 +843,7 @@ SCENE_CSS = {
 .col7{display:flex;flex-direction:column;gap:22px}.lab7{position:relative}
 .stamp7{left:520px;top:420px;font-size:96px}
 .only7{left:1150px;top:800px}
+.k7{left:384px;top:130px;opacity:0}
 .q7{position:absolute;left:384px;top:260px;opacity:0}.q7 .in-h{font-size:170px}
 .miss7{position:absolute;left:384px;top:680px;opacity:0}
 .scr7{left:384px;top:300px;width:900px;height:170px;display:flex;align-items:center;padding:0 56px;font-size:64px;opacity:0}
