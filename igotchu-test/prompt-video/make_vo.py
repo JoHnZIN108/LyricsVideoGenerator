@@ -24,14 +24,12 @@ def trim(k):
     global REF_CPS
     if REF_CPS is None:
         REF_CPS = cps("s01")
-    tempo = min(1.17, max(1.0, 1.08 * REF_CPS / cps(k)))  # capped: bigger stretches sound processed
+    tempo = 1.08  # one continuous take: same speed everywhere, as in the intro
     print(k, "tempo", round(tempo, 3))
     a, b = bounds(f"{V}/{k}.mp3")
     subprocess.run(["ffmpeg","-y","-v","error","-i",f"{V}/{k}.mp3","-af",f"atrim={a}:{b},asetpts=N/SR/TB,atempo={tempo:.4f},loudnorm=I=-20:TP=-2:LRA=11:linear=true",
                     "-ar","44100","-ac","1",f"{V}/w/{k}.wav"],check=True, timeout=120)
 parts = {n: [f"s{n:02d}"] for n in range(1, 11)}
-parts[5] = ["s05h1", "P0.3", "s05h2"]
-parts[7] = ["s07h1", "P0.3", "s07h2"]
 import sys
 if "--skip-trim" not in sys.argv:
     for k in [p for v in parts.values() for p in v if not p.startswith("P")]:
