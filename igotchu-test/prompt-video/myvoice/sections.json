@@ -1,0 +1,47 @@
+[
+ {
+  "start": 0.0,
+  "text": "The difference between a useless AI answer and a brilliant one is usually four small parts in your message. Most people only use one of them. We're going to build a prompt from scratch, one block at a time, and watch the answer get better with every block. And at the end of this, I will share with you a trick that basically writes the entire prompt for you.",
+  "end": 23.035
+ },
+ {
+  "start": 23.035,
+  "text": "The task. This is the one block everyone gets right. Most people just prompt AI with, \"Write a birthday message for my mum,\" and would get back something like, \"Thank you for the love, the patience, and all the times you believed in me before I believed in myself.\" It's fine, but it's also a greeting card from a petrol station. Write a birthday message is a task. Everyone gets this block. It's the other three that makes the difference.",
+  "end": 52.33
+ },
+ {
+  "start": 52.33,
+  "text": "Block two is the context, the stuff that's in your head that AI can't see. For example, my mum's turning sixty. She just retired from thirty years as a nurse. She's funny, a bit sarcastic, and she would cringe at anything too soppy. Now look at the response. The NHS will have to find someone else to give that look to patients who say, \"It's probably nothing.\" Suddenly it's about her, the nursing, the retirement, the sense of humor. It's the same AI. The difference is the context you provided.",
+  "end": 87.722
+ },
+ {
+  "start": 87.722,
+  "text": "Block three, the rules. This covers things like length, tone, what to avoid. For example, keep it under fifty words. It's going in a card, so no emojis, and don't use the word queen, 'cause you'd be surprised at how much AI wants to call your mum queen. The rules stop the stuff you delete anyways. Now the AI response is short and card-ready. Thirty years of bossing doctors around, and now you're free to boss us full time.",
+  "end": 118.191
+ },
+ {
+  "start": 118.191,
+  "text": "Block four, the examples. Don't just describe a message you want. Provide an example. This is the one most people don't use, and it's probably the most powerful. If you have a specific style that you want the AI response to mirror and draw inspiration from, provide it. Like, \"Here's the birthday message I wrote for my dad this year. Use it as a style and length example.\" Now look at a portion of the response that came back. \"Thanks for every plaster, every pep talk, and every I told you so. Love you. Don't get soppy.\" Same kind of list, same kind of sign-off, same length. You never had to explain your style. Telling AI be casual is vague. Showing it an example, that's a blueprint.",
+  "end": 166.746
+ },
+ {
+  "start": 166.746,
+  "text": "Put them all together and compare. The first message could be for anyone. The new one could only be for your mum. Usually, context. And as someone who works with AI every day as a software engineer, I'll be honest, I still catch myself writing lazy one-liner prompts. Then I wonder why the answer is lazy. Garbage in, garbage out.",
+  "end": 189.552
+ },
+ {
+  "start": 189.552,
+  "text": "Okay, the trick I promised. If you don't know what context to give, make AI figure it out and request it from you. Add this one line to any prompt. Before you answer, ask me questions you need. Instead of AI guessing, it responds with clarifying questions like, What tone? How long? Is it a milestone birthday? Card, text, or speech? How do you usually sign off? You answer and boom, all four blocks filled in, and your final prompt produces a response you can work with.",
+  "end": 224.87
+ },
+ {
+  "start": 224.87,
+  "text": "So that's it. The task, the context, the rules, and an example. You don't need all four all the time. Asking what's the time in Tokyo doesn't need your life story. But for anything personal that doesn't have a binary response, give it the four blocks.",
+  "end": 241.795
+ },
+ {
+  "start": 241.795,
+  "text": "For a prompt that you use more frequently, you can create a skill around that task so that you don't have to type out the four blocks every single time. In future videos, I will show you how to turn your best prompt into a skill. I gotchu.",
+  "end": 255.989
+ }
+]

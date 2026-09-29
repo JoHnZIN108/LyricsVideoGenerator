@@ -19,3 +19,5 @@ motion/package-lock.json
 motion/dist/
 motion/out/
 motion/work/
+myvoice/*.f32
+myvoice/*.wav
