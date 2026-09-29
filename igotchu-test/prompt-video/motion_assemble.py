@@ -37,7 +37,7 @@ run("ffmpeg", "-loglevel", "error", "-y", "-f", "concat", "-safe", "0", "-i", ls
 out = os.path.join(HERE, "anatomy-of-a-good-prompt.mp4")
 dur = total / FPS
 run("ffmpeg", "-loglevel", "error", "-y", "-i", silent, "-i", voice, "-filter_complex",
-    f"[1:a]apad,atrim=0:{dur},loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000[a]",
+    f"[1:a]apad,atrim=0:{dur},aresample=192000,volume=3.6dB,alimiter=limit=0.8:attack=1:release=10:level=false,aresample=48000[a]",
     "-map", "0:v", "-map", "[a]", "-c:v", "libx264", "-preset", "slow", "-crf", "23", "-pix_fmt", "yuv420p",
     "-movflags", "+faststart", "-c:a", "aac", "-b:a", "192k", out)
 print(f"{out}  {dur:.2f}s  {os.path.getsize(out) / 1e6:.1f} MB")
