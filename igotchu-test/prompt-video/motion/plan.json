@@ -1,0 +1,100 @@
+{
+ "title": "Anatomy of a good prompt (motion-broll, user's voice)",
+ "voice": "myvoice/anatomy-voice-clean.mp3",
+ "fps": "30",
+ "clips": [
+  {
+   "id": "01",
+   "title": "Intro: four blocks, names blurred",
+   "line": "The difference between a useless AI answer and a brilliant one is usually four small parts\u2026",
+   "in": 0.0,
+   "out": 23.035,
+   "kind": "full",
+   "html": "motion/clips/01-intro.html",
+   "file": "out/01-intro.mp4"
+  },
+  {
+   "id": "02",
+   "title": "Block 1: the task",
+   "line": "The task. This is the one block everyone gets right. Most people just prompt AI with, \"Wri\u2026",
+   "in": 23.035,
+   "out": 52.33,
+   "kind": "full",
+   "html": "motion/clips/02-task.html",
+   "file": "out/02-task.mp4"
+  },
+  {
+   "id": "03",
+   "title": "Block 2: the context",
+   "line": "Block two is the context, the stuff that's in your head that AI can't see. For example, my\u2026",
+   "in": 52.33,
+   "out": 87.722,
+   "kind": "full",
+   "html": "motion/clips/03-context.html",
+   "file": "out/03-context.mp4"
+  },
+  {
+   "id": "04",
+   "title": "Block 3: the rules",
+   "line": "Block three, the rules. This covers things like length, tone, what to avoid. For example, \u2026",
+   "in": 87.722,
+   "out": 118.191,
+   "kind": "full",
+   "html": "motion/clips/04-rules.html",
+   "file": "out/04-rules.mp4"
+  },
+  {
+   "id": "05",
+   "title": "Block 4: the examples",
+   "line": "Block four, the examples. Don't just describe a message you want. Provide an example. This\u2026",
+   "in": 118.191,
+   "out": 166.746,
+   "kind": "full",
+   "html": "motion/clips/05-examples.html",
+   "file": "out/05-examples.mp4"
+  },
+  {
+   "id": "06",
+   "title": "Before and after; lazy one-liners",
+   "line": "Put them all together and compare. The first message could be for anyone. The new one coul\u2026",
+   "in": 166.746,
+   "out": 189.552,
+   "kind": "full",
+   "html": "motion/clips/06-compare.html",
+   "file": "out/06-compare.mp4"
+  },
+  {
+   "id": "07",
+   "title": "The trick: ask me questions first",
+   "line": "Okay, the trick I promised. If you don't know what context to give, make AI figure it out \u2026",
+   "in": 189.552,
+   "out": 224.87,
+   "kind": "full",
+   "html": "motion/clips/07-trick.html",
+   "file": "out/07-trick.mp4"
+  },
+  {
+   "id": "08",
+   "title": "Recap: the four blocks; Tokyo vs personal",
+   "line": "So that's it. The task, the context, the rules, and an example. You don't need all four al\u2026",
+   "in": 224.87,
+   "out": 241.795,
+   "kind": "full",
+   "html": "motion/clips/08-recap.html",
+   "file": "out/08-recap.mp4"
+  },
+  {
+   "id": "09",
+   "title": "Outro: turn your prompt into a skill; I gotchu",
+   "line": "For a prompt that you use more frequently, you can create a skill around that task so that\u2026",
+   "in": 241.795,
+   "out": 255.989,
+   "kind": "full",
+   "html": "motion/clips/09-outro.html",
+   "file": "out/09-outro.mp4"
+  }
+ ],
+ "notes": [
+  "The block 4 reply was written by Claude in chat for this example; all other replies are from the user's Claude screenshots."
+ ]
+}
