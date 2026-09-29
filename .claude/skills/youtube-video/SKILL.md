@@ -18,6 +18,26 @@ The channel is a faceless AI explainer for beginners: voiceover, animated scenes
 
 Copy this structure for every new video. Its helpers are the reusable kit: `cue()` alignment, `rise/pop/land/slam/draw/ignite/camera`, `predictor_steps()`, the phone scene, and the SFX mix.
 
+## READ FIRST: the user's current decisions (house style)
+
+These override anything older further down.
+- **Design: "Ep 07 Frames"** (https://claude.ai/artifact/DSaXXh4rTgUz92BLBWYUK1). Build every new video from `videos/ep07-anatomy-of-a-prompt/frames.py`, not the Neon, Instrument or Patent builds.
+  - **Colour per block, everywhere:** task graphite/paper, context pink, rules yellow, examples blue.
+  - **Two beats per idea:** a full-screen colour card names it, then an evidence frame proves it.
+  - **Type:** giant condensed type (Bricolage 75 / DM Sans / JetBrains Mono), and nothing on screen under 26 px.
+- **No screenshots on screen.** Show prompts as typed text with numbered tags (1 2 3 4), and sweep each new part with a highlight in its block colour **while the voice reads it**.
+- **AI replies:** show the **whole** real reply in the white card (greeting, every paragraph, sign-off), then highlight the quoted line as it's spoken. One sentence on its own confused the user.
+- **Never reveal ahead of the voice.** The opening shows the four coloured bars with their **names blurred**, and each name appears only when that block is spoken. Nothing appears before it's said.
+- **Every spoken phrase needs something on screen that belongs to it.** Check a 1-fps contact sheet of the render for empty stretches.
+- **Voice:**
+  - Use the user's clone "Johnson" (`oStMmyqgSXJilnbQGwo3`) on `eleven_v3`, the **whole script as one generation**, split with `split_take.py`, played at **1.08x for every slide**.
+  - Never generate per-slide clips; the accent drifts and the user hears it.
+  - The user may record their own voice instead: then split their recording the same way.
+  - **Don't ask the user to choose between voice takes or options**; they asked for no more options.
+- **Script voice:** talk to the viewer ("you"). **Never invent the narrator's personal experiences** (a first-person claim like "I used a card I wrote for my dad" was a mistake). Put wording that belongs in a prompt inside the on-screen prompt, not in the narration as a personal claim.
+- **Replies quoted in a video must be real Claude replies** to the exact prompt shown.
+- **Credits:** ElevenLabs is on a paid plan but ran low (about 2,800 left at the end of Ep 07). A full one-take script costs about 1 credit per character. Estimate first, and tell the user before spending.
+
 ## Pipeline
 
 0. **Design system: Claude Design, made by the user.** The user designs the look in Claude Design (claude.ai/design → **Design System**). You don't design it. When asked, write the prompt; then build faithfully from what comes back.
