@@ -1,0 +1,34 @@
+<template id="s04-template">
+  <div data-composition-id="s04" data-start="0" data-duration="8.17" data-width="1920" data-height="1080" data-anchor="Write a birthday message is a task">
+    <div class="sc"><div class="pn" id="s3t" style="background:#111614;color:#E7ECE8"><div class="m tl" id="s3t-tl">Ep 07 — Anatomy of a prompt</div><div class="wm">igotchu<i>.</i></div><div class="prog"><i id="s3t-pb0" class="on"></i><i id="s3t-pb1" class=""></i><i id="s3t-pb2" class=""></i><i id="s3t-pb3" class=""></i></div><div class="num" id="s3t-num" style="-webkit-text-stroke-color:#E7ECE8">01</div><div class="m" id="s3t-lab" style="left:120px;top:230px">Block 01 / 04 · The task</div><h2 class="d" style="left:112px;top:290px;font-size:200px"><span class="ln"><span id="s3t-h0">“Write a birthday</span></span><span class="ln"><span id="s3t-h1">message.”</span></span></h2><div class="stk" id="s3-task" style="left:120px;top:660px;background:#E7ECE8;color:#111614">= the task</div><p class="b" id="s3-every" style="left:120px;top:780px;font-size:52px;opacity:0;width:1500px">Everyone gets this block.</p><p class="b" id="s3-o3" style="left:120px;top:860px;font-size:52px;font-weight:700;opacity:0;width:1500px;transform-origin:0 50%">It’s the other three that make the difference.</p></div></div>
+    <style>
+      [data-composition-id="s04"]{position:absolute;inset:0;overflow:hidden}
+      
+    </style>
+    <script>
+      (() => {
+        const SLOT = 8.17;
+        const tl = gsap.timeline({ paused: true });
+        tl.fromTo('[data-composition-id="s04"] .sc',{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.45, "ease": "igWipe"},0.0);
+        tl.fromTo("#s3t-num",{"opacity": 0, "xPercent": 18},{"opacity": 0.3, "xPercent": 0, "duration": 1.1, "ease": "igOut"},0.1);
+        tl.fromTo("#s3t-lab",{"opacity": 0},{"opacity": 1, "duration": 0.4, "ease": "none"},0.25);
+        tl.fromTo("#s3t-h0",{"yPercent": 140},{"yPercent": 0, "duration": 0.9, "ease": "igOut"},0.3);
+        tl.fromTo("#s3t-h1",{"yPercent": 140},{"yPercent": 0, "duration": 0.9, "ease": "igOut"},0.39);
+        tl.fromTo("#s3t-tl",{"opacity": 0},{"opacity": 1, "duration": 0.5, "ease": "none"},0.3);
+        tl.fromTo("#s3-task",{"opacity": 0, "scale": 0.7, "rotation": -8},{"opacity": 1, "scale": 1, "rotation": -2, "duration": 0.55, "ease": "igPop"},2.367);
+        tl.fromTo("#s3-every",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},3.079);
+        tl.fromTo("#s3-o3",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},4.974);
+        tl.fromTo("#s3t-pb1",{"backgroundColor": "#E7ECE8", "opacity": 0.16},{"backgroundColor": "#FF3D7F", "opacity": 1, "duration": 0.3, "ease": "none"},5.452);
+        tl.fromTo("#s3t-pb1",{scale:1},{keyframes:[{scale:1.3,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},5.452);
+        tl.fromTo("#s3t-pb2",{"backgroundColor": "#E7ECE8", "opacity": 0.16},{"backgroundColor": "#FFD21A", "opacity": 1, "duration": 0.3, "ease": "none"},5.602);
+        tl.fromTo("#s3t-pb2",{scale:1},{keyframes:[{scale:1.3,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},5.602);
+        tl.fromTo("#s3t-pb3",{"backgroundColor": "#E7ECE8", "opacity": 0.16},{"backgroundColor": "#2343E0", "opacity": 1, "duration": 0.3, "ease": "none"},5.752);
+        tl.fromTo("#s3t-pb3",{scale:1},{keyframes:[{scale:1.3,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},5.752);
+        tl.fromTo("#s3-o3",{scale:1},{keyframes:[{scale:1.03,duration:.18},{scale:1,duration:.32}],ease:"sine.inOut",immediateRender:false},6.678);
+        tl.set({}, {}, SLOT);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["s04"] = tl;
+      })();
+    </script>
+  </div>
+</template>

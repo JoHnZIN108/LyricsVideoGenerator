@@ -1,0 +1,25 @@
+<template id="s02-template">
+  <div data-composition-id="s02" data-start="0" data-duration="5.434" data-width="1920" data-height="1080" data-anchor="The task">
+    <div class="sc"><div class="pn" id="s3a" style="background:#111614;color:#E7ECE8"><div class="m tl" id="s3a-tl">Ep 07 — Anatomy of a prompt</div><div class="wm">igotchu<i>.</i></div><div class="prog"><i id="s3a-pb0" class="on"></i><i id="s3a-pb1" class=""></i><i id="s3a-pb2" class=""></i><i id="s3a-pb3" class=""></i></div><div class="num" id="s3a-num" style="-webkit-text-stroke-color:#E7ECE8">01</div><div class="m" id="s3a-lab" style="left:120px;top:230px">Block 01 / 04</div><h2 class="d cardh"><span class="ln"><span id="s3a-h0">The task.</span></span></h2><p class="b cs" id="s3a-s">The one block everyone gets right.</p><div class="stk" id="s3-right" style="left:120px;top:690px;background:var(--paper);color:var(--ink)">✓ Everyone does this one</div></div></div>
+    <style>
+      [data-composition-id="s02"]{position:absolute;inset:0;overflow:hidden}
+      
+    </style>
+    <script>
+      (() => {
+        const SLOT = 5.434;
+        const tl = gsap.timeline({ paused: true });
+        tl.fromTo('[data-composition-id="s02"] .sc',{"clipPath": "inset(0% 100% 0% 0%)"},{"clipPath": "inset(0% 0% 0% 0%)", "duration": 0.45, "ease": "igWipe"},0.0);
+        tl.fromTo("#s3a-num",{"opacity": 0, "xPercent": 18},{"opacity": 0.3, "xPercent": 0, "duration": 1.1, "ease": "igOut"},0.1);
+        tl.fromTo("#s3a-lab",{"opacity": 0},{"opacity": 1, "duration": 0.4, "ease": "none"},0.25);
+        tl.fromTo("#s3a-h0",{"yPercent": 140},{"yPercent": 0, "duration": 0.9, "ease": "igOut"},0.3);
+        tl.fromTo("#s3a-tl",{"opacity": 0},{"opacity": 1, "duration": 0.5, "ease": "none"},0.3);
+        tl.fromTo("#s3a-s",{"opacity": 0, "y": 40},{"opacity": 1, "y": 0, "duration": 0.55, "ease": "igOut"},2.793);
+        tl.fromTo("#s3-right",{"opacity": 0, "scale": 0.7, "rotation": -9},{"opacity": 1, "scale": 1, "rotation": -3, "duration": 0.55, "ease": "igPop"},4.298);
+        tl.set({}, {}, SLOT);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["s02"] = tl;
+      })();
+    </script>
+  </div>
+</template>

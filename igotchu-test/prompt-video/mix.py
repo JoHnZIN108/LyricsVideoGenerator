@@ -1,12 +1,13 @@
 """Voice + synthesized SFX (events from build.py), two-pass loudnorm to -14 LUFS / -1 dBTP (YouTube)."""
 import array, json, os, subprocess, wave
 T = json.load(open("timing.json")); TOTAL = T[-1]["start"] + T[-1]["dur"]
+TOTAL = float(os.environ.get("MIX_TOTAL", TOTAL))
 SFX = json.load(open(os.environ.get("MIX_EVENTS", "sfx_events.json")))
 OUT = os.environ.get("MIX_OUT", "video/assets/mix.mp3")
 GAIN = {"pop": 0.18, "click": 0.16, "whoosh": 0.4, "whoosh_s": 0.18, "thud": 0.25, "ding": 0.24, "buzz": 0.35, "tick": 0.2}
 SRC = {"whoosh_s": "whoosh"}
 SPACING = {"click": 0.07}
-subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", "assets/vo/voiceover.wav", "-ac", "1", "-ar", "44100", "sfx/_voice.wav"], check=True)
+subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", os.environ.get("MIX_VOICE", "assets/vo/voiceover.wav"), "-ac", "1", "-ar", "44100", "sfx/_voice.wav"], check=True)
 with wave.open("sfx/_voice.wav") as w:
     voice = array.array("h", w.readframes(w.getnframes()))
 n_total = int((TOTAL + 1) * 44100)
