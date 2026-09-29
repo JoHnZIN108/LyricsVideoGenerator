@@ -29,3 +29,10 @@
    - **End card:** "Next ▸ Turn your prompt into a skill".
 4. **Voice:** the user plans to **record the script themselves**; the full script with these changes was given in chat. When the recording arrives, split it with `split_take.py`, then rerun `make_vo.py`, `make_segments.py`, `frames.py` and `mix.py`, and render.
 5. **Extras:** update `youtube-extras.md` (block 4 chapter name, next-video line) and the Claude Doc "igotchu Video Scripts" (Script 7).
+
+## Style change (decided after the above)
+
+- **New look:** the user wants to move away from the current look. The next build of this video uses the **motion-broll** skill (`.claude/skills/motion-broll/`): one shape that morphs and never cuts, cursor-driven, spring motion.
+- **Faceless setup:** full-frame clips timed to the voiceover and chained back to back.
+- **Work folder:** `motion/` here, set up and tested (engine renders fine with `CHROMIUM_PATH`).
+- **Before building:** confirm the palette with the user (the skill's default is warm grey, black and white, one orange accent), then plan the clips per slide and get approval.

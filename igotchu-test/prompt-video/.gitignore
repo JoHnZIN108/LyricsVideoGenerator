@@ -14,3 +14,8 @@ compare-*.mp3
 voice-compare.mp3
 fsnap/
 sfx_events_frames.json.bak
+motion/node_modules/
+motion/package-lock.json
+motion/dist/
+motion/out/
+motion/work/

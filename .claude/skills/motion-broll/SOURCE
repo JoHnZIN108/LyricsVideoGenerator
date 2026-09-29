@@ -1,0 +1,2 @@
+https://github.com/Barty-Bart/motion-graphics (MIT), copied at commit e8d610a
+Local change: engine/beats.js and render.js accept CHROMIUM_PATH (use a pre-installed Chromium when Playwright's own build isn't available).

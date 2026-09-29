@@ -1,6 +1,6 @@
 ---
 name: youtube-video
-description: Make a finished faceless, voiceover YouTube video for the igotchu AI-explainer channel from a script. Covers the Claude Design styles (Neon Blueprint, plus the Type Lab's Instrument and Patent themes), the ElevenLabs voice (one clip per slide), AI concept illustrations, HyperFrames animated scenes, free synthesized sound effects, captions and rendering an MP4. Use whenever the user asks to make, build, render, upgrade or redesign a YouTube video, turn a script into a video, or add visuals, voice, captions, sound, music or illustrations to one.
+description: Make a finished faceless, voiceover YouTube video for the igotchu AI-explainer channel from a script: script checks, the user's cloned voice (one take for the whole script), animated scenes (HyperFrames, plus the motion-broll skill for one-shape morph graphics), free synthesized sound effects, captions and an MP4. Use whenever the user asks to make, build, render, upgrade or redesign a YouTube video, turn a script into a video, or add visuals, voice, captions, sound or illustrations to one.
 ---
 
 # igotchu YouTube video
@@ -21,14 +21,15 @@ Copy this structure for every new video. Its helpers are the reusable kit: `cue(
 ## READ FIRST: the user's current decisions (house style)
 
 These override anything older further down.
-- **Design: "Ep 07 Frames"** (https://claude.ai/artifact/DSaXXh4rTgUz92BLBWYUK1). Build every new video from `videos/ep07-anatomy-of-a-prompt/frames.py`, not the Neon, Instrument or Patent builds.
-  - **Colour per block, everywhere:** task graphite/paper, context pink, rules yellow, examples blue.
-  - **Two beats per idea:** a full-screen colour card names it, then an evidence frame proves it.
-  - **Type:** giant condensed type (Bricolage 75 / DM Sans / JetBrains Mono), and nothing on screen under 26 px.
-- **No screenshots on screen.** Show prompts as typed text with numbered tags (1 2 3 4), and sweep each new part with a highlight in its block colour **while the voice reads it**.
-- **AI replies:** show the **whole** real reply in the white card (greeting, every paragraph, sign-off), then highlight the quoted line as it's spoken. One sentence on its own confused the user.
-- **Never reveal ahead of the voice.** The opening shows the four coloured bars with their **names blurred**, and each name appears only when that block is spoken. Nothing appears before it's said.
-- **Every spoken phrase needs something on screen that belongs to it.** Check a 1-fps contact sheet of the render for empty stretches.
+- **Style is open. Don't lock onto any one look.** The user is changing the style, so treat every earlier design as reference only and confirm the look for each video. That includes Neon Blueprint (retired, don't use), the Type Lab's Instrument and Patent, and the Ep 07 "Frames" design (https://claude.ai/artifact/DSaXXh4rTgUz92BLBWYUK1, built by `frames.py`).
+- **Motion graphics: use the `motion-broll` skill** (`.claude/skills/motion-broll/`, from github.com/Barty-Bart/motion-graphics) for Ep 07 "Anatomy of a good prompt" and future videos unless the user says otherwise. Its style is one shape that never cuts: it morphs from pill to card to terminal to chart, with a cursor driving each change, spring motion and motion blur. Each change lands on a spoken word.
+  - **Faceless-channel adaptation:** there's no talking head, so every clip is a full-frame piece timed to the voiceover (our `cue()` times or `transcript.json` word times replace the SRT). Chain the clips back to back over the voice track instead of cutting away from a speaker.
+  - **Setup (done for Ep 07):** the work folder is `igotchu-test/prompt-video/motion/`. Run the engine with `NODE_PATH=igotchu-test/prompt-video/motion/node_modules` and `CHROMIUM_PATH=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell`; this machine can't download Playwright's own Chromium.
+- **Rules that hold whatever the style:**
+  - **No screenshots on screen.** Show prompts as typed text with numbered tags (1 2 3 4), and sweep each new part with a highlight in its block colour **while the voice reads it**.
+  - **AI replies:** show the **whole** real reply in the reply card (greeting, every paragraph, sign-off), then highlight the quoted line as it's spoken. One sentence on its own confused the user.
+  - **Never reveal ahead of the voice.** The opening shows the four coloured bars with their **names blurred**, and each name appears only when that block is spoken. Nothing appears before it's said.
+  - **Every spoken phrase needs something on screen that belongs to it.** Check a 1-fps contact sheet of the render for empty stretches.
 - **Voice:**
   - Use the user's clone "Johnson" (`oStMmyqgSXJilnbQGwo3`) on `eleven_v3`, the **whole script as one generation**, split with `split_take.py`, played at **1.08x for every slide**.
   - Never generate per-slide clips; the accent drifts and the user hears it.
@@ -40,8 +41,8 @@ These override anything older further down.
 
 ## Pipeline
 
-0. **Design system: Claude Design, made by the user.** The user designs the look in Claude Design (claude.ai/design → **Design System**). You don't design it. When asked, write the prompt; then build faithfully from what comes back.
-   - Current system: **igotchu, "Neon Blueprint"**, https://claude.ai/artifact/FzwY3yEcM9KiqUGXW5uiEq.
+0. **Design (reference only; the style is open, see READ FIRST).** Earlier systems, for reference: Claude Design, made by the user. The user designs the look in Claude Design (claude.ai/design → **Design System**). You don't design it. When asked, write the prompt; then build faithfully from what comes back.
+   - Retired: **igotchu, "Neon Blueprint"** (don't use), https://claude.ai/artifact/FzwY3yEcM9KiqUGXW5uiEq.
    - To read it: `Artifact` `list` with `scope:"files"`, then `read` with `paths` for `project/tokens.json`, `project/components/bundle.css`, `project/DESIGN.md`, `project/README.md`, `project/guidelines/illustration-prompts.md` and each `components/<Name>/preview.html`. Copies are in `v3/ds/`.
    - Generate `tokens.css` from `tokens.json` (`tokens_css()`).
    - Use `bundle.css` with its `@import` removed (regex `@import url\([^)]*\);`: the URL itself contains `;`) and everything from the "Motion." section on cut. **CSS keyframe animations never render under frame-seeking.** Also strip the blank caret and typing-dot `animation:` lines.
