@@ -13,6 +13,8 @@ When the user re-records the two missing lines, splice them in and restore the t
 """
 import json, os, re, subprocess
 
+import numpy as np
+
 FPS = 30
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "cdmotion/source-claude-design.mp4")
@@ -117,34 +119,91 @@ def segments():
     return segs
 
 
+STILL = 0.15  # mean frame-to-frame change (0-255 grey, 96x54) below which a frame counts as still
+
+
+def motion():
+    """Per-frame change of the source (frame i vs i-1), cached."""
+    path = os.path.join(WORK, "diff.npy")
+    if os.path.exists(path):
+        return np.load(path)
+    raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", SRC, "-vf", "scale=96:54,format=gray", "-f", "rawvideo", "-"],
+                         capture_output=True, check=True).stdout
+    x = np.frombuffer(raw, dtype=np.uint8).reshape(-1, 54, 96).astype(np.float32)
+    d = np.concatenate([[0.0], np.abs(np.diff(x, axis=0)).mean(axis=(1, 2))])
+    np.save(path, d)
+    return d
+
+
+def plan(f0, f1, n, D):
+    """How many times to show each source frame f0..f1-1 so the segment lasts n frames.
+    Moving frames always play exactly once, in order (no judder). Time is added by lengthening still moments and
+    removed by dropping still frames; only if that isn't enough is one clean chunk held or cut."""
+    F = list(range(f0, max(f1, f0 + 1)))
+    L, N = len(F), len(D)
+    cnt = [1] * L
+    still = lambda j: D[F[j]] < STILL and D[min(F[j] + 1, N - 1)] < STILL
+    if n > L:
+        extra, st = n - L, [j for j in range(L) if still(j)]
+        if st:  # spread over the still frames: repeating a frame nothing changes in is invisible
+            for k in range(extra):
+                cnt[st[k * len(st) // extra if extra >= len(st) else (k * len(st)) // extra]] += 1
+        else:   # nothing still: one hold on the calmest frame
+            j = min(range(L), key=lambda j: D[F[j]] + D[min(F[j] + 1, N - 1)])
+            cnt[j] += extra
+    elif n < L:
+        rm = L - n
+        for j in sorted(range(1, L), key=lambda j: D[F[j]]):
+            if rm == 0 or D[F[j]] >= STILL:
+                break
+            cnt[j], rm = 0, rm - 1
+        if rm:  # cut one contiguous chunk where the least is happening
+            keep = [j for j in range(1, L) if cnt[j]]
+            best = min(range(len(keep) - rm + 1), key=lambda s: sum(D[F[j]] for j in keep[s:s + rm]))
+            for j in keep[best:best + rm]:
+                cnt[j] = 0
+    assert sum(cnt) == n, (f0, f1, n, sum(cnt))
+    return [(F[j], cnt[j]) for j in range(L) if cnt[j]]
+
+
 def build():
     os.makedirs(WORK, exist_ok=True)
-    parts = []
-    for k, (c0, c1, v0, v1) in enumerate(segments()):
+    D = motion()
+    W, H = 1920, 1080
+    fsz = W * H * 3 // 2
+    silent = os.path.join(WORK, "silent.mp4")
+    enc = subprocess.Popen(["ffmpeg", "-loglevel", "error", "-y", "-f", "rawvideo", "-pix_fmt", "yuv420p", "-s", f"{W}x{H}",
+                            "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "fast", "-crf", "14", "-pix_fmt", "yuv420p",
+                            silent], stdin=subprocess.PIPE)
+    total_frames, held, cut = 0, 0, 0
+    for c0, c1, v0, v1 in segments():
         n = round(v1 * FPS) - round(v0 * FPS)
         if n <= 0:
             continue
-        rate = (c1 - c0) / (v1 - v0)
-        if rate >= SLOWEST:
-            vf = f"setpts=(PTS-STARTPTS)/{rate:.5f},fps={FPS},tpad=stop_mode=clone:stop=30,trim=end_frame={n}"
-        else:  # play at 1x, hold the last frame for the rest
-            vf = f"setpts=PTS-STARTPTS,fps={FPS},tpad=stop_mode=clone:stop={n + 30},trim=end_frame={n}"
-        dst = os.path.join(WORK, f"seg{k:03d}.mp4")
-        subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-ss", f"{c0:.3f}", "-t", f"{max(c1 - c0, 1 / FPS):.3f}",
-                        "-i", SRC, "-vf", vf + ",setpts=PTS-STARTPTS", "-an", "-c:v", "libx264", "-preset", "fast", "-crf", "14",
-                        "-pix_fmt", "yuv420p", dst], check=True)
-        parts.append(dst)
-    lst = os.path.join(WORK, "concat.txt")
-    open(lst, "w").write("".join(f"file '{p}'\n" for p in parts))
-    silent = os.path.join(WORK, "silent.mp4")
-    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "concat", "-safe", "0", "-i", lst, "-c", "copy", silent], check=True)
+        f0, f1 = round(c0 * FPS), round(c1 * FPS)
+        p = plan(f0, f1, n, D)
+        held += sum(c - 1 for _, c in p)
+        cut += (max(f1, f0 + 1) - f0) - len(p)
+        dec = subprocess.Popen(["ffmpeg", "-loglevel", "error", "-ss", f"{f0 / FPS:.4f}", "-i", SRC, "-frames:v",
+                                str(max(f1, f0 + 1) - f0), "-f", "rawvideo", "-pix_fmt", "yuv420p", "-"], stdout=subprocess.PIPE)
+        want = dict(p)
+        for f in range(f0, max(f1, f0 + 1)):
+            buf = dec.stdout.read(fsz)
+            if len(buf) < fsz:
+                buf = last  # past the end of the source: repeat the last frame
+            last = buf
+            for _ in range(want.get(f, 0)):
+                enc.stdin.write(buf)
+        dec.stdout.close(); dec.wait()
+        total_frames += n
+    enc.stdin.close(); enc.wait()
     total = round(V["duration"] + HOLD, 3)
     af = (f"apad,atrim=0:{total},aresample=192000,volume=3.6dB,alimiter=limit=0.8:attack=1:release=10:level=false,"
           "aresample=48000")
     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", silent, "-i", VOICE, "-filter_complex", f"[1:a]{af}[a]",
                     "-map", "0:v", "-map", "[a]", "-c:v", "libx264", "-preset", "slow", "-crf", "22", "-pix_fmt", "yuv420p",
                     "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "-t", str(total), OUT], check=True)
-    print(OUT, total, f"{os.path.getsize(OUT) / 1e6:.1f} MB")
+    print(OUT, total, f"{os.path.getsize(OUT) / 1e6:.1f} MB; {total_frames} frames, {held} repeats, {cut} dropped")
 
 
 if __name__ == "__main__":
